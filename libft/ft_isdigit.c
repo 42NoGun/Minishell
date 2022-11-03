@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 12:11:28 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/02 12:17:37 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/07/06 11:14:18 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/07/06 11:35:21 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	terminate(const char *str, int errno)
+int	ft_isdigit(int c)
 {
-	const char	*err = strerror(errno);
-
-	if (errno == 0)
-	{
-		wrtie(2, str, ft_strlen(str));
-		exit(1);
-	}
+	if (c >= '0' && c <= '9')
+		return (1);
 	else
-		write(2, err, ft_strlen(err));
+		return (0);
 }
