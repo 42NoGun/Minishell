@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/01 11:09:56by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/11/02 12:11:28 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/11/02 12:17:37 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <unistd.h>
-# include <stdlib.h>
-# include <errno.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <termios.h>
+void	terminate(const char *str, int errno)
+{
+	const char	*err = strerror(errno);
 
-
-#endif
+	if (errno == 0)
+	{
+		wrtie(2, str, ft_strlen(str));
+		exit(1);
+	}
+	else
+		write(2, err, ft_strlen(err));
+}

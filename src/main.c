@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/01 17:20:32 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:14:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,26 @@
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>
+#include <errno.h>
 
 int	main(void)
 {
+	char	*line;
+
+	errno = 0;
 	while (1)
 	{
-		char *str = readline("hello : ");
-		if (!str)
+		line = readline("hello : ");
+		if (!line)
 		{
-			printf("\033[1A"); // cursor line up
-			printf("\033[10C"); // cursor move right
+			printf("\033[1A");
+			printf("\033[10C");
 			printf("exit\n");
-			exit(-1);
+			exit(0);
 		}
-		if (*str)
-			add_history(str);
-		free(str);
+		if (*line)
+			add_history(line);
+		free(line);
 	}
 	return (0);
 }
