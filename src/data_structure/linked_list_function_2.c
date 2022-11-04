@@ -6,25 +6,25 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 14:53:59 by jiyun             #+#    #+#             */
-/*   Updated: 2022/11/02 14:30:09 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:21:11 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 
-void	clear_list(t_list *list)
-{
-	t_node	*temp;
+// void	clear_list(t_list *list)
+// {
+// 	t_node	*temp;
 
-	while (list->head != NULL)
-	{
-		temp = list->head->next;
-		free_content();
-		free(list->head->content);
-		free(list->head);
-		list->head = temp;
-	}
-}
+// 	while (list->head != NULL)
+// 	{
+// 		temp = list->head->next;
+// 		free_content();
+// 		free(list->head->content);
+// 		free(list->head);
+// 		list->head = temp;
+// 	}
+// }
 
 void	swap_node(t_list *list)
 {

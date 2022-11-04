@@ -6,12 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/03 11:59:45 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:19:33 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "binary_tree.h"
 #include "libft.h"
+#include <errno.h>
 
 t_tree	*init_tree(void)
 {
@@ -19,7 +20,7 @@ t_tree	*init_tree(void)
 
 	tree = malloc(sizeof(t_tree));
 	if (!tree)
-		ft_terminate(NULL, errno);
+		ft_terminate(NULL);
 	tree->root = NULL;
 	return (tree);
 }
@@ -30,7 +31,7 @@ t_tree_node	*make_tree_node(void *content)
 
 	new_node = malloc(sizeof(t_tree_node));
 	if (!new_node)
-		terminate(NULL, errno);
+		ft_terminate(NULL);
 	new_node->content = content;
 	new_node->level = 0;
 	new_node->left = NULL;

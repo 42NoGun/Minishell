@@ -2,7 +2,7 @@
 
 1. read input
 2. Analysis input
-	a. parenthis & quote check(내일 만들기)
+	a. parentheses & quote check(내일 만들기)
 	b. tokenize & expand(환경 변수 와일드 카드 확장)
 	c. syntax check (pipe 다음에 리다이렉션 기호 or pipe 다음 인자가 없거나)
 	d. parse

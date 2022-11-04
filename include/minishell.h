@@ -18,6 +18,27 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <termios.h>
+# include "libft.h"
 
+enum	e_operator
+{
+	PIPE = '|',
+	IN_REDIR = '<',
+	OUT_REDIR = '>',
+	OUT_REDIR_APPEND = '>' + '>',
+	HEREDOC = '<' + '<',
+	SINGLE_QUOTE = '\'',
+	DOUBLE_QUOTE = '\"',
+	OR  = '|' + '|',
+	AND = '&' + '&',
+	DOLLAR = '$',
+	WILDCARD = '*',
+	OPEN_BRACKET = '(',
+	CLOSE_BRACKET = ')',
+	Q_MARK = '?'
+};
+
+bool	is_even_quote(const char *line);
+bool	is_correct_pair(const char *line);
 
 #endif

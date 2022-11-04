@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_terminate.c                                     :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 12:11:28 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/04 15:20:08 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/11/04 14:46:46 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/11/04 14:48:37 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <errno.h>
+#ifndef TEST_H
+# define TEST_H
+# include "minishell.h"
 
-void	ft_terminate(const char *str)
-{
-	const char	*err = strerror(errno);
+void	test_is_correct_pair(void);
 
-	if (errno == 0)
-		ft_putstr_fd((char *)str, 2);
-	else
-		ft_putstr_fd((char *)err, 2);
-	exit(1);
-}
+#endif

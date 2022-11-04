@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_terminate.c                                     :+:      :+:    :+:   */
+/*   ft_assert.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 12:11:28 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/04 15:20:08 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/11/04 14:13:49 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/11/04 15:25:04 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "libft.h"
-#include <errno.h>
 
-void	ft_terminate(const char *str)
+void	ft_assert(bool test_func, bool answer, char *error_message)
 {
-	const char	*err = strerror(errno);
-
-	if (errno == 0)
-		ft_putstr_fd((char *)str, 2);
-	else
-		ft_putstr_fd((char *)err, 2);
+	if (test_func == answer)
+		return ;
+	ft_putstr_fd("Assert : ", 2);
+	ft_putstr_fd(error_message, 2);
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }

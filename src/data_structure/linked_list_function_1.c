@@ -6,12 +6,12 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:11:26 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/02 14:31:02 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:22:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include "linked_list.h"
+#include "libft.h"
 
 t_node	*make_node(void *content)
 {
@@ -19,7 +19,7 @@ t_node	*make_node(void *content)
 
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
-		terminate("ERROR : MALLOC", errno);
+		ft_terminate(NULL);
 	new_node->content = content;
 	new_node->next = NULL;
 	new_node->prev = NULL;

@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/11/02 11:37:49 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/11/04 14:51:00 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ bonus : bonus_check
 bonus_check : $(OBJ_BONUS) $(MLX_LIB)
 		$(CC) $(CFLAGS) $(INCLUDE) -framework OpenGL -framework AppKit -o $(NAME_BONUS) $^
 		touch $@
-
+		
 clean :
 		rm -rf $(OBJ_DIR)
 		rm -rf $(OBJ_BONUS_DIR)

@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 14:34:07 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/03 11:48:59 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:17:11 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ typedef struct s_tree
 	t_tree_node	*root;
 }	t_tree;
 
-void	init_tree(t_tree *tree);
-void	make_tree_node(void *content);
-void	push_left(t_tree_node *parent, t_tree_node *child);
-void	push_right(t_tree_node *parent, t_tree_node *child);
-void	inorder_traverse(t_tree *tree);
-
+t_tree		*init_tree(void);
+t_tree_node	*make_tree_node(void *content);
+void		push_left(t_tree_node *parent, t_tree_node *child, t_tree *tree);
+void		push_right(t_tree_node *parent, t_tree_node *child, t_tree *tree);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:07:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/03 11:38:22 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/04 15:25:42 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <errno.h>
 # include <unistd.h>
 # include <string.h>
+# include <stdbool.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -51,6 +52,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	terminate(const char *str, int errno);
+void	ft_terminate(const char *str);
+void	ft_assert(bool test_func, bool answer, char *error_message);
 
 #endif
