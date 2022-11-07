@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:15:05 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/04 15:23:26 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:37:28by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	is_even_quote(const char *line)
 {
 	int	single_quote_count;	
 	int	double_quote_count;	
-	
+
 	single_quote_count = 0;
 	double_quote_count = 0;
 	while (*line)
@@ -27,40 +27,72 @@ bool	is_even_quote(const char *line)
 			++double_quote_count;
 		++line;
 	}
-	return (single_quote_count % 2 == 0 && \
-			double_quote_count % 2 == 0);
+	if (single_quote_count % 2 == 0 && \
+			double_quote_count % 2 == 0)
+		return (true);
+	return (false);
+}
+
+static int	check_pair_quote(const char **line, char quote)
+{
+	int	quote_count;
+
+	quote_count = 0;
+	if (**line == quote)
+	{
+		++(*line);
+		quote_count += 1;
+		while (**line && **line != quote)
+		{
+			++(*line);
+		}
+		if (**line == quote)
+			quote_count -= 1;
+	}
+	return (quote_count);
+}
+
+bool	is_pair_quote(const char *line)
+{
+	int	single_quote_count;
+	int	double_quote_count;
+
+	single_quote_count = 0;
+	double_quote_count = 0;
+	while (*line)
+	{
+		single_quote_count += check_pair_quote(&line, SINGLE_QUOTE);
+		double_quote_count += check_pair_quote(&line, DOUBLE_QUOTE);
+		++line;
+	}
+	if (single_quote_count == 0 && double_quote_count == 0)
+		return (true);
+	return (false);
 }
 
 bool	is_pair_bracket(const char *line)
 {
-	int		count;
-	// bool	is_in_quote;
+	int	bracket_count;
 
-	count = 0;
-	// is_in_quote = false;
+	bracket_count = 0;
+
 	while (*line)
 	{
-		if (*line == DOUBLE_QUOTE)
-		{
-			++line;
-			while (*line != DOUBLE_QUOTE)
-				++line;
-		}
-		if (*line == SINGLE_QUOTE)
-		{
-			++line;
-			while (*line != SINGLE_QUOTE)
-				++line;
-		}
+		check_pair_quote(&line, SINGLE_QUOTE);
+		check_pair_quote(&line, DOUBLE_QUOTE);
 		if (*line == OPEN_BRACKET)
-			count += 1;
-		if (*line == CLOSE_BRACKET)
-			count -= 1;
+			++bracket_count;
+		else if (*line == CLOSE_BRACKET)
+		{
+			if (bracket_count == 0)
+				return (false);
+			--bracket_count;
+		}
 		++line;
 	}
-	if (count != 0)
-		return (false);
-	return (true);
+	if (bracket_count == 0)
+		return (true);
+	return (false);
 }
 
 bool	is_correct_pair(const char *line)
@@ -69,11 +101,13 @@ bool	is_correct_pair(const char *line)
 	{
 		return (false);
 	}
-	// if (is_pair_quote(line) == false)
-	// {
-	// }
-	// if (is_pair_bracket(line) == false)
-	// {
-	//}
+	if (is_pair_quote(line) == false)
+	{
+		return (false);
+	}
+	if (is_pair_bracket(line) == false)
+	{
+		return (false);
+	}
 	return (true);
 }

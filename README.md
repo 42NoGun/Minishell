@@ -3,12 +3,12 @@
 
 1. read input
 2. Analysis input
-	a. parentheses & quote check(내일 만들기)
-	b. tokenize & expand(환경 변수 와일드 카드 확장)
-	c. syntax check (pipe 다음에 리다이렉션 기호 or pipe 다음 인자가 없거나)
-	d. parse
+	- a. parentheses & quote check(내일 만들기)
+	- b. tokenize & expand(환경 변수 와일드 카드 확장)
+	- c. syntax check (pipe 다음에 리다이렉션 기호 or pipe 다음 인자가 없거나)
+	- d. parse
 3. execute
-	a. traverse tree
+	- a. traverse tree
 
 오늘의 할일
 ### 2022.11.04

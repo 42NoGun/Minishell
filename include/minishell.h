@@ -29,16 +29,26 @@ enum	e_operator
 	HEREDOC = '<' + '<',
 	SINGLE_QUOTE = '\'',
 	DOUBLE_QUOTE = '\"',
-	OR  = '|' + '|',
+	OR = '|' + '|',
 	AND = '&' + '&',
 	DOLLAR = '$',
 	WILDCARD = '*',
 	OPEN_BRACKET = '(',
 	CLOSE_BRACKET = ')',
 	Q_MARK = '?'
+	CMD = 'c';
 };
 
-bool	is_even_quote(const char *line);
+typedef struct s_token
+{
+	char			*value;
+	int				priority;
+	enum e_operator	type;
+}	t_token;
+
 bool	is_correct_pair(const char *line);
+bool	is_even_quote(const char *line);
+bool	is_pair_quote(const char *line);
+bool	is_pair_bracket(const char *line);
 
 #endif
