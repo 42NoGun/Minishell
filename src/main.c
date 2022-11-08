@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/07 14:29:01 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/08 17:46:43 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <errno.h>
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int	main(int argc, char **argv)
 {
