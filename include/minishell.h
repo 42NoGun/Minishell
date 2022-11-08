@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <termios.h>
 # include "libft.h"
+# include "linked_list.h"
 
 enum	e_operator
 {
