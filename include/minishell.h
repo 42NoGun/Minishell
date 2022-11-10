@@ -36,8 +36,8 @@ enum	e_operator
 	WILDCARD = '*',
 	OPEN_BRACKET = '(',
 	CLOSE_BRACKET = ')',
-	Q_MARK = '?'
-	CMD = 'c';
+	Q_MARK = '?',
+	CMD = 'c',
 };
 
 typedef struct s_token

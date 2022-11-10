@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: junji <junji@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:44:18 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/07 17:36:35 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:10:29 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	tokenize(const char *line)
 			&& is_operator(*prev_str)
 			&& !is_operator(*line))
 		{
-			create_token();
+			put_token_in_list();
 			prev_str = ft_chardup(*line);
 		}
 		else if (is_quote(*line))
@@ -57,8 +57,8 @@ void	tokenize(const char *line)
 		}
 		else if (is_bracket(*line))
 		{
-			read_bracket_content();
-			create_token();
+			read_bracket_content(); // prev_str 저장
+			put_token_in_list();
 		}
 		else if (is_dollar(*line))
 		{
@@ -66,12 +66,12 @@ void	tokenize(const char *line)
 		}
 		else if (!is_quote(*line) && is_operator(*line))
 		{
-			creat_token(prev_str);
+			put_token_in_list();
 			prev_str = ft_chardup(*line);
 		}
 		else if (*line == ' ')
 		{
-			creat_token(prev_str);
+			put_token_in_list();
 			while (*line && *line == ' ')
 			{
 				++line;
