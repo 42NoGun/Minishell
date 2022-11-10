@@ -47,9 +47,16 @@ typedef struct s_token
 	enum e_operator	type;
 }	t_token;
 
+
+void	tokenize(const char *line, t_list *cmd_list);
+char	*read_quote_content(char **line, char quote);
 bool	is_correct_pair(const char *line);
 bool	is_even_quote(const char *line);
-bool	is_pair_quote(const char *line);
 bool	is_pair_bracket(const char *line);
+char	*ft_charjoin(char *str, char c);
+char	*ft_chardup(char c);
+int		get_priority(char *prev_str);
+t_token	*create_token(char *prev_str);
+void	put_token_in_list(char *prev_str, t_list *list);
 
 #endif

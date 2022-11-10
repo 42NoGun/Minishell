@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   test_read_quote_content.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 14:57:01 by junji             #+#    #+#             */
+/*   Created: 2022/11/10 16:20:20 by jiyunpar          #+#    #+#             */
 /*   Updated: 2022/11/10 17:16:22 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
+#include "test.h"
+#include <stdio.h>
 
-int	ft_strcmp(const char *s1, const char *s2)
+void    test_read_quote_content(void)
 {
-	while (*s1 && *s1 == *s2)
-	{
-		++s1;
-		++s2;
-	}
-	return (*s1 - *s2);
+    char    *str1;
+    char    *str2;
+
+    str1 = strdup("\"Hello\"World");
+	str2 = strdup("\"\"a\"\"");
+	// printf("ex: %s\n", read_quote_content(&str2));
+
+    ft_assert(ft_strcmp(read_quote_content(&str1, '\"'), "\"Hello\""), 0, "read_quote_content : 22");
+    ft_assert(ft_strcmp(read_quote_content(&str2, '\"'), "\"\""), 0, "read_quote_content : 23");
 }

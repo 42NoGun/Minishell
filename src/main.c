@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 15:09:409 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/11/10 17:16:21 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 int	main(int argc, char **argv)
 {
 	char	*line;
+	t_list	cmd_list;
 
 	errno = 0;
 	while (1)
@@ -43,7 +44,7 @@ int	main(int argc, char **argv)
 			free(line);
 			continue ;
 		}
-		tokenize(line);
+		tokenize(line, &cmd_list);
 		free(line);
 	}
 	return (0);

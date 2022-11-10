@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/11/04 15:26:26 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/11/10 17:16:21 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ ifeq ($(DEBUG), 2)
 endif
 
 all_check : $(OBJS) $(LIBFT_LIB)
-		$(CC) $(CFLAGS) $(INCLUDE) $(READ_LINE_DIR) $(READ_LINE_LIB) -o $(NAME) $^
+		$(CC) $(CFLAGS) $(INCLUDE) $(READ_LINE_DIR) $(READ_LINE_LIB) -L$(LIBFT_DIR) -lft -o $(NAME) $^
 		touch $@
 
 clean :

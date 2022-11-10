@@ -2,6 +2,8 @@
 	"files.associations": {
 		"signal.h": "c",
 		"minishell.h": "c",
-		"linked_list.h": "c"
+		"linked_list.h": "c",
+		"libft.h": "c",
+		"test.h": "c"
 	}
 }
