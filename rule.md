@@ -79,3 +79,25 @@ token->conten-> ( ""->''->$h->''->'$h'->"$h" )
 2. $?
 3. * (와일드카드와 환경변수 확장)
 4. 오늘 작성한 함수 구현 어떻게 할지 대략적으로 생각해오기
+
+### PIPEX
+```c
+infile | yes | head -2 | outfile
+
+1. 부모 fd : 0 1 2 3(curr_in) 4(curr_out)
+2. 자식 fd : 0 1 2 3(curr_in) 4(curr_out) 5 (prev_in) -> infile
+3. 자식 fd : 0 1 2 X(*)       X           X
+		execve(yes) -> 1번 파이프에 계속 쓰고 있다.
+4. 부모 fd : 0 1 2 3(prev_in = curr_in) // yes는 pipe에 계속 쓰고 있음
+5. 부모 fd : 0 1 2 3(prev_in) 4(curr_pipe_out)
+6. 자식 fd : 0 1 2 3(prev_in) 4(curr_pipe_out)
+7. 자식 fd : 0 1 2 X          X
+		execve(head) -> curr_pipe_out에 계속 쓰고 있다.
+8. 부모 fd : 0 1 2 X(*)       X
+```
+- SIGPIPE: write on a pipe with no reader
+	- reader는 `프로세스`가 아닌 `읽기 버퍼, fdpipe[0]`으로 본다.
+- yes를 실행하기 전 부모프로세스에서 3번 FD, 자식 프로세스에서 3번 FD는 1번 파이프의 reader로 본다.
+	- 이 두 FD 모두 닫히지 않는다면 SIGPIPE 신호를 보낼 수 없다.
+	- 자식 프로세스에서 3번 FD를 닫지 않고, execve로 yes를 실행한다면 커널 버퍼에 3번 FD가 여전히 남아 있으므로, SIGPIPE 신호를 보낼 수 없다. (즉, 자식에서 curr_in을 닫고 pipe를 실행해야 한다.)
+	- 부모 프로세스에서 3번 FD를 닫는 순간, 모든 reader가 닫히므로 SIGPIPE로 인해 yes 프로세스는 스스로 종료한다. 
