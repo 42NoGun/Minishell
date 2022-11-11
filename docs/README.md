@@ -1,4 +1,4 @@
-구조
+# 구조, 로직
 
 1. read input
 2. Analysis input
