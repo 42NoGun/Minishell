@@ -14,15 +14,17 @@
 #include "test.h"
 #include <stdio.h>
 
-void    test_read_quote_content(void)
+void    test_read_wrapped_content(void)
 {
     char    *str1;
     char    *str2;
+	char	*str3;
 
     str1 = strdup("\"Hello\"World");
 	str2 = strdup("\"\"a\"\"");
-	// printf("ex: %s\n", read_quote_content(&str2));
+	str3 = strdup("(hello)world");
 
     ft_assert(ft_strcmp(read_quote_content(&str1, '\"'), "\"Hello\""), 0, "read_quote_content : 22");
     ft_assert(ft_strcmp(read_quote_content(&str2, '\"'), "\"\""), 0, "read_quote_content : 23");
+    ft_assert(ft_strcmp(read_group_content(&str3), "(hello)"), 0, "read_quote_content : 24");
 }

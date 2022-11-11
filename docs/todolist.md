@@ -2,9 +2,9 @@
 
 ### 2022.11.11(금) (Day 9)
 - [ ] tokenize 구현
-	- [ ] is_bracket
-	- [ ] read_bracket_content
-	- [ ] is_dollor
+	- [x] is_bracket
+	- [x] read_bracket_content
+	- [x] is_dollor
 	- [ ] expand(), 환경변수 확장 (getenv, opendir, readdir)
 - 이거 다 하면 pasing 끝!
 

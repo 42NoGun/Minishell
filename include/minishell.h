@@ -31,7 +31,7 @@ enum	e_operator
 	SINGLE_QUOTE = '\'',
 	DOUBLE_QUOTE = '\"',
 	OR = '|' + '|',
-	AND = '&' + '&',
+	AND = '&',
 	DOLLAR = '$',
 	WILDCARD = '*',
 	OPEN_BRACKET = '(',
@@ -47,12 +47,15 @@ typedef struct s_token
 	enum e_operator	type;
 }	t_token;
 
+void	tokenize(char *line, t_list *cmd_list);
 
-void	tokenize(const char *line, t_list *cmd_list);
 char	*read_quote_content(char **line, char quote);
+char	*read_group_content(char **line);
+
 bool	is_correct_pair(const char *line);
 bool	is_even_quote(const char *line);
 bool	is_pair_bracket(const char *line);
+bool	is_pair_quote(const char *line);
 char	*ft_charjoin(char *str, char c);
 char	*ft_chardup(char c);
 int		get_priority(char *prev_str);

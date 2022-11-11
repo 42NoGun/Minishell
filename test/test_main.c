@@ -16,14 +16,15 @@ int	main(void)
 {
 	test_is_even_quote();
 	printf("success is_even_quote() test!\n");
-	test_is_pair_quote();
+	test_is_pair_quote(); // 
 	printf("success is_pair_quote() test!\n");
 	test_is_pair_bracket();
 	printf("success is_pair_bracket() test!\n");
 	test_is_correct_pair();
 	printf("success is_correct_pair() test!\n");
-	test_read_quote_content();
+	test_read_wrapped_content();
 	printf("success read_quote_content() test!\n");
+	test_tokenize();
 	printf("success test!\n");
 	return (0);
 }

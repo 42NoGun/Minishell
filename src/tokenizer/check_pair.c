@@ -63,6 +63,8 @@ bool	is_pair_quote(const char *line)
 	{
 		single_quote_count += check_pair_quote(&line, SINGLE_QUOTE);
 		double_quote_count += check_pair_quote(&line, DOUBLE_QUOTE);
+		if (!*line)
+			break ;
 		++line;
 	}
 	if (single_quote_count == 0 && double_quote_count == 0)
@@ -75,7 +77,6 @@ bool	is_pair_bracket(const char *line)
 	int	bracket_count;
 
 	bracket_count = 0;
-
 	while (*line)
 	{
 		check_pair_quote(&line, SINGLE_QUOTE);

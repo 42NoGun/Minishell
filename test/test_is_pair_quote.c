@@ -14,7 +14,9 @@
 
 void	test_is_pair_quote(void)
 {
-	const char	*str = "\"\'\"\'";
+	// const char	*str = "\"\'\"\'";
+	const char *str = ft_strdup("\"\'\"\'");
+	
 	const char	*str2 = "\'\"\'\"";
 	const char	*str3 = "\"\'\'\'\"\'";
 	const char	*str4 = "\"\'\'\'\"";

@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/11/10 17:16:21 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/11/11 13:23:00 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ all_check : $(OBJS) $(LIBFT_LIB)
 		touch $@
 
 clean :
-		rm -rf $(OBJ_DIR) 
+		rm -rf $(OBJS)
+		rm -rf *.s
 
 fclean : clean
 		rm -f $(NAME)
@@ -65,9 +66,4 @@ $(LIBFT_LIB) :
 		cp $(LIBFT_DIR)$(LIBFT_LIB) .
 
 %.o : %.c
-		@mkdir -p $(OBJ_DIR)
 		$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-
-# $(OBJ_BONUS_DIR)%.o : $(SRC_BONUS_DIR)%.c
-# 		mkdir -p $(OBJ_BONUS_DIR)
-# 		$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@

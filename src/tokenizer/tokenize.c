@@ -13,6 +13,13 @@
 #include "minishell.h"
 #include "linked_list.h"
 
+bool	is_bracket(char c)
+{
+	if (c == OPEN_BRACKET)
+		return (true);
+	return (false);
+}
+
 bool	is_quote(char c)
 {
 	if (c == SINGLE_QUOTE || c == DOUBLE_QUOTE)
@@ -22,12 +29,19 @@ bool	is_quote(char c)
 
 bool	is_operator(char c)
 {
-	if (c == PIPE || c == IN_REDIR || c == OUT_REDIR)
+	if (c == PIPE || c == IN_REDIR || c == OUT_REDIR || c == AND)
 		return (true);
 	return (false);
 }
 
-void	tokenize(const char *line, t_list *cmd_list)
+bool	is_space(char c)
+{
+	if (c == ' ')
+		return (true);
+	return (false);
+}
+
+void	tokenize(char *line, t_list *cmd_list)
 {
 	char	*prev_str;
 
@@ -35,52 +49,56 @@ void	tokenize(const char *line, t_list *cmd_list)
 	while (*line)
 	{
 		if (ft_strlen(prev_str) == 1
-			&& is_operator(*prev_str) == is_operator(*(line))
+			&& is_operator(*prev_str) && is_operator(*line)
 			&& !is_quote(*line))
 		{
-			ft_charjoin(prev_str, *line);
+			prev_str = ft_charjoin(prev_str, *line);
+			put_token_in_list(prev_str, cmd_list);
+			prev_str = ft_strdup("");
 		}
 		else if (ft_strlen(prev_str) == 1
 			&& is_operator(*prev_str)
-			&& !is_operator(*line))
+			&& !is_operator(*line) && !is_space(*line)) 
 		{
 			put_token_in_list(prev_str, cmd_list);
 			prev_str = ft_chardup(*line);
 		}
 		else if (is_quote(*line))
 		{
-			ft_strjoin(prev_str, read_quote_content());
-			// ft_strjoin이 끝난 시점에 포인터는 quote가리킴
+			if (*line == '"')
+				prev_str = ft_strjoin(prev_str, read_quote_content(&line, '"'));
+			if (*line == '\'')
+				prev_str = ft_strjoin(prev_str, read_quote_content(&line, '\''));
 		}
-		// else if (is_bracket(*line))
-		// {
-		// 	//read_bracket_content();
-		// 	put_token_in_list(prev_str, cmd_list);
-		// }
-		// else if (is_dollar(*line))
-		// {
-		// 	//ft_strjoin(prev_str, expand()); // 공백이거나 오퍼레이터 까지 읽어서 확장
-		// }
+		else if (is_bracket(*line))
+		{
+			prev_str = ft_strjoin(prev_str, read_group_content(&line));
+			put_token_in_list(prev_str, cmd_list);
+			prev_str = ft_strdup("");
+		}
 		else if (!is_quote(*line) && is_operator(*line))
 		{
 			put_token_in_list(prev_str, cmd_list);
 			prev_str = ft_chardup(*line);
 		}
-		else if (*line == ' ')
+		else if (is_space(*line))
 		{
 			put_token_in_list(prev_str, cmd_list);
-			while (*line && *line == ' ')
+			while (*line && is_space(*line))
 			{
 				++line;
 			}
 			if (!*line)
 				break ;
 			if (!is_operator(*line))
+			{
+				prev_str = ft_strdup(""); // "a" 'b' // prev_str에 '들어감
 				continue ;
-			prev_str = ft_chardup(*line); // "a" 'b' // prev_str에 '들어감
+			}
+			prev_str = ft_chardup(*line);
 		}
 		else
-			ft_charjoin(prev_str, *line);
+			prev_str = ft_charjoin(prev_str, *line);
 		++line;
 	}
 	if (prev_str)
