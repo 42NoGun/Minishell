@@ -20,6 +20,7 @@
 # include <termios.h>
 # include "libft.h"
 # include "linked_list.h"
+# include "binary_tree.h"
 
 enum	e_operator
 {
@@ -44,7 +45,18 @@ typedef struct s_token
 {
 	char			*value;
 	int				priority;
-	enum e_operator	type;
+	int				len;
+	t_token			*start_ptr;
+	// enum e_operator	type;
+}	t_token;
+
+typedef struct s_field
+{
+	char			*value;
+	int				priority;
+	int				len;
+	t_token			*start_ptr;
+	// enum e_operator	type;
 }	t_token;
 
 void	tokenize(char *line, t_list *cmd_list);
@@ -61,5 +73,6 @@ char	*ft_chardup(char c);
 int		get_priority(char *prev_str);
 t_token	*create_token(char *prev_str);
 void	put_token_in_list(char *prev_str, t_list *list);
+void	parser(t_tree *cmd_tree, t_list *cmd_list);
 
 #endif

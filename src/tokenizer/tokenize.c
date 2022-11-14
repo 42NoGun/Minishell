@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 17:06:04 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 17:16:25 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:02:00 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ void	tokenize(char *line, t_list *cmd_list)
 			&& !is_operator(*line) && !is_space(*line)) 
 		{
 			put_token_in_list(prev_str, cmd_list);
+			if (*line == OPEN_BRACKET)
+			{
+				prev_str = ft_strdup("");
+				continue ;
+			}
 			prev_str = ft_chardup(*line);
 		}
 		else if (is_quote(*line))

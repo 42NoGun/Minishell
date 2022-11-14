@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/07 10:42:18 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:27:57 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_tree	*init_tree(void)
 
 	tree = malloc(sizeof(t_tree));
 	if (!tree)
-		ft_terminate(NULL);
+		ft_terminate("init_tree, malloc error");
 	tree->root = NULL;
 	return (tree);
 }
@@ -31,7 +31,7 @@ t_tree_node	*make_tree_node(void *content)
 
 	new_node = malloc(sizeof(t_tree_node));
 	if (!new_node)
-		ft_terminate(NULL);
+		ft_terminate("make_tree_node, malloc error");
 	new_node->content = content;
 	new_node->level = 0;
 	new_node->left = NULL;

@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 17:16:21 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:33:00 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@
 int	main(int argc, char **argv)
 {
 	char	*line;
-	t_list	cmd_list;
+	t_list	*cmd_list;
+	t_tree	*cmd_tree;
 
 	errno = 0;
+	cmd_list = init_list();
+	cmd_tree = init_tree();
 	while (1)
 	{
 		line = readline("minishell > ");
@@ -40,11 +43,13 @@ int	main(int argc, char **argv)
 			add_history(line);
 		if (is_correct_pair(line))
 		{
-			printf("wrong\n");
+			ft_putstr_fd("minishell : syntax error\n", 2);
 			free(line);
 			continue ;
 		}
-		tokenize(line, &cmd_list);
+		tokenize(line, cmd_list);
+		// syntax_check(cmd_list);
+		parser(cmd_tree, cmd_list);
 		free(line);
 	}
 	return (0);

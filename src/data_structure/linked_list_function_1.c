@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:11:26 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/04 15:22:12 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:28:26 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_node	*make_node(void *content)
 
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
-		ft_terminate(NULL);
+		ft_terminate("make_node, malloc error");
 	new_node->content = content;
 	new_node->next = NULL;
 	new_node->prev = NULL;

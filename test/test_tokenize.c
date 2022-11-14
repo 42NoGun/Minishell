@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_is_pair_quote.c                               :+:      :+:    :+:   */
+/*   test_tokenize.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:10:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 17:16:21 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/14 13:52:52 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,27 @@ static void	case_one(void)
 	_case(str5);
 }
 
+static void	case_four(void)
+{	
+	const char	*str1 = "echo(HOME)";
+	const char	*str2 = "ls|(HOME)\"(cat)\"|(ls) | (ls)";
+	const char	*str3 = "echo $(grep hello))";
+	const char	*str4 = "echo 2|>1";
+
+	printf("\n=============case 4 - 1====================\n");
+	_case(str1);
+	printf("\n=============case 4 - 2====================\n");
+	_case(str2);
+	printf("\n=============case 4 - 3====================\n");
+	_case(str3);
+	printf("\n=============case 4 - 4====================\n");
+	_case(str4);
+}
+
 void	test_tokenize(void)
 {
 	case_one();
 	case_two();
 	case_three();
+	case_four();
 }

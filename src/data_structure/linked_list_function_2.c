@@ -6,11 +6,12 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 14:53:59 by jiyun             #+#    #+#             */
-/*   Updated: 2022/11/04 15:21:11 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:29:25 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
+#include "libft.h"
 
 // void	clear_list(t_list *list)
 // {
@@ -46,9 +47,15 @@ void	swap_node(t_list *list)
 	list->tail = cursor_l;
 }
 
-void	init_list(t_list *list)
+t_list	*init_list(void)
 {
+	t_list	*list;
+
+	list = malloc(sizeof(t_list));
+	if (!list)
+		ft_terminate("init_list, malloc error");
 	list->head = NULL;
 	list->tail = NULL;
 	list->len = 0;
+	return (list);
 }

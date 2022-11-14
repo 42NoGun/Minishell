@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 16:26:26:00 by cheseo           ###   ########.fr    */
+/*   Updated: 2022/11/14 16:27:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_charjoin(char *str, char c)
 
 	ret = malloc(sizeof(char) * (ft_strlen(str) + 2));
 	if (!ret)
-		ft_terminate("Error : malloc");
+		ft_terminate("ft_charjoin, malloc error");
 	i = 0;
 	while (str[i] != 0)
 	{
@@ -42,7 +42,7 @@ char	*ft_chardup(char c)
 
 	ret = malloc(2);
 	if (!ret)
-		ft_terminate("Error : malloc");
+		ft_terminate("ft_chardup, malloc error");
 	ret[0] = c;
 	ret[1] = '\0';
 	return (ret);
