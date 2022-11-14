@@ -1,5 +1,15 @@
 # Minishell
 
+### 2022.11.15(화) (Day 11)
+- [ ] Field 만든 후, 규칙에 맞게 트리에 담는다.
+### 2022.11.14(월) (Day 10)
+- [x] Syntax Error 케이스 정리
+- [x] Tokenize 케이스 보완
+- [x] Tree에 넣을 구조 생각
+	- $echo hello hello hello | ls
+		- field: shell 확장 결과로 만들어진 텍스트. 총 3개가 나온다. 
+		- field는 리스트의 시작 주소와 길이를 가진다.
+		- 나중에 execute전에 확장하고 strjoin으로 붙여준다.
 ### 2022.11.11(금) (Day 9)
 - [ ] tokenize 구현
 	- [x] is_bracket

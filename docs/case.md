@@ -54,4 +54,87 @@
 
 display line
 display *line
-display prev_str\
+display prev_st
+
+### syntax error로 볼껀지 command error
+- $HOME/foo -> 실행되게 처리
+- echo {$PATH}  -> print {$PATH} : 중괄호는 문자로 보고 $PATH확장 닫는 중괄호 문자로 봄.
+- echo ($PATH) 	-> syntax error : shell function 에러, 우선순위 3이 연속 나왔을 때 따라오는 토큰이 괄호로 시작하면 syntax error로 본다
+- echo hello | (grep "h) : subshell
+- echo $PATH -> 확장
+- echo $(hello) -> (hello)를 환경변수로 본다.
+
+- echo $(grep hello) -> (grep hello)를 환경변수로 본다.
+- $(grep hello) -> (grep hello)를 환경변수로 본다. (쉘에서 다름)
+
+- echo ($grep hello) -> 우선순위 3 연속
+- echo $(grep hello) hi -> (grep hello)를 환경변수로 보고 hi
+- echo (grep hello)
+=> operator 옆에 괄호가 있으면 OK, 아니면 syntax error (token화 다 한 다음에 확인)
+
+- ($) - 명령어 확장 -> 하지 않음
+- $(()) -> 계산, 하지 않음
+- echo `command`String으로 본다.
+- <(list) : (list)를 파일로 본다.
+- >(list) : (list)를 본다.
+- < (list)
+- < list
+- 2>&1 : 2 >& 1 -> syntax error
+
+- |&, |<, |> 등 리스트에 priority가 2번이지만, 정의되지 않은 operator일 때 syntax error 
+
+- <, > 앞에 숫자가 있으면 
+
+- <word
+- 2<word
+	- 2 < word 
+- 2>word
+
+- echo "2" > outfile
+
+- echo "hello" 1>outfile 
+- echo "hello" 2>outfile
+
+- [n]<word
+- [n]>[|]word
+- [n]>>word
+- &>word
+- >&word
+- &>>word
+- [n]<&digit-
+- <<< infile: < << infile, rediction이  여여러러개개 
+
+# 실제 쉘이랑 우리랑 다른 부분
+- echo(HOME)
+	- syntax error (bash)
+	- command not found
+
+# shell error message
+- bash: syntax error near unexpected token `>'
+
+# shell redirection 순서서
+- echo hello 1 < infile | grep hello < infile
+- : infile 의 hello grep
+- echo hello 1 < infile | grep hello
+- : echo의 결과물인 hello 1 grep
+
+# echo hello 1 << limiter | grep hello << good
+- broken pipe 
+	- $ 1
+	- $ 2
+	- $ 3
+	- limiter
+	- good
+
+### Syntax에러로 볼 것
+- >&, >|, |&, <&
+- |||, >>>, <<<
+- echo (word), echo ($word)
+- 짝 안맞는 괄호, 쿼트
+- <, |, > 처음 마지막
+
+- echo hello < infile  : 통째로 트리에 넣어야함.
+	- <, >, >> 2번으로.
+- > outfile echo hello 
+- echo hello > outfile 
+	- 즉 -먼저 찾아야 한다.

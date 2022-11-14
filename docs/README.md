@@ -56,7 +56,6 @@ $"PATH"
 예외
 1. (ls | "ls && (ls && ls | ls))" -> 괄호 짝 체크 예외
 2. (ls | "ls && (ls && ls | ls)") -> 괄호 짝 체크 예외
--> 괄호 짝 찾는 알고리즘 : junji
 3. echo "hel"ol""
 	-> sigle quote : close 만나기 전까지 읽음
 	-> double quote : $만나면 확장하는데 공백, $, " 전까지 읽어서 판단
