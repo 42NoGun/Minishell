@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 14:34:07 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/04 15:17:11 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:04:28 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BINARY_TREE_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_tree_node	t_tree_node;
 typedef struct s_tree		t_tree;
@@ -35,4 +36,8 @@ t_tree		*init_tree(void);
 t_tree_node	*make_tree_node(void *content);
 void		push_left(t_tree_node *parent, t_tree_node *child, t_tree *tree);
 void		push_right(t_tree_node *parent, t_tree_node *child, t_tree *tree);
+void		push_right_endpoint \
+			(t_tree_node *parent, t_tree_node *child, t_tree *tree);
+void		inorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *));
+bool		inorder_traverse_bool(t_tree_node *cursor, bool (*f)(t_tree_node *));
 #endif

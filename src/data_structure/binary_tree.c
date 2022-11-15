@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/14 16:27:57 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:52:46 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,31 @@ void	push_right(t_tree_node *parent, t_tree_node *child, t_tree *tree)
 	child->level = parent->level + 1;
 }
 
-// void	inorder_traverse(t_tree *tree, t_tree_node *cursor)
-// {
-// 	if (cursor->left == NULL)
-// 		return ;
+void	push_right_endpoint(t_tree_node *parent, t_tree_node *child, t_tree *tree)
+{
+	while (parent->right)
+		parent = parent->right;
+	push_right(parent, child, tree);
+}
 
-// 	inorder_traverse(tree, cursor->left);
-// 	pipex(tree->content);
-// 	inorder_traverse(tree, cursor->right);
-// }
+void	inorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *))
+{
+	if (cursor == NULL)
+		return ;
+	inorder_traverse(cursor->left, f);
+	f(cursor);
+	inorder_traverse(cursor->right, f);
+}
+
+bool	inorder_traverse_bool(t_tree_node *cursor, bool (*f)(t_tree_node *))
+{
+	bool	b;
+
+	b = true;
+	if (cursor == NULL)
+		return (b);
+	b &= inorder_traverse_bool(cursor->left, f);
+	b &= f(cursor);
+	b &= inorder_traverse_bool(cursor->right, f);
+	return (b);
+}
