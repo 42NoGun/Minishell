@@ -1,7 +1,19 @@
 # Minishell
 
+### 2022.11.16(수) (Day 12)
+- [ ] expand
+	- [ ] 1. 환경변수 => 어떻게 담고 다닐 것인지 
+	- [ ] 2. wildcard
+	- [ ] getenv
+	- [ ] opendir, readdir, closedir
+- [ ] redirect
+	- [ ] 중복 연산자가 있는지(syntax error)
+- [ ] quote 제거 (ls "> abcde" outfile ">" )
+- [ ] execute
 ### 2022.11.15(화) (Day 11)
-- [ ] Field 만든 후, 규칙에 맞게 트리에 담는다.
+- [X] Field 만든 후, 규칙에 맞게 트리에 담는다.
+- [X] tree순회, 현재 트리가 operator일 때 자식이 하나라도 없는 경우 에러 처리(syntax error) + 테스트 코드
+
 ### 2022.11.14(월) (Day 10)
 - [x] Syntax Error 케이스 정리
 - [x] Tokenize 케이스 보완

@@ -129,7 +129,7 @@ display prev_st
 ### Syntax에러로 볼 것
 - >&, >|, |&, <&
 - |||, >>>, <<<
-- echo (word), echo ($word)
+- echo (word), echo ($word), (world) echo(e)
 - 짝 안맞는 괄호, 쿼트
 - <, |, > 처음 마지막
 
@@ -138,3 +138,6 @@ display prev_st
 - > outfile echo hello 
 - echo hello > outfile 
 	- 즉 -먼저 찾아야 한다.
+
+### 트리  
+- 내가 파이프고 왼쪽 자식이나 오른쪽 자식 둘 중에 한명이 없다면 에러
