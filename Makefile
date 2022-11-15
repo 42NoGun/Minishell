@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/11/04 14:51:00 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/11/15 17:29:29 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,9 @@ fclean : clean
 		rm -f $(NAME)
 		rm -f all_check
 		rm -f bonus_check
+		rm -rf ../**.s
+		rm -rf ../**.i
+		rm -rf ../**.bc
 
 re :
 		make fclean
