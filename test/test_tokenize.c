@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_tokenize.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:10:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/14 13:52:52 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/11/15 13:43:47 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void	_case(const char *str)
 {
-	t_list		list;
+	t_list	*list;
 
-	init_list(&list);
-	tokenize((char *)str, &list);
+	list = init_list();
+	tokenize((char *)str, list);
 	printf("case : [[%s]]\n", str);
-	while(list.len)
+	while(list->len)
 	{
-		t_token	*content = (t_token *) list.head->content;
+		t_token	*content = (t_token *) list->head->content;
 		printf("%s\n", content->value);
-		pop_front(&list);
+		pop_front(list);
 	}
 }
 

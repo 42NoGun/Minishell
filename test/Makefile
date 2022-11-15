@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/11/11 13:23:00 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/11/15 15:03:53 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ ifeq ($(DEBUG), 1)
     CFLAGS	+=	-g3 -save-temps=obj
 endif
 ifeq ($(DEBUG), 2)
-    CFLAGS	+=	-g3 -fsanitize=address -save-temps=obj
+    CFLAGS	+=	-g3 -fsanitize=address # -save-temps=obj
 endif
 
 all_check : $(OBJS) $(LIBFT_LIB)
@@ -52,6 +52,8 @@ all_check : $(OBJS) $(LIBFT_LIB)
 clean :
 		rm -rf $(OBJS)
 		rm -rf *.s
+		rm -rf *.i
+		rm -rf *.bc
 
 fclean : clean
 		rm -f $(NAME)
