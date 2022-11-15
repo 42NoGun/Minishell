@@ -53,3 +53,8 @@ dkms.conf
 
 #vscode file
 .vscode
+
+#debugger file
+*.s
+*.i
+*.bc
