@@ -6,56 +6,32 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:40:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/14 16:20:40 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:05:29 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-
-int	get_priority(char *prev_str)
+bool	check_operator_node_has_child(t_tree_node *cursor)
 {
-	if (ft_strcmp(prev_str, "||") == 0)
-		return (0);
-	if (ft_strcmp(prev_str, "&&") == 0)
-		return (0);
-	if (ft_strcmp(prev_str, "|") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, ">>") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, "<<") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, ">") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, "<") == 0)
-		return (1);
-	return (2);
+	t_token	*token;
+
+	token = (t_token *)((t_field *)(cursor->content))->start_ptr->content;
+	if (token->priority == 0 || token->priority == 1)
+	{
+		if (cursor->left == NULL || cursor->right == NULL)
+			return (false);
+	}
+	return (true);
 }
 
-
-### Syntax에러로 볼 것
-- >&, >|, |&, <&
-- |||, >>>, <<<
-- echo (word), echo ($word)
-- 짝 안맞는 괄호, 쿼트
-
-- 처음에 나올 수 있음 : <,  >, <<, >>
-- 처음에 나오면 안되는 operator : ||, &&, |, >(이것만), <(이것만), <<(이것만), >>(이것만)
-| > >> 
-
-1. list->len == 1, 우선 순위가 0이나 1이면 안된다.
-2. 
-
-*/
-void	check_syntax(t_list *cmd_list)
+bool	check_syntax_error(t_tree *cmd_tree)
 {
-	t_node	*cur_node;
-
-	cur_node = cmd_list->head;
-	while (cur_node)
+	if (inorder_traverse_bool(cmd_tree->root,
+			check_operator_node_has_child) == false)
 	{
-		
-		cur_node = cur_node->next;
+		ft_putstr_fd("minishell : syntax error\n", 2);
+		return (false);
 	}
+	return (true);
 }

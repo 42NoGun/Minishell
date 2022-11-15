@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/14 16:27:36 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:04:38 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ int	get_priority(char *prev_str)
 		return (0);
 	if (ft_strcmp(prev_str, "|") == 0)
 		return (1);
-	if (ft_strcmp(prev_str, ">>") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, "<<") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, ">") == 0)
-		return (1);
-	if (ft_strcmp(prev_str, "<") == 0)
-		return (1);
+	// if (ft_strcmp(prev_str, ">>") == 0)
+	// 	return (1);
+	// if (ft_strcmp(prev_str, "<<") == 0)
+	// 	return (1);
+	// if (ft_strcmp(prev_str, ">") == 0)
+	// 	return (1);
+	// if (ft_strcmp(prev_str, "<") == 0)
+	// 	return (1);
 	return (2);
 }
 
