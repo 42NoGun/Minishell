@@ -5,6 +5,7 @@
 		"linked_list.h": "c",
 		"libft.h": "c",
 		"test.h": "c",
-		"binary_tree.h": "c"
+		"binary_tree.h": "c",
+		"dirent.h": "c"
 	}
 }
