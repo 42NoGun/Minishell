@@ -70,5 +70,7 @@ void	put_token_in_list(char *prev_str, t_list *list);
 bool	parser(t_tree *cmd_tree, t_list *cmd_list);
 bool	check_syntax_error(t_tree *cmd_tree);
 bool	is_matchable_asterisk(char *dst_file, char *src_file);
+void	expand_wildcard(t_token *token);
+void	expand_dollar(t_token *token);
 
 #endif
