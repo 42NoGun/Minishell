@@ -1,15 +1,17 @@
 # Minishell
 
+
 ### 2022.11.16(수) (Day 12)
-- [ ] expand
-	- [ ] 1. 환경변수 => 어떻게 담고 다닐 것인지 
-	- [ ] 2. wildcard
+- [x] expand
+	- [x] 1. 환경변수 => 어떻게 담고 다닐 것인지 
+	- [x] 2. wildcard
+	- [x] opendir, readdir, closedir
 	- [ ] getenv
-	- [ ] opendir, readdir, closedir
 - [ ] redirect
 	- [ ] 중복 연산자가 있는지(syntax error)
-- [ ] quote 제거 (ls "> abcde" outfile ">" )
+- [ ] quote 제거 (ls "> abcde" outfile ">" ) => word spliting
 - [ ] execute
+- [ ] closedir 해줄 것!
 ### 2022.11.15(화) (Day 11)
 - [X] Field 만든 후, 규칙에 맞게 트리에 담는다.
 - [X] tree순회, 현재 트리가 operator일 때 자식이 하나라도 없는 경우 에러 처리(syntax error) + 테스트 코드
@@ -22,6 +24,7 @@
 		- field: shell 확장 결과로 만들어진 텍스트. 총 3개가 나온다. 
 		- field는 리스트의 시작 주소와 길이를 가진다.
 		- 나중에 execute전에 확장하고 strjoin으로 붙여준다.
+
 ### 2022.11.11(금) (Day 9)
 - [ ] tokenize 구현
 	- [x] is_bracket

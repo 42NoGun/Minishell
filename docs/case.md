@@ -139,5 +139,17 @@ display prev_st
 - echo hello > outfile 
 	- 즉 -먼저 찾아야 한다.
 
+### expand()
+- 트리 순회 (트리에 있는 필드를 순회) -> 토큰
+	
+1. find metacharacter for expansion in field : $, *
+	except : `''$PATH''[o], '$PATH'[X], '''$PATH'''[X], ''''$PATH''''[O]`
+    except : `"'$PATH'"`
+2. if $, do env expand, `export a="*"; ls $a`의 결과물이 `ls *`의 결과물과 동일
+3. if *, do filename expand
+- 로직
+	- 작은 따옴표 반환 문자열에 합치고, 현재 문자 밀어주고
+	- 큰 따옴표 반환 문자열에 합치고, 현재 문자 밀어주고
+	- 따옴표 없는 문자열에 합치고, 현재 문자 밀어주고
 ### 트리  
 - 내가 파이프고 왼쪽 자식이나 오른쪽 자식 둘 중에 한명이 없다면 에러
