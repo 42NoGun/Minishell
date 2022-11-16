@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:20:21 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 16:58:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:35:06 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_field	*make_field(t_node **cur_node)
 {
-	t_token	*token;
-	t_field	*field;
+	t_token *token;
+	t_field *field;
 
     field = malloc(sizeof(t_field));
 	if (!field)

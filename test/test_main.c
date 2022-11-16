@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 14:45:35 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/16 11:54:34 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:01:14 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ int	main(void)
 	printf("\n=======================================================\n");
 	test_is_matchable_asterisk();
 	printf("success test_is_matchable_asterisk() test!\n");
+	printf("\n=======================================================\n");
+	test_expand_wildcard();
+	printf("success test_expand_wildcard() test!\n");
+	printf("\n=======================================================\n");
+	test_expand_dollar();
+	printf("success test_expand_dollar() test!\n");
 	printf("\n=======================================================\n");
 	printf("success test!\n");
 	return (0);

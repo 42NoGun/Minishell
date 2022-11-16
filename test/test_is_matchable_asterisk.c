@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:17:41 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/16 13:22:36 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:15:23 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ void	test_is_matchable_asterisk(void)
 		true, "is_matchable_asterisk, 15");
 	ft_assert(is_matchable_asterisk("Make", "*M"),
 		false, "is_matchable_asterisk, 16");
+	ft_assert(is_matchable_asterisk("allcheck", "*.c"),
+		false, "is_matchable_asterisk, 41");
 }

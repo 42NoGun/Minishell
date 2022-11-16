@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_read_quote_content.c                          :+:      :+:    :+:   */
+/*   test_read_wrapped_content.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:20:20 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 17:16:22 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/16 13:29:38 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 #include "test.h"
 #include <stdio.h>
 
-void    test_read_wrapped_content(void)
+void	test_read_wrapped_content(void)
 {
-    char    *str1;
-    char    *str2;
+	char	*str1;
+	char	*str2;
 	char	*str3;
 
-    str1 = strdup("\"Hello\"World");
+	str1 = strdup("\"Hello\"World");
 	str2 = strdup("\"\"a\"\"");
 	str3 = strdup("(hello)world");
-
-    ft_assert(ft_strcmp(read_quote_content(&str1, '\"'), "\"Hello\""), 0, "read_quote_content : 22");
-    ft_assert(ft_strcmp(read_quote_content(&str2, '\"'), "\"\""), 0, "read_quote_content : 23");
-    ft_assert(ft_strcmp(read_group_content(&str3), "(hello)"), 0, "read_quote_content : 24");
+	ft_assert(ft_strcmp(read_quote_content(&str1, '\"'), "\"Hello\""), 0,
+		"read_quote_content : 22");
+	ft_assert(ft_strcmp(read_quote_content(&str2, '\"'), "\"\""), 0,
+		"read_quote_content : 23");
+	ft_assert(ft_strcmp(read_group_content(&str3), "(hello)"), 0,
+		"read_quote_content : 24");
 }
