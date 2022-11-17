@@ -1,5 +1,14 @@
 # Minishell
 
+### 2022.11.17~18(목, 금) (Day 13, 14)
+- [X] expand 
+	- [X] getenv
+	- [X] logic 완성
+- [X] parsing 끝
+- [ ] leaks 잡기
+- [ ] 25줄 이상인 함수 쪼개기
+- [ ] closedir 해줄 것!
+
 
 ### 2022.11.16(수) (Day 12)
 - [x] expand
@@ -11,8 +20,8 @@
 	- [ ] 중복 연산자가 있는지(syntax error)
 - [ ] quote 제거 (ls "> abcde" outfile ">" ) => word spliting
 - [ ] execute
-- [ ] closedir 해줄 것!
-- [ ] 확장할때 ? 확장 (exit status)도 해야함
+- [X] 확장할때 ? 확장 (exit status)도 해줘야함
+
 ### 2022.11.15(화) (Day 11)
 - [X] Field 만든 후, 규칙에 맞게 트리에 담는다.
 - [X] tree순회, 현재 트리가 operator일 때 자식이 하나라도 없는 경우 에러 처리(syntax error) + 테스트 코드
