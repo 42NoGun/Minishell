@@ -12,6 +12,7 @@
 - [ ] quote 제거 (ls "> abcde" outfile ">" ) => word spliting
 - [ ] execute
 - [ ] closedir 해줄 것!
+- [ ] 확장할때 ? 확장 (exit status)도 해야함
 ### 2022.11.15(화) (Day 11)
 - [X] Field 만든 후, 규칙에 맞게 트리에 담는다.
 - [X] tree순회, 현재 트리가 operator일 때 자식이 하나라도 없는 경우 에러 처리(syntax error) + 테스트 코드
