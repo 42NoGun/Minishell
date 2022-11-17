@@ -22,6 +22,8 @@
 # include "linked_list.h"
 # include "binary_tree.h"
 
+int g_exit_status;
+
 enum	e_operator
 {
 	PIPE = '|',

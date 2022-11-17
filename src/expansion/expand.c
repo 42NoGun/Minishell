@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 09:00:32 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:08:09 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,14 @@ void	expand_wildcard(t_token *token)
 			new_token_value = ft_charjoin(new_token_value, ' ');
 		}
 	}
-	free(token->value);
 	if (ft_strlen(new_token_value) > 0)
+	{
+		free(token->value);
+		token->value = new_token_value;
 		new_token_value[ft_strlen(new_token_value) - 1] = 0;
-	token->value = new_token_value;
+		return ;
+	}
+	free(new_token_value);
 }
 
 char	*read_not_quote_content(char **line)
@@ -83,6 +87,73 @@ char	*read_not_quote_content(char **line)
 	content = ft_substr(*line - len, 0, len);
 	*line -= 1;
 	return (content);
+}
+// "hello $? hello $PATH"
+// "hello 127 hello /opt/333"
+// $? dkjdfk
+// $?$
+// $PATH$sdfsdf
+// $?abc
+
+
+
+		// echo "hello $PATH"
+		// len = 6
+		// extra_content = "hello2 $PATH |||| hello $PATH"
+		// expanded_content 
+		/*
+		- 달러 전까지 길이를 잰다.
+		- substr
+		- 달러가 나왔으면 확장 후 substr
+		1. $가 아니라면 qoute_content에 붙임(substr);
+		2. $가 나오면
+			1) 달러 다음 문자가 ?인지
+			2) 달러 다음이 또 딸러인지
+			3) 달러 다음이 공백인지
+		3. substr 
+			1) ? : exit_staus(itoa)
+			2) els : getenv() -> parsing
+		*/
+char	*expand_content(char *content)
+{
+	char	*env_content;
+	char	*expanded_content;
+	char	*extra_content;
+	char	*converted_env_content;
+
+	expanded_content = ft_strdup("");
+	if (ft_strcmp(content, "$?") == 0)
+		content = ft_itoa(g_exit_status);
+	while (*content)
+	{
+		int	before_dollar_len = 0;
+		while (*content && *content != '$')
+		{
+			++content;
+			++before_dollar_len;	
+		}
+		extra_content = ft_substr(content - before_dollar_len, 0, before_dollar_len);
+		expanded_content = ft_strjoin(expanded_content, extra_content);
+		if (!*content)
+			break ;
+		++content;
+		free(extra_content);
+		int env_content_len = 0;
+		while (*content && (*content != '?' && *content != ' ' && *content != '$' && *content != '"'))
+		{
+			++content;
+			++env_content_len;
+		}
+		env_content = ft_substr(content - env_content_len, 0, env_content_len);
+		converted_env_content = getenv(env_content);
+		if (converted_env_content)
+		{
+			free(env_content);
+			expanded_content = ft_strjoin(expanded_content, converted_env_content);
+		}
+		// ++content;
+	}
+	return (expanded_content);
 }
 
 void	expand_dollar(t_token *token)
@@ -103,15 +174,16 @@ void	expand_dollar(t_token *token)
 		else if (*command == '"')
 		{
 			quote_content = read_quote_content(&command, '\"');
-			// expand_content(quote_content);
+			quote_content = expand_content(quote_content);
 			expanded_command = ft_strjoin(expanded_command, quote_content);
 		}
 		else
 		{
 			quote_content = read_not_quote_content(&command);
-			// expand_content(quote_content);
+			quote_content = expand_content(quote_content);
 			expanded_command = ft_strjoin(expanded_command, quote_content);
 		}
 		++command;
 	}
+	token->value = expanded_command;
 }
