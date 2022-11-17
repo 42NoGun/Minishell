@@ -153,3 +153,16 @@ display prev_st
 	- 따옴표 없는 문자열에 합치고, 현재 문자 밀어주고
 ### 트리  
 - 내가 파이프고 왼쪽 자식이나 오른쪽 자식 둘 중에 한명이 없다면 에러
+
+### 쉘이 결국 모든 문자열을 파씽해서 프로그램(echo 등)에게 전달해준다.
+```c
+int main(int argc, char *argv[])
+{
+	char *str[3];
+	str[0] = "/bin/echo";
+	str[1] = "\"Hello'\"\"'$PATHHello\"";
+	str[2] = NULL;
+
+	execve("/bin/echo", str, NULL);
+}
+```
