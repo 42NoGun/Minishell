@@ -6,35 +6,36 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:33:16 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 16:13:59 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:11:15 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_field(t_tree_node *tree_node)
+static void	print_field(t_tree_node *tree_node)
 {
-	t_field *field = (t_field *) tree_node->content;
+	t_field	*field;
+
+	field = (t_field *) tree_node->content;
 	while (field->len > 0)
-    {
+	{
 		printf("{%s}", ((t_token *)(field->start_ptr->content))->value);
-        --field->len;
-        field->start_ptr = field->start_ptr->next;
-    }
-    printf("\n");
+		--field->len;
+		field->start_ptr = field->start_ptr->next;
+	}
+	printf("\n");
 }
 
 static void	_case(const char *str)
 {
-    t_list	*cmd_list;
+	t_list	*cmd_list;
 	t_tree	*cmd_tree;
 
 	cmd_list = init_list();
 	cmd_tree = init_tree();
-    tokenize((char *)str, cmd_list);
-    parser(cmd_tree, cmd_list);
-
-    inorder_traverse(cmd_tree->root, print_field);
+	tokenize((char *)str, cmd_list);
+	parser(cmd_tree, cmd_list);
+	inorder_traverse(cmd_tree->root, print_field);
 }
 
 static void	case_one(void)
@@ -114,11 +115,11 @@ static void	case_four(void)
 	_case(str4);
 }
 
-void    test_parser(void)
+void	test_parser(void)
 {
-    printf("\n\n\n\n============test_parser============\n\n\n\n");
-    case_one();
-    case_two();
-    case_three();
-    case_four();
+	printf("\n\n\n\n============test_parser============\n\n\n\n");
+	case_one();
+	case_two();
+	case_three();
+	case_four();
 }

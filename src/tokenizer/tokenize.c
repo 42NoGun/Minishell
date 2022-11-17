@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 17:06:04 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 15:34:51 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:07:10 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	tokenize(char *line, t_list *cmd_list)
 			if (*line == '"')
 				prev_str = ft_strjoin(prev_str, read_quote_content(&line, '"'));
 			if (*line == '\'')
-				prev_str = ft_strjoin(prev_str, read_quote_content(&line, '\''));
+				prev_str = ft_strjoin(prev_str,
+						read_quote_content(&line, '\''));
 		}
 		else if (is_bracket(*line))
 		{
@@ -97,7 +98,7 @@ void	tokenize(char *line, t_list *cmd_list)
 				break ;
 			if (!is_operator(*line))
 			{
-				prev_str = ft_strdup(""); // "a" 'b' // prev_str에 '들어감
+				prev_str = ft_strdup("");
 				continue ;
 			}
 			prev_str = ft_chardup(*line);

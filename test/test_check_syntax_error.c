@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test_check_syntax_error.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/17 09:07:40 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/11/17 09:08:08 by jiyunpar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "test.h"
 
 static void	_case(const char *str, bool flag, char *error_message)
 {
-    t_list	*cmd_list;
+	t_list	*cmd_list;
 	t_tree	*cmd_tree;
 
 	cmd_list = init_list();
 	cmd_tree = init_tree();
-    tokenize((char *)str, cmd_list);
-    parser(cmd_tree, cmd_list);
+	tokenize((char *)str, cmd_list);
+	parser(cmd_tree, cmd_list);
 	ft_assert(check_syntax_error(cmd_tree), flag, error_message);
 }
 
@@ -50,9 +62,9 @@ static void	case_two(void)
 	_case(str4, true, "case_four 106");
 }
 
-void    test_check_syntax_error(void)
+void	test_check_syntax_error(void)
 {
-    case_one();
-    case_two();
+	case_one();
+	case_two();
 }
 

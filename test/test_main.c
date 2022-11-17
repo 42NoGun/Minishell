@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 14:45:35 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:01:14 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:09:22 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(void)
 {
 	printf("\n=======================================================\n");
-	test_is_even_quote();	
+	test_is_even_quote();
 	printf("success is_even_quote() test!\n");
 	printf("\n=======================================================\n");
 	test_is_pair_quote();

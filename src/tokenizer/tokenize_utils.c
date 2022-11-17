@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 13:04:38 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:04:25 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ char	*read_group_content(char **line)
 char	*expand(char **line)
 {
 	(void) line;
-	char *ret = NULL;
+	char	*ret = NULL;
 
 	return (ret);
 }

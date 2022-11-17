@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:00:06 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:07:03 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:08:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	test_expand_dollar(void)
 	// t_token	*token4;
 	// t_token	*token5;
 
-	printf("\n====================echo \"dfjk\"df\"$P\"sld\"fkj\"==========================\n");
+	printf("\n=======echo \"dfjk\"df\"$P\"sld\"fkj\"=================\n");
 	token1 = make_token("\"dfjk\"df\"$P\"sld\"fkj\"", 2);
 	expand_dollar(token1);
 	printf("%s\n", token1->value);

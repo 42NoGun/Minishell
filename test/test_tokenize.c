@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:10:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 13:43:47 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:12:23 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 static void	_case(const char *str)
 {
 	t_list	*list;
+	t_token	*content;
 
 	list = init_list();
 	tokenize((char *)str, list);
 	printf("case : [[%s]]\n", str);
-	while(list->len)
+	while (list->len)
 	{
-		t_token	*content = (t_token *) list->head->content;
+		content = (t_token *) list->head->content;
 		printf("%s\n", content->value);
 		pop_front(list);
 	}

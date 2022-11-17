@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:10:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/10 17:16:21 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 09:09:07 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	test_is_pair_quote(void)
 {
-	// const char	*str = "\"\'\"\'";
-	const char *str = ft_strdup("\"\'\"\'");
-	
+	const char	*str = ft_strdup("\"\'\"\'");
 	const char	*str2 = "\'\"\'\"";
 	const char	*str3 = "\"\'\'\'\"\'";
 	const char	*str4 = "\"\'\'\'\"";

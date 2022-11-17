@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 16:52:46 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/17 08:54:25 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	push_right(t_tree_node *parent, t_tree_node *child, t_tree *tree)
 	child->level = parent->level + 1;
 }
 
-void	push_right_endpoint(t_tree_node *parent, t_tree_node *child, t_tree *tree)
+void	push_right_endpoint(t_tree_node *parent, t_tree_node *child,
+			t_tree *tree)
 {
 	while (parent->right)
 		parent = parent->right;
