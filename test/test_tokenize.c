@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:10:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 09:12:23 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:49:38 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ static void	_case(const char *str)
 	{
 		content = (t_token *) list->head->content;
 		printf("%s\n", content->value);
+		free_token(content);
 		pop_front(list);
 	}
+	free(list);
 }
 
 static void	case_three(void)

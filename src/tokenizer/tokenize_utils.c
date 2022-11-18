@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 09:04:25 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:30:00 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ void	put_token_in_list(char *prev_str, t_list *list)
 	t_node	*node;
 
 	if (!*prev_str)
+	{
+		free(prev_str);
 		return ;
+	}
 	node = make_node(create_token(prev_str));
 	push_back(list, node);
 }

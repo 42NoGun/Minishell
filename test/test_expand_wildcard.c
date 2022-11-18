@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:56:10 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/16 15:42:13 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/18 12:00:14 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,9 @@ void	test_expand_wildcard(void)
 	token5 = make_token("*kefile", 2);
 	expand_wildcard(token5);
 	printf("%s\n", token5->value);
+	free_token(token1);
+	free_token(token2);
+	free_token(token3);
+	free_token(token4);
+	free_token(token5);
 }

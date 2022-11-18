@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 09:07:40 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 09:08:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:53:20 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	_case(const char *str, bool flag, char *error_message)
 	tokenize((char *)str, cmd_list);
 	parser(cmd_tree, cmd_list);
 	ft_assert(check_syntax_error(cmd_tree), flag, error_message);
+	free_list(cmd_list);
+	free_tree(cmd_tree);
 }
 
 static void	case_one(void)

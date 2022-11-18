@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 17:08:09 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/18 12:27:00 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ void	expand_wildcard(t_token *token)
 			continue ;
 		if (is_matchable_asterisk(dp->d_name, token->value) == true)
 		{
-			new_token_value = ft_strjoin(new_token_value, dp->d_name);
+			new_token_value = ft_strjoin_left_free(new_token_value, dp->d_name);
 			new_token_value = ft_charjoin(new_token_value, ' ');
 		}
 	}
+	closedir(dirp);
 	if (ft_strlen(new_token_value) > 0)
 	{
 		free(token->value);
@@ -120,10 +121,10 @@ char	*expand_content(char *content)
 	char	*expanded_content;
 	char	*extra_content;
 	char	*converted_env_content;
+	char	*content_init_pos;
 
+	content_init_pos = content;
 	expanded_content = ft_strdup("");
-	if (ft_strcmp(content, "$?") == 0)
-		content = ft_itoa(g_exit_status);
 	while (*content)
 	{
 		int	before_dollar_len = 0;
@@ -137,7 +138,6 @@ char	*expand_content(char *content)
 		if (!*content)
 			break ;
 		++content;
-		free(extra_content);
 		int env_content_len = 0;
 		while (*content && (*content != '?' && *content != ' ' && *content != '$' && *content != '"'))
 		{
@@ -145,14 +145,20 @@ char	*expand_content(char *content)
 			++env_content_len;
 		}
 		env_content = ft_substr(content - env_content_len, 0, env_content_len);
-		converted_env_content = getenv(env_content);
-		if (converted_env_content)
+		if (ft_strcmp(env_content, "?"))
 		{
-			free(env_content);
+			converted_env_content = ft_itoa(g_exit_status);
 			expanded_content = ft_strjoin(expanded_content, converted_env_content);
 		}
-		// ++content;
+		else
+		{
+			converted_env_content = getenv(env_content);
+			if (converted_env_content)
+				expanded_content = ft_strjoin_left_free(expanded_content, converted_env_content);
+		}
+		free(env_content);
 	}
+	free(content_init_pos);
 	return (expanded_content);
 }
 
@@ -180,10 +186,12 @@ void	expand_dollar(t_token *token)
 		else
 		{
 			quote_content = read_not_quote_content(&command);
+
 			quote_content = expand_content(quote_content);
 			expanded_command = ft_strjoin(expanded_command, quote_content);
 		}
 		++command;
 	}
+	free(token->value);
 	token->value = expanded_command;
 }
