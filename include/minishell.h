@@ -74,5 +74,9 @@ bool	check_syntax_error(t_tree *cmd_tree);
 bool	is_matchable_asterisk(char *dst_file, char *src_file);
 void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token);
+void	free_token(t_token *token);
+void	free_list(t_list *list);
+void	free_field(t_tree_node *tree_node);
+void	free_tree(t_tree *tree);
 
 #endif
