@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 14:34:07 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 08:51:43 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:46:18 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,6 @@ void		push_right_endpoint(t_tree_node *parent, t_tree_node *child,
 void		inorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *));
 bool		inorder_traverse_bool(t_tree_node *cursor,
 				bool (*f)(t_tree_node *));
+void	postorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *));
+
 #endif
