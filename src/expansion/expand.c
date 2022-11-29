@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/18 12:27:00 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/29 13:43:02 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	is_matchable_asterisk(char *dst_file, char *src_file)
 		{
 			while (*src_file == '*')
 				++src_file;
-				dst_file = ft_strchr(dst_file, *src_file);
+			dst_file = ft_strchr(dst_file, *src_file);
 			if (dst_file == NULL)
 				return (false);
 		}
@@ -95,9 +95,6 @@ char	*read_not_quote_content(char **line)
 // $?$
 // $PATH$sdfsdf
 // $?abc
-
-
-
 		// echo "hello $PATH"
 		// len = 6
 		// extra_content = "hello2 $PATH |||| hello $PATH"
@@ -115,6 +112,7 @@ char	*read_not_quote_content(char **line)
 			1) ? : exit_staus(itoa)
 			2) els : getenv() -> parsing
 		*/
+
 char	*expand_content(char *content)
 {
 	char	*env_content;
@@ -122,24 +120,28 @@ char	*expand_content(char *content)
 	char	*extra_content;
 	char	*converted_env_content;
 	char	*content_init_pos;
+	int		before_dollar_len;
+	int		env_content_len;
 
 	content_init_pos = content;
 	expanded_content = ft_strdup("");
 	while (*content)
 	{
-		int	before_dollar_len = 0;
+		before_dollar_len = 0;
 		while (*content && *content != '$')
 		{
 			++content;
-			++before_dollar_len;	
+			++before_dollar_len;
 		}
-		extra_content = ft_substr(content - before_dollar_len, 0, before_dollar_len);
+		extra_content = ft_substr(content - before_dollar_len,
+				0, before_dollar_len);
 		expanded_content = ft_strjoin(expanded_content, extra_content);
 		if (!*content)
 			break ;
 		++content;
-		int env_content_len = 0;
-		while (*content && (*content != '?' && *content != ' ' && *content != '$' && *content != '"'))
+		env_content_len = 0;
+		while (*content && (*content != '?' && *content != ' '
+				&& *content != '$' && *content != '"'))
 		{
 			++content;
 			++env_content_len;
@@ -148,13 +150,15 @@ char	*expand_content(char *content)
 		if (ft_strcmp(env_content, "?"))
 		{
 			converted_env_content = ft_itoa(g_exit_status);
-			expanded_content = ft_strjoin(expanded_content, converted_env_content);
+			expanded_content = ft_strjoin(expanded_content,
+					converted_env_content);
 		}
 		else
 		{
 			converted_env_content = getenv(env_content);
 			if (converted_env_content)
-				expanded_content = ft_strjoin_left_free(expanded_content, converted_env_content);
+				expanded_content = ft_strjoin_left_free(expanded_content,
+						converted_env_content);
 		}
 		free(env_content);
 	}
@@ -186,7 +190,6 @@ void	expand_dollar(t_token *token)
 		else
 		{
 			quote_content = read_not_quote_content(&command);
-
 			quote_content = expand_content(quote_content);
 			expanded_command = ft_strjoin(expanded_command, quote_content);
 		}
