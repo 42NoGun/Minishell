@@ -8,7 +8,8 @@
 - [ ] leaks 잡기
 - [ ] 25줄 이상인 함수 쪼개기
 - [ ] closedir 해줄 것!
-
+- [ ] test make하면 libft 갈아끼워야함.
+- [ ] expand dollar case $?
 
 ### 2022.11.16(수) (Day 12)
 - [x] expand
