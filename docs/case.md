@@ -36,8 +36,11 @@
 18. export a='a' && echo $?
 - bash기준, 확장 이전 명령 기준
 
+19. 파일이 없는 
 19. echo $HOME "$"HOME "$HOME" $''HOME $""HOME $HO""ME $"HOME"
 - mingylee case
+20. grep "hello" < 1 < 2 < 3
+21. cat << hello1 < infile << hello2 | cat << hello3
 
 ### tokenize test
 1. $ <<ls > pwd || ls 
@@ -139,6 +142,8 @@ display prev_st
 - echo hello > outfile 
 	- 즉 -먼저 찾아야 한다.
 
+- 리다이렉션 + 히어독 기호 뒤에 파일 없는 경우
+
 ### expand()
 - 트리 순회 (트리에 있는 필드를 순회) -> 토큰
 	
@@ -166,3 +171,12 @@ int main(int argc, char *argv[])
 	execve("/bin/echo", str, NULL);
 }
 ```
+
+
+unset HOME 후 
+cd ~
+cd $HOME
+
+> out
+< in 
+아무것도 없을 때 실행하면 세그폴트 나면 안됨
