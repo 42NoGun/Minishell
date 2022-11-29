@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/17 09:07:23 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/29 14:33:50 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	main(int argc, char **argv)
 			free(line);
 			continue ;
 		}
-		tokenize(line, cmd_list);
+		tokenize(line, cmd_list); // parser 안으로
 		// syntax_check(cmd_list);
 		parser(cmd_tree, cmd_list);
-
+		check_syntax_error(cmd_tree); // parser 안으로
 		free(line);
 	}
 	return (0);
