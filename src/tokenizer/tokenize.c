@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 17:06:04 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/29 10:03:46 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/29 15:42:19 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	tokenize(char *line, t_list *cmd_list)
 				++line;
 			}
 			if (!*line)
-				break ;
+				return ;
 			if (!is_operator(*line))
 			{
 				prev_str = ft_strdup("");
