@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 17:06:04 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/18 11:27:27 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/11/29 10:03:46 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	tokenize(char *line, t_list *cmd_list)
 		}
 		else if (ft_strlen(prev_str) == 1
 			&& is_operator(*prev_str)
-			&& !is_operator(*line) && !is_space(*line)) 
+			&& !is_operator(*line) && !is_space(*line))
 		{
 			put_token_in_list(prev_str, cmd_list);
 			if (*line == OPEN_BRACKET)
