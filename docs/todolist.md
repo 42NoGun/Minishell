@@ -1,15 +1,27 @@
 # Minishell
 
+### 2022.11.30(수) (Day 16)
+- [ ] execute logic
+	- [ ] execute로직 
+		- [ ] 1. 왜 트리를 썼는가?
+		- [ ] 2. ||, &&, () 생각해보기
+		- [ ] 3. 서브쉘 생각해보기
+	- [ ] 매번 필드를 실행하기 전에 리다이렉션 하고
+	- [ ] 쿼트 없애주고, 정제된 field(따옴표 없고, 리다이렉션없고 리다이렉션 피연산자 없고)
+### 2022.11.29(화) (Day 15)
+- [X] check_redirection_error
+- [ ] execute logic 고민
+
 ### 2022.11.17~18(목, 금) (Day 13, 14)
 - [X] expand 
 	- [X] getenv
 	- [X] logic 완성
 - [X] parsing 끝
-- [ ] leaks 잡기
+- [X] leaks 잡기
 - [ ] 25줄 이상인 함수 쪼개기
-- [ ] closedir 해줄 것!
+- [X] closedir 해줄 것!
 - [ ] test make하면 libft 갈아끼워야함.
-- [ ] expand dollar case $?
+- [X] expand dollar case $?
 
 ### 2022.11.16(수) (Day 12)
 - [x] expand
@@ -18,7 +30,11 @@
 	- [x] opendir, readdir, closedir
 	- [ ] getenv
 - [ ] redirect
-	- [ ] 중복 연산자가 있는지(syntax error)
+- [ ] 중복 연산자가 있는지(syntax error)
+	<<< infile echo | grep
+	echo "<" < infile
+	echo "<" < infile
+	// 
 - [ ] quote 제거 (ls "> abcde" outfile ">" ) => word spliting
 - [ ] execute
 - [X] 확장할때 ? 확장 (exit status)도 해줘야함
