@@ -1,3 +1,37 @@
+# 실행
+- pipe나 subshell이나 결 모두 subshell이 열림. pipe와 subshell 모두 프로세스임으로 경쟁 관계
+hard case : (echo hello | cat ) > a | (sleep 3 && grep "hello" << limiter < a&& sleep 5)
+
+soft case : echo hello > b | grep "hell0"
+1. 현재 필드를 보고 다음 필드에 파이프가 있는지 없는지 확인
+	- 있다면 :
+		- 1) 부모에서 파이프를 열고 fork()
+		- 2) 자식에서 pipe setting
+	- 없다면 : 
+		- 그냥 fork()
+2. expand()
+3. 리다이렉션 있는지 확인
+	- 있다면 :
+		- 리다이렉션 순서대로 수행
+		- 괄호가 있다면
+			- 리다이렉션 토큰은 제외 하고 괄호만 때서 string으로 만들기(리다이렉션 처리는 서브쉘에서)
+		- 괄호가 없다면(쿼트 있다면 제거)
+			- 리다이렉션 토큰은 제외하고 쿼트가 있을 때 string으로 만들기
+			- example : echo "hello" < "<"
+	- 없다면 :국
+		- 그냥 실행
+
+### 트리 왜 썼나?
+```bash
+$ echo a && echo b > a              // b
+$ (echo a && echo b) > a            // a\nb
+```
+- 결국 괄호 깊이에 대한 우선순위를 처리하려면 그 깊이를 처리할 수 있는 `트리 로직`이나 `서브쉘 로직`이 필요한데, 우리는 서브쉘 로직이 있기 때문에 자연스럽게 깊이 처리가 가능하다. 우리 같은 경우에는 트리로 별도의 로직을 만들 필요는 없었음.
+- 트리 사용하는 이유는 보통 부모가 subshell을 만들 때 처리 흐름이 있으니 부모에서 처리하기 쉽게 트리를 사용함 => lalr
+
+case 1 - subshell이 있는 경우
+case 2 - subshell 안에 redirection이 있는 경우
+
 # 구조, 로직
 
 1. read input
@@ -23,7 +57,6 @@ expand
 (순회는 2번)
 
 규칙
-
 토큰으로 자르는 순간
 1. 공백을 만났을 때
 2. operator를 만났을 때
