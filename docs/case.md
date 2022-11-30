@@ -107,6 +107,9 @@ display prev_st
 - [n]<&digit-
 - <<< infile: < << infile, rediction이  여여러러개개 
 
+- sleep 1 && echo hello && sleep 3 && (ls)
+- (echo hello | cat ) > a | (sleep 3 && grep "hello" << limiter < a)
+
 # 실제 쉘이랑 우리랑 다른 부분
 - echo(HOME)
 	- syntax error (bash)
