@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 14:46:46 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/29 14:54:29 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:42:13 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ void	test_is_matchable_asterisk(void);
 void	test_expand_wildcard(void);
 void	test_expand_dollar(void);
 void	test_check_redirection_error(void);
+void	test_convert_tree_to_exec_list(void);
+void	test_refined_field(void);
 
 #endif
