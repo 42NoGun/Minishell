@@ -59,13 +59,16 @@ void	tokenize(char *line, t_list *cmd_list);
 
 char	*read_quote_content(char **line, char quote);
 char	*read_group_content(char **line);
+char	*read_not_quote_content(char **line);
 
 bool	is_correct_pair(const char *line);
 bool	is_even_quote(const char *line);
 bool	is_pair_bracket(const char *line);
 bool	is_pair_quote(const char *line);
+
 char	*ft_charjoin(char *str, char c);
 char	*ft_chardup(char c);
+
 int		get_priority(char *prev_str);
 t_token	*create_token(char *prev_str);
 void	put_token_in_list(char *prev_str, t_list *list);
@@ -74,6 +77,10 @@ bool	check_syntax_error(t_tree *cmd_tree);
 bool	is_matchable_asterisk(char *dst_file, char *src_file);
 void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token);
+t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
+void	expand_field(t_field *field);
+char	**refine_field(t_field *field);
+
 void	free_token(t_token *token);
 void	free_list(t_list *list);
 void	free_field(t_tree_node *tree_node);
