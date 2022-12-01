@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/18 11:46:05 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/01 11:32:21 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,16 @@ void	inorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *))
 	inorder_traverse(cursor->left, f);
 	f(cursor);
 	inorder_traverse(cursor->right, f);
-} 
+}
+
+void	inorder_traverse_make_exec_list(t_tree_node *cursor, t_list *exec_list, void (*f)(t_list *, t_tree_node *))
+{
+	if (cursor == NULL)
+		return ;
+	inorder_traverse_make_exec_list(cursor->left, exec_list, f);
+	f(exec_list, cursor);
+	inorder_traverse_make_exec_list(cursor->right, exec_list, f);
+}
 
 bool	inorder_traverse_bool(t_tree_node *cursor, bool (*f)(t_tree_node *))
 {
