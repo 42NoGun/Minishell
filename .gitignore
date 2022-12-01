@@ -58,3 +58,4 @@ dkms.conf
 *.s
 *.i
 *.bc
+*.dSYM/
