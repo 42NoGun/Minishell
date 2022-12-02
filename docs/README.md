@@ -1,3 +1,59 @@
+### 변경된 실행로직(v1.0)
+1. 부모에서 field를 보고, 커맨드를 만든다.
+	- expand_field(cur_field);
+	- redirectioin();
+	- command = refine_field(cur_field);
+2. 자식에서는
+	- expand_field();
+	- curfield를 가지고 redirection()만 처리.
+	- 부모에서 만든 refine_field 실행.
+
+---------
+
+1. 부모에서 expand_field();
+1. 부모에서 command_argv보고, 빌트인인지 아닌지 판단. 
+	- 우선 빌트인 명령어 만든 폴더에서 먼저 보고
+	- 찾지 못한다면 PATH에서 찾기
+2. 빌트인 경우
+	- 다음 필드가 파이프라면
+		- 파이프 만들고
+		- 포크하고
+		- 자식에서 파이프 셋팅
+		- 자식에서 리다이렉션
+		- 자식에서 빌트인 실행
+	- 다음 필드가 파이프가 아니라면
+		- 리다이렉션
+		- 부모에서 빌트인 실행
+3. 빌트인이 아닌 경우
+	- 다음 필드가 파이프라면
+		- 파이프 만들고
+		- 포크하고
+		- 자식에서 파이프 셋팅
+		- 자식에서 리다이렉션
+		- 실행 가능 path를 만들고
+		- 실행 가능한 path인지 검사
+		- 자식에서 실행 파일 실행(execv)
+	- 다음 필드가 파이프가 아니라면
+		- 포크하고
+		- 자식에서 리다이렉션
+		- 실행 가능 path를 만들고
+		- 실행 가능한 path인지 검사
+		- 자식에서 커맨드 실행
+while ()
+{
+	if (&&, || -> 전 프로세스 기다려줘서 exit_status 처리)
+}
+waitpid(모두를 기다린다.);
+		//pid = fork()
+		//child execve(echo)
+		//if ( && 또는 ||)
+		// pid = waitpid
+
+4. 부모에서 wait
+	- 여기서 exit_status 받아와서 update => 
+
+### 빌트인
+- echo, cd, pwd, export, unset, env, exit
 # 실행
 - pipe나 subshell이나 결 모두 subshell이 열림. pipe와 subshell 모두 프로세스임으로 경쟁 관계
 hard case : (echo hello | cat ) > a | (sleep 3 && grep "hello" << limiter < a&& sleep 5)
@@ -10,7 +66,7 @@ soft case : echo hello > b | grep "hell0"
 	- 없다면 : 
 		- 그냥 fork()
 2. expand()
-3. 리다이렉션 있는지 확인
+4. 리다이렉션 있는지 확인
 	- 있다면 :
 		- 리다이렉션 순서대로 수행
 		- 괄호가 있다면
@@ -18,9 +74,13 @@ soft case : echo hello > b | grep "hell0"
 		- 괄호가 없다면(쿼트 있다면 제거)
 			- 리다이렉션 토큰은 제외하고 쿼트가 있을 때 string으로 만들기
 			- example : echo "hello" < "<"
-	- 없다면 :국
+	- 없다면 :
 		- 그냥 실행
 
+// export 하위 프로세스에게 변수를 넘겨준다.
+
+- |가 있으면
+	- 자식에서
 ### 트리 왜 썼나?
 ```bash
 $ echo a && echo b > a              // b
