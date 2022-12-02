@@ -174,7 +174,8 @@ int main(int argc, char *argv[])
 	execve("/bin/echo", str, NULL);
 }
 ```
-
+### command list의 구분
+echo 1 || echo 2 | echo 3 | cat echo 5 echo 6 && echo 2
 
 unset HOME 후 
 cd ~
