@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 16:23:42 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/01 16:24:21by ccheseo          ###   ########.fr       */
+/*   Updated: 2022/12/05 16:15:41 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,37 @@ static void	do_expand(t_list *exec_list)
 static void	print_exec_list(t_list *exec_list)
 {
 	t_field	*field;
-	char 	**command_argv;
+	char 	**command;
+	char 	**redirections;
 	int 	i;
 
 	while (exec_list->len)
 	{
 		field = (t_field *) exec_list->head->content;
-		command_argv = refine_field(field);
+		refine_field(field, &command, &redirections);
 		i = 0;
-		while (command_argv[i])
+		while (command[i])
 		{
-			printf("{%s}\n", command_argv[i]);
+			if (i == 0)
+				printf("[command :]\n");
+			printf("{%s}\n", command[i]);
 			++i;
 		}
-		free(command_argv);
+		printf("\n");
+		i = 0;
+		while (redirections[i])
+		{
+			if (i == 0)
+				printf("\n[redirections :]\n");
+			printf("{%s}\n", redirections[i]);
+			++i;
+		}
+		printf("\n");
+		free(command);
+		free(redirections);
 		pop_front(exec_list);
 	}
+	printf("\n");
 }
 
 static void	_case(const char *str)
@@ -74,9 +89,9 @@ static void	_case(const char *str)
 
 static void	case_one(void)
 {
-	const char	*str1 = "a*.c";
-	const char	*str2 = "ls || ls";
-	const char	*str3 = "echo | grep hello | ls && echo hello";
+	const char	*str1 = "a*.c < infile";
+	const char	*str2 = "ls || ls < infile < infile2";
+	const char	*str3 = "echo | grep hello << ls && echo hello";
 	const char	*str4 = "echo || export a=*.c";
 	const char	*str5 = "ls | ls | ls || ls | ls | ls |";
 
