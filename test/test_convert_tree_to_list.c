@@ -71,8 +71,8 @@ static void	case_one(void)
 	const char	*str1 = "$a";
 	const char	*str2 = "\"hello\"$USER\"hello\"";
 	const char	*str3 = "\"*.c hello $PATHhello $PATH hello\"";
-	const char	*str4 = "\"hello hello \"$PATH\"hello hello\"";
-	const char	*str5 = "$PATH$USER'$USER'''$USER''";
+	const char	*str4 = "echo hello < 1 && echo lehohe < 2";
+	const char	*str5 = "(cat hello) < infile | grep hello < infile";
 
 	printf("\n=============case 1 - 1====================\n");
 	_case(str1);
