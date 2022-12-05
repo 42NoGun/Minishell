@@ -39,7 +39,6 @@ static void	print_exec_list(t_list *exec_list)
 		while (command_argv[i])
 		{
 			printf("{%s}\n", command_argv[i]);
-			free(command_argv[i]);
 			++i;
 		}
 		free(command_argv);
@@ -60,7 +59,7 @@ static void	_case(const char *str)
 	exec_list = convert_tree_to_exec_list(cmd_tree);
 	do_expand(exec_list);
 	print_exec_list(exec_list);
-	free_list(cmd_list);
+	free_list(cmd_list); 
 	free_tree(cmd_tree);
 	free(exec_list);
 }
