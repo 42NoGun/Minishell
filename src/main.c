@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/29 14:33:50 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/05 12:03:44 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,30 @@
 #include <errno.h>
 #include "../include/minishell.h"
 
-int	main(int argc, char **argv)
+void	subshell_logic(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_list	*cmd_list;
-	t_tree	*cmd_tree;
+	int	i;
+
+	char *line;
+	line = ft_strjoin(argv[0 9]);
+	tokenize(line, cmd_list); // parser 안으로
+	// syntax_check(cmd_list);
+	parser(cmd_tree, cmd_list);
+	check_syntax_error(cmd_tree); // parser 안으로
+	free(line);
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	char *line;
+	t_list *cmd_list;
+	t_tree *cmd_tree;
+
+	if (argc > 2)
+	{
+		subshell_logic(argc, argv, envp);
+		return 0;
+	}
 
 	errno = 0;
 	cmd_list = init_list();
@@ -45,7 +64,7 @@ int	main(int argc, char **argv)
 		{
 			ft_putstr_fd("minishell : syntax error\n", 2);
 			free(line);
-			continue ;
+			continue;
 		}
 		tokenize(line, cmd_list); // parser 안으로
 		// syntax_check(cmd_list);
