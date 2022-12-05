@@ -79,7 +79,7 @@ void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token);
 t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
 void	expand_field(t_field *field);
-char	**refine_field(t_field *field);
+void	refine_field(t_field *field, char ***command, char ***redirections);
 
 void	free_token(t_token *token);
 void	free_list(t_list *list);
