@@ -42,6 +42,11 @@
 20. grep "hello" < 1 < 2 < 3
 21. cat << hello1 < infile << hello2 | cat << hello3
 
+22. echo helloda | grep hello < infile 
+-  infile에서  읽어어옴
+23. (grep hello) < infile
+24. (echo hello) <infile | grep "hello" < infile
+
 ### tokenize test
 1. $ <<ls > pwd || ls 
 2. $ > pwd || ls && ls
