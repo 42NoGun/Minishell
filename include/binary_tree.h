@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_tree.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 14:34:07 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/01 11:32:21 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/05 10:55:17 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <linked_list.h>
+# include "linked_list.h"
 
 typedef struct s_tree_node	t_tree_node;
 typedef struct s_tree		t_tree;
