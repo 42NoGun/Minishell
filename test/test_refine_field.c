@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_refine_field.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 16:23:42 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/05 16:15:41 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/06 15:55:52 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ static void	_case(const char *str)
 static void	case_one(void)
 {
 	const char	*str1 = "a*.c < infile";
-	const char	*str2 = "ls || ls < infile < infile2";
+	const char	*str2 = "\"ls || ls\" < infile < infile2";
 	const char	*str3 = "echo | grep hello << ls && echo hello";
-	const char	*str4 = "echo || export a=*.c";
+	const char	*str4 = "\"echo\" || export a=*.c";
 	const char	*str5 = "ls | ls | ls || ls | ls | ls |";
 
 	printf("\n=============case 1 - 1====================\n");
