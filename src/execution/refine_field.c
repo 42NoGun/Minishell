@@ -77,12 +77,12 @@ void	remove_quote(t_token *token)
 	{
 		if (*command == '\'')
 		{
-			quote_content = read_quote_content(&command, '\'');
+			quote_content = read_inside_quote_content(&command, '\'');
 			refined_command = ft_strjoin(refined_command, quote_content);
 		}
 		else if (*command == '"')
 		{
-			quote_content = read_quote_content(&command, '\"');
+			quote_content = read_inside_quote_content(&command, '\"');
 			refined_command = ft_strjoin(refined_command, quote_content);
 		}
 		else

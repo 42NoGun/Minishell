@@ -58,6 +58,7 @@ typedef struct s_field
 void	tokenize(char *line, t_list *cmd_list);
 
 char	*read_quote_content(char **line, char quote);
+char	*read_inside_quote_content(char **line, char quote);
 char	*read_group_content(char **line);
 char	*read_not_quote_content(char **line);
 
@@ -78,8 +79,10 @@ bool	is_matchable_asterisk(char *dst_file, char *src_file);
 void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token);
 t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
+void	remove_quote(t_token *token);
 void	expand_field(t_field *field);
 void	refine_field(t_field *field, char ***command, char ***redirections);
+void	execute(t_list *exec_list, char **envp);
 
 void	free_token(t_token *token);
 void	free_list(t_list *list);
