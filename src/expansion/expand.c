@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/01 16:41:58 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/06 16:00:37 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ char	*expand_content(char *content)
 		++content;
 		env_content_len = 0;
 		while (*content && (*content != '?' && *content != ' '
-				&& *content != '$' && *content != '"'))
+				&& *content != '$' && *content != '"' && *content != '\''))
 		{
 			++content;
 			++env_content_len;
