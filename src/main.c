@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/05 12:03:44 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/06 15:55:52 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
 #include <termios.h>
 #include <unistd.h>
 #include <errno.h>
-#include "../include/minishell.h"
+#include "minishell.h"
 
-void	subshell_logic(int argc, char **argv, char **envp)
-{
-	int	i;
+// void	subshell_logic(int argc, char **argv, char **envp)
+// {
+// 	int	i;
 
-	char *line;
-	line = ft_strjoin(argv[0 9]);
-	tokenize(line, cmd_list); // parser 안으로
-	// syntax_check(cmd_list);
-	parser(cmd_tree, cmd_list);
-	check_syntax_error(cmd_tree); // parser 안으로
-	free(line);
-}
+// 	char *line;
+// 	line = ft_strjoin(argv[0]);
+// 	tokenize(line, cmd_list); // parser 안으로
+// 	// syntax_check(cmd_list);
+// 	parser(cmd_tree, cmd_list);
+// 	check_syntax_error(cmd_tree); // parser 안으로
+// 	free(line);
+// }
 
 int main(int argc, char **argv, char **envp)
 {
@@ -39,17 +39,16 @@ int main(int argc, char **argv, char **envp)
 	t_list *cmd_list;
 	t_tree *cmd_tree;
 
-	if (argc > 2)
-	{
-		subshell_logic(argc, argv, envp);
-		return 0;
-	}
-
 	errno = 0;
-	cmd_list = init_list();
-	cmd_tree = init_tree();
+	// if (argc > 2)
+	// {
+	// 	subshell_logic(argc, argv, envp);
+	// 	return (0);
+	// }
 	while (1)
 	{
+		cmd_list = init_list();
+		cmd_tree = init_tree();
 		line = readline("minishell > ");
 		if (!line)
 		{
@@ -60,16 +59,19 @@ int main(int argc, char **argv, char **envp)
 		}
 		if (*line)
 			add_history(line);
-		if (is_correct_pair(line))
+		if (is_correct_pair(line) == false)
 		{
-			ft_putstr_fd("minishell : syntax error\n", 2);
 			free(line);
 			continue;
 		}
-		tokenize(line, cmd_list); // parser 안으로
-		// syntax_check(cmd_list);
+		tokenize(line, cmd_list);
 		parser(cmd_tree, cmd_list);
-		check_syntax_error(cmd_tree); // parser 안으로
+		if (check_syntax_error(cmd_tree) == false)
+		{
+			free(line);
+			continue;
+		}
+		execute(convert_tree_to_exec_list(cmd_tree), envp);
 		free(line);
 	}
 	return (0);

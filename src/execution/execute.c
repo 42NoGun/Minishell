@@ -43,42 +43,45 @@ void	skip_node_to_logical_operator(t_node **cur_node)
 	}
 }
 
-bool	is_builtin(char	*command)
-{
-	if (ft_strcmp(command, "echo") == 0)
-	{
-	}
-	if (ft_strcmp(command, "cd") == 0)
-	{
+// bool	is_builtin(char	*command)
+// {
+// 	if (ft_strcmp(command, "echo") == 0)
+// 	{
+// 	}
+// 	if (ft_strcmp(command, "cd") == 0)
+// 	{
 		
-	}
-	if (ft_strcmp(command, "pwd") == 0)
-	{
+// 	}
+// 	if (ft_strcmp(command, "pwd") == 0)
+// 	{
 
-	}
-	if (ft_strcmp(command, "export") == 0)
-	{
+// 	}
+// 	if (ft_strcmp(command, "export") == 0)
+// 	{
 
-	}
-	if (ft_strcmp(command, "unset") == 0)
-	{
+// 	}
+// 	if (ft_strcmp(command, "unset") == 0)
+// 	{
 
-	}
-	if (ft_strcmp(command, "env") == 0)
-	{
+// 	}
+// 	if (ft_strcmp(command, "env") == 0)
+// 	{
 
-	}
-	if (ft_strcmp(command, "exit") == 0)
-	{
+// 	}
+// 	if (ft_strcmp(command, "exit") == 0)
+// 	{
 
-	}
-	return (false);
-}
+// 	}
+// 	return (false);
+// }
 
 bool	pipe_connect(t_node *cur_next_node, int fd_pipe[2])
 {
-	t_token	*token = (t_token *) ((t_field *)cur_next_node->content)->start_ptr->content;
+	t_token	*token;
 	
+	if (cur_next_node  == NULL)
+		return (false);
+	token = (t_token *) ((t_field *)cur_next_node->content)->start_ptr->content;
 	if (ft_strcmp(token->value, "|") != 0)
 		return (false);
 	if (pipe(fd_pipe) == -1)
@@ -99,7 +102,7 @@ bool	redirection(char **redirections)
 			fd = open(redirections[i + 1], O_RDONLY);
 			if (fd == -1)
 				return (false);
-			dup2(0, fd);
+			dup2(fd, 0);
 			close(fd);
 		}
 		if (ft_strcmp(redirections[i], ">") == 0)
@@ -107,10 +110,10 @@ bool	redirection(char **redirections)
 			fd = open(redirections[i + 1], O_WRONLY);
 			if (fd == -1)
 				return (false);
-			dup2(1, fd);
+			dup2(fd, 1);
 			close(fd);
 		}
-		i += 2;
+		i += 2; 
 	}
 	return (true);
 }
@@ -119,50 +122,161 @@ void	remove_bracket(char *command)
 {
 	ft_memmove(command, command + 1, ft_strlen(command));
 	command[ft_strlen(command) - 1] = 0;
-}
+} 
 
-void	do_subshell(char **command, char **redirections, char **envp, int pipe[2], bool has_pipe)
+// char	**put_program_name(char **old_command)
+// {
+// 	char **new_command;
+// 	int	i;
+
+// 	i = 0;
+// 	while(old_command[i])
+// 		++i;
+
+// 	new_command = ft_calloc(sizeof(char *) * (i + 1), i + 1);
+// 	new_command[0] = ft_strdup("minishell");
+// 	i = 1;
+// 	while(new_command[i])
+// 	{
+// 		new_command[i] = ft_strdup(old_command[i - 1]);
+// 		++i;
+// 	}
+// 	i = 0;
+// 	while (old_command[i])
+// 	{
+// 		free(old_command[i]);
+// 		++i;
+// 	}
+// 	free(old_command); // 2
+// }
+
+// bool	do_subshell(char **command, char **redirections, char **envp,\
+// 		int pipe[2], bool has_pipe, int *prev_pipe_in)
+// {
+// 	pid_t pid;
+
+// 	if (command[0][0] != '(')
+// 		return (false);
+// 	remove_bracket(*command);
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		if (*prev_pipe_in != -1)
+// 		{
+// 			dup2(*prev_pipe_in, 0);
+// 			close(*prev_pipe_in);
+// 		}
+// 		if (has_pipe)
+// 		{
+// 			dup2(pipe[1], 1);
+// 			close(pipe[1]);
+// 			close(pipe[0]);
+// 		}
+// 		redirection(redirections);
+// 		command = put_program_name(command);
+// 		execve("./minishell", command, envp);
+// 	}
+// 	if (*prev_pipe_in != -1)
+// 		close(*prev_pipe_in);
+// 	if (has_pipe)
+// 	{
+// 		*prev_pipe_in = pipe[0];
+// 		close(pipe[1]);
+// 	}
+// 	return (true);
+// }
+
+// bool	do_builtin(char **command, char **redirections, char **envp,
+// 		int pipe[2], bool has_pipe, int *prev_pipe_in)
+// {
+// 	pid_t	pid;
+
+// 	if (is_builtin(command[0]) == false)
+// 		return (false);	
+// 	if (has_pipe || *prev_pipe_in != -1)
+// 	{
+// 		pid = fork();
+// 		if (pid == 0)
+// 		{
+// 			if (*prev_pipe_in != -1)
+// 			{
+// 				dup2(*prev_pipe_in, 0);
+// 				close(*prev_pipe_in);
+// 			}
+// 			if (has_pipe)
+// 			{
+// 				dup2(pipe[1], 1);
+// 				close(pipe[1]);
+// 				close(pipe[0]);
+// 			}
+// 			redirection(redirections);
+// 			exec_builtin(command);
+// 		}
+// 		if (*prev_pipe_in != -1)
+// 			close(*prev_pipe_in);
+// 		if (has_pipe)
+// 		{
+// 			*prev_pipe_in = pipe[0];
+// 			close(pipe[1]);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		redirection(redirections);
+// 		exec_builtin(command);
+// 	}
+// }
+
+#include <sys/stat.h>
+char	*find_path(char *command, char **envp)
 {
-	pid_t pid;
+	char	*path;
+	char	**path_list;
+	int		i;
+	struct stat	buf;
+	char 	*command_with_path;
 
-	if (command[0][0] != '(')
-		return ;
-	remove_bracket(*command);
-	pid = fork();
-	if (pid == 0)
+	i = 0;
+	path = getenv("PATH");
+	path_list = ft_split(path, ':');
+	while (path_list[i])
 	{
-		if (has_pipe)
+		command_with_path = ft_strjoin_left_free(path_list[i], "/");
+		command_with_path = ft_strjoin_left_free(command_with_path, command);
+		if (lstat(command_with_path, &buf) == 0)
 		{
-			dup2(0, pipe[0]);
-			close(pipe[0]);
+			return (command_with_path);
 		}
-		if (!redirection(redirections))
-		{
-			// 에러메세지
-		}
-		execve("./minishell", command, envp);
-	}	
-
-	// 파이프 뚫린 서브쉘
-	// 파이프 안뚫힌 서브쉘
+		++i;
+	}
+	return (NULL);
 }
 
 void execute(t_list *exec_list, char **envp)
 {
 	t_field	*field;
+	
 	t_node	*cur_node;
 	t_node	*cur_next_node;
 	char	**command;
 	char	**redirections;
 	int		fd_pipe[2];
+	int 	prev_pipe_in;
 	bool	has_pipe;
+	pid_t	pid;
+	char	*path;
 
+	prev_pipe_in = -1;
 	cur_node = exec_list->head;
 	while (cur_node)
 	{
 		cur_next_node = cur_node->next;
 		field = (t_field *) cur_node->content;
-
+		if (ft_strcmp(((t_token *)(field->start_ptr->content))->value, "|") == 0)
+		{
+			cur_node = cur_node->next;
+			continue ;
+		}
 		// &&, || 이면 이전 커맨드 exit_status 받아와야함
 // 	{
 // 		cur_field = (t_field *)(cur_node->content);
@@ -182,11 +296,50 @@ void execute(t_list *exec_list, char **envp)
 //		
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
 		expand_field(field);
-		refine_field(field, &command, &redirections);
-		do_subshell(command, redirections, envp, fd_pipe, has_pipe);
-		// do_builtin();
+		refine_field(field, &command, &redirections); // command_argv 인수추가
+		// if (do_subshell(command, redirections, envp, fd_pipe, has_pipe, &prev_pipe_in))
+		// {
+		// 	cur_node = cur_node->next;
+		// 	continue;
+		// }
+		// if (do_builtin(command, redirections, envp, fd_pipe, has_pipe, &prev_pipe_in))
+		// {
+		// 	cur_node = cur_node->next;
+		// 	continue;
+		// }
+		pid = fork();
+		if (pid == 0)
+		{
+			if (prev_pipe_in != -1)
+			{
+				dup2(prev_pipe_in, 0);
+				close(prev_pipe_in);
+			}
+			if (has_pipe)
+			{
+				dup2(fd_pipe[1], 1);
+				close(fd_pipe[1]);
+				close(fd_pipe[0]);
+			}
+			redirection(redirections);
+			path = find_path(command[0], envp);
+			if (execve(path, command, envp) == -1)
+			{
+				write(2, "ㄴ능능한한비킴ㅏ\n", 26);
+				exit(127);
+			}
+		}
+		if (prev_pipe_in != -1)
+			close(prev_pipe_in);
+		if (has_pipe)
+		{
+			prev_pipe_in = fd_pipe[0];
+			close(fd_pipe[1]);
+		}
+
 		cur_node = cur_node->next;
 	}
+	waitpid(pid, NULL, 0);
 }
 
 // void	execute(t_list *exec_list)
@@ -309,7 +462,7 @@ void execute(t_list *exec_list, char **envp)
 			3. 리다이렉션
 			4. 정제된 필드 만들기
 			5. execv 함수로 넘긴다
-		3. 부모는 자식이 쓰고 있는 파이프 제외하고 다 닫아준다. (+ prev_pipe_in)
-		4. 다음 필드로 간다.
+		3.  쓰고 있는 파이프 제외하고 다 닫아준다. (+ prev_pipe_in)
+		4.부모는 자식이 다음 필드로 간다.
 			- 다음 필드가 ||, &&이라면
 	*/
