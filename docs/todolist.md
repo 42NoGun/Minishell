@@ -1,18 +1,54 @@
 # Minishell
+### 2022.12.8(목) (Day 22)
+- [ ] 서브쉘 실행 확인 필요
+- [ ] pipe 속도 해결하기 
+- [ ] 함수 25줄 (vs 과거의 나)
+- [ ] 시그널 처리 (ctrl d, c, /)
+	- ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
+	- ctrl + d : shell을 종료 시켜야함
+	- ctrl + \ : 아무것도 하지 않음
+- [ ] Makefile 정리
+	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- make fclean libft 지우기
+	- readline dir 경로 수정 (경기는 무조건 home)
+- [ ] leak, norm
+- [ ] 추가 구현
+- [ ] ||, &&도 짝이 없을 때 syntax error
+- [ ] 문법오류 시 exit status 맞출것
+- [ ] 빌트인 구현
+	- [ ] echo, cd, pwd, export, unset, env, exit
 
-### 2022.12.6(수) (Day 21)
+### 2022.12.7(수) (Day 21)
 - [ ] 마저 실행부 코드 작성
-	- [ ] &&, || 연산자까지 포함한 실행 로직 완성하기
-	- [ ] 빌트인인 경우 실행 로직
-	- [ ] 히어독
-	- [ ] 서브쉘에서 실행
-	- [ ] pipe 속도 해결하기
+	- [X] &&, || 연산자까지 포함한 실행 로직 완성하기
+	- [x] 빌트인인 경우 실행 로직
+	- [ ] 빌트인 구현
+		- [ ] echo, cd, pwd, export, unset, env, exit
+	- [X] 리다이렉션 실행 확인
+	- [X] exit status update 실행 확인
+	- [X] 히어독 로직(<< 'limit', "limit 입코딩) -> 확장 안 함
+	- [X] 서브쉘에서 실행로직 구상
+	- [X] $? 구현
+	- [ ] systemcall 실패했을 때 처리(open ...)
+	- [X] 히어독 구현
+	- [ ] 서브쉘 실행 확인 필요
+	- [ ] pipe 속도 해결하기 
+	- [ ] 함수 25줄 (vs 과거의 나)
+	- [ ] 시그널 처리 (ctrl d, c, /)
+		- ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
+		- ctrl + d : shell을 종료 시켜야함
+		- ctrl + \ : 아무것도 하지 않음
+	- [ ] Makefile 정리
+		- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+		- readline dir 경로 수정 (경로는 무조건 home)
+	- [ ] leak, norm
 - [ ] 추가 구현
 	- [ ] ||, &&도 짝이 없을 때 syntax error
+	- [ ] 문법오류 시 exit status 맞출것
 
 ### 2022.12.6(화) (Day 20)
 - [ ] 마저 실행부 코드 작성
-	- [ ] &&, || 연산자까지 포함한 실행 로직 완성하기
+	- [x] &&, || 연산자까지 포함한 실행 로직 완성하기
 	- [x] prev_pipe_in 연결 로직 
 	- [X] command_argv 첫번째 명령령어 추추가  
 	- [x] execve path 찾는 로직 추가
