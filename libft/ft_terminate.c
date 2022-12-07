@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 12:11:28 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/04 15:20:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/07 17:29:13 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ void	ft_terminate(const char *str)
 		ft_putstr_fd((char *)str, 2);
 	else
 		ft_putstr_fd((char *)err, 2);
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }
