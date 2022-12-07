@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/06 17:09:29 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/07 11:45:39 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,14 +41,16 @@ SRCS	:= $(shell find ./src/ -iname "*.c")
 OBJ_NAME = $(SRCS:.c=.o)
 # OBJ = $(addprefix $(OBJ_DIR),$(OBJ_NAME))
 
-LIB_READ_LINE = -L/opt/homebrew/opt/readline/lib -lreadline
-LIBFT = -L./libft/ -lft
+# LIB_READ_LINE = -L/opt/homebrew/opt/readline/lib -lreadline
+LIB_READ_LINE = -L${HOME}/.brew/opt/readline/lib -lreadline
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
 # OBJ_BONUS_DIR = ./obj_bonus/
 # OBJ_BONUS_NAME = $(SRC_BONUS_NAME:.c=.o)
 # OBJ_BONUS = $(addprefix $(OBJ_BONUS_DIR),$(OBJ_BONUS_NAME))
 
-INCLUDE = -I/opt/homebrew/opt/readline/include -I./include
+INCLUDE = -I${HOME}/.brew/opt/readline/include -I./include
 
 
 # gcc -lreadline -L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include src/main.c
@@ -70,12 +72,12 @@ debug :
 #     CFLAGS	+=	-g3 -fsanitize=address #-save-temps=obj
 #endif
 
-all_check : $(OBJ_NAME)
-		$(CC) $(CFLAGS) $(INCLUDE) $(LIB_READ_LINE) $(LIBFT) -o $(NAME) $^
+all_check : $(OBJ_NAME) $(LIBFT)
+		$(CC) $(CFLAGS) $(INCLUDE) $(LIB_READ_LINE) -L$(LIBFT_DIR) -lft -o $(NAME) $^
 		touch $@
 		
 clean :
-		rm -rf $(OBJ_DIR)
+		rm -rf $(OBJ_NAME)
 
 fclean : clean
 		rm -f $(NAME)
@@ -88,13 +90,11 @@ re :
 		make fclean
 		make all
 
-$(MLX_LIB) : 
-		make -C $(MLX_LIB_DIR)
-		cp $(MLX_LIB_DIR)$(MLX_LIB) .
-
+$(LIBFT) : 
+		make -C $(LIBFT_DIR)
 # @mkdir -p $(OBJ_DIR)
 # $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 # 		$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 %.o : %.c
-		$(CC) $(CFLAGS) $(INCLUDE) $(LIBFT) -c $< -o $@
+		$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
