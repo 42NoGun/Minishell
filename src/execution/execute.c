@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include "minishell.h"
 
 bool is_logical_and(char *cmd)
@@ -89,32 +93,76 @@ bool	pipe_connect(t_node *cur_next_node, int fd_pipe[2])
 	return (true);
 }
 
-bool	redirection(char **redirections)
+void	make_heredoc(char *limiter)
+{
+	int		fd;
+	int		i;
+	char	*line;
+
+	fd = open("here_doc", O_CREAT | O_TRUNC | O_RDWR, 0666);
+	if (fd == -1)
+		ft_terminate("make_heredoc, open");
+	while (1)
+	{
+		line = readline("> ");
+		if (ft_strcmp(line, limiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	close(fd);
+}
+
+bool	redirection(char **redirections, int stdin)
 {
 	int i;
 	int	fd;
 
 	i = 0;
 	while (redirections[i])
-	{
-		if (ft_strcmp(redirections[i], "<") == 0)
+	{		
+		if (ft_strcmp(redirections[i], "<<") == 0)
+		{
+			dup2(stdin, 0); // heredoc여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
+ 			make_heredoc(redirections[i + 1]);
+			fd = open("here_doc", O_RDONLY);
+			if (fd == -1)
+				ft_terminate("redirection, open");
+			dup2(fd, 0);
+			close(fd);
+			unlink("here_doc");
+		}
+		else if (ft_strcmp(redirections[i], ">>") == 0)
+		{
+			fd = open(redirections[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
+			if (fd == -1)
+				ft_terminate("redirection, open");
+			dup2(fd, 1);
+			close(fd);
+		}
+		else if (ft_strcmp(redirections[i], "<") == 0)
 		{
 			fd = open(redirections[i + 1], O_RDONLY);
 			if (fd == -1)
-				return (false);
+				ft_terminate("redirection, open");
 			dup2(fd, 0);
 			close(fd);
 		}
-		if (ft_strcmp(redirections[i], ">") == 0)
+		else if (ft_strcmp(redirections[i], ">") == 0)
 		{
-			fd = open(redirections[i + 1], O_WRONLY);
+			fd = open(redirections[i + 1], O_CREAT | O_TRUNC| O_WRONLY, 0666);
 			if (fd == -1)
-				return (false);
+				ft_terminate("redirection, open");
 			dup2(fd, 1);
 			close(fd);
 		}
 		i += 2; 
 	}
+	close(stdin);
 	return (true);
 }
 
@@ -227,7 +275,6 @@ void	remove_bracket(char *command)
 // 	}
 // }
 
-#include <sys/stat.h>
 char	*find_path(char *command, char **envp)
 {
 	char	*path;
@@ -255,6 +302,7 @@ char	*find_path(char *command, char **envp)
 void execute(t_list *exec_list, char **envp)
 {
 	t_field	*field;
+	t_token	*token;
 	
 	t_node	*cur_node;
 	t_node	*cur_next_node;
@@ -263,37 +311,57 @@ void execute(t_list *exec_list, char **envp)
 	int		fd_pipe[2];
 	int 	prev_pipe_in;
 	bool	has_pipe;
-	pid_t	pid;
 	char	*path;
+	t_list	*pid_list;
+	pid_t	pid;
+	int stdin;
 
+	pid_list = init_list();
 	prev_pipe_in = -1;
 	cur_node = exec_list->head;
+	stdin = dup(0);
 	while (cur_node)
 	{
 		cur_next_node = cur_node->next;
 		field = (t_field *) cur_node->content;
-		if (ft_strcmp(((t_token *)(field->start_ptr->content))->value, "|") == 0)
+		token = (t_token *)(field->start_ptr->content);
+		if (ft_strcmp(token->value, "|") == 0)                                 
 		{
 			cur_node = cur_node->next;
 			continue ;
 		}
-		// &&, || 이면 이전 커맨드 exit_status 받아와야함
-// 	{
-// 		cur_field = (t_field *)(cur_node->content);
-// 		start_token = (t_token *)(cur_field->start_ptr->content);
-// 		if (is_logical_and(start_token->value))
-// 		{	
-// 			if (g_exit_status == 0)
-// 				cur_node = cur_node->next;
-// 			else
-// 				skip_node_to_logical_operator(&cur_node);
-// 		}
-// 		else if (is_logical_or(start_token->value))
-// 		{
-// 			if (g_exit_status == 0)
-// 				skip_node_to_logical_operator(&cur_node);
-// 			else
-//		
+		else if (is_logical_and(token->value))
+		{	
+			waitpid(pid, &g_exit_status, 0);
+			// printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
+			if (g_exit_status == 0)
+			{
+				cur_node = cur_node->next;
+				continue ;
+			}
+			else
+			{
+				cur_node = cur_next_node->next;
+				skip_node_to_logical_operator(&cur_node);
+				continue ;
+			}
+		}
+		else if (is_logical_or(token->value))
+		{
+			waitpid(pid, &g_exit_status, 0);
+			// printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
+			if (g_exit_status == 0)
+			{
+				cur_node = cur_node->next;
+				skip_node_to_logical_operator(&cur_node);
+				continue ;
+			}
+			else
+			{
+				cur_node = cur_node->next;
+				continue ;
+			}
+		}	
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
 		expand_field(field);
 		refine_field(field, &command, &redirections); // command_argv 인수추가
@@ -321,14 +389,17 @@ void execute(t_list *exec_list, char **envp)
 				close(fd_pipe[1]);
 				close(fd_pipe[0]);
 			}
-			redirection(redirections);
+			redirection(redirections, stdin);
+			if (command[0] == NULL)
+				exit(0);
 			path = find_path(command[0], envp);
 			if (execve(path, command, envp) == -1)
 			{
-				write(2, "ㄴ능능한한비킴ㅏ\n", 26);
+				write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
 				exit(127);
 			}
 		}
+		push_back(pid_list, make_node((void *)(long long)pid));
 		if (prev_pipe_in != -1)
 			close(prev_pipe_in);
 		if (has_pipe)
@@ -336,10 +407,15 @@ void execute(t_list *exec_list, char **envp)
 			prev_pipe_in = fd_pipe[0];
 			close(fd_pipe[1]);
 		}
-
 		cur_node = cur_node->next;
 	}
-	waitpid(pid, NULL, 0);
+	// 여기에서 전부기다리는 것
+	while (pid_list->len)
+	{
+		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
+		pop_front(pid_list);
+	}
+	close(stdin);
 }
 
 // void	execute(t_list *exec_list)
