@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:00:06 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/06 15:55:52 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:15:07 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	test_expand_dollar(void)
 	t_token	*token5;
 
 	printf("\n=======\"$PATH\"=================\n");
-	token1 = make_token("\"'$PATH'\"", 2);
+	token1 = make_token("\"$?'$PATH'\"", 2);
 	expand_dollar(token1);
 	printf("%s\n", token1->value);
 	printf("\n==============================================\n");
