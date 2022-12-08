@@ -47,37 +47,27 @@ void	skip_node_to_logical_operator(t_node **cur_node)
 	}
 }
 
-// bool	is_builtin(char	*command)
-// {
-// 	if (ft_strcmp(command, "echo") == 0)
-// 	{
-// 	}
-// 	if (ft_strcmp(command, "cd") == 0)
-// 	{
-		
-// 	}
-// 	if (ft_strcmp(command, "pwd") == 0)
-// 	{
-
-// 	}
-// 	if (ft_strcmp(command, "export") == 0)
-// 	{
-
-// 	}
-// 	if (ft_strcmp(command, "unset") == 0)
-// 	{
-
-// 	}
-// 	if (ft_strcmp(command, "env") == 0)
-// 	{
-
-// 	}
-// 	if (ft_strcmp(command, "exit") == 0)
-// 	{
-
-// 	}
-// 	return (false);
-// }
+bool	is_builtin(char	*command)
+{
+	if (!command)
+		return false;
+	// if (ft_strcmp(command, "echo") == 0)
+	// 	return (true);
+	// if (ft_strcmp(command, "cd") == 0)
+	// 	return (true);
+	// if (ft_strcmp(command, "pwd") == 0)
+	// 	return (true);
+	// if (ft_strcmp(command, "export") == 0)
+	// 	return (true);
+	// if (ft_strcmp(command, "unset") == 0)
+	// 	return (true);
+	// if (ft_strcmp(command, "env") == 0)
+	// 	return (true);
+	printf("%s\n", command);
+	if (ft_strcmp(command, "exit") == 0)
+		return (true);
+	return (false);
+}
 
 bool	pipe_connect(t_node *cur_next_node, int fd_pipe[2])
 {
@@ -172,70 +162,48 @@ void	remove_bracket(char *command)
 	command[ft_strlen(command) - 1] = 0;
 } 
 
-// char	**put_program_name(char **old_command)
-// {
-// 	char **new_command;
-// 	int	i;
+char	**put_program_name(char **old_command)
+{
+	char **new_command;
+	int	i;
 
-// 	i = 0;
-// 	while(old_command[i])
-// 		++i;
+	i = 0;
+	while(old_command[i])
+		++i;
+	new_command = ft_calloc(sizeof(char *) * (i + 1), i + 1);
+	new_command[0] = ft_strdup("./minishell");
+	i = 1;
+	while(old_command[i - 1])
+	{
+		new_command[i] = ft_strdup(old_command[i - 1]);
+		++i;
+	}
+	i = 0;
+	while (old_command[i])
+	{
+		free(old_command[i]);
+		++i;
+	}
+	free(old_command);
+	return (new_command);
+}
 
-// 	new_command = ft_calloc(sizeof(char *) * (i + 1), i + 1);
-// 	new_command[0] = ft_strdup("minishell");
-// 	i = 1;
-// 	while(new_command[i])
-// 	{
-// 		new_command[i] = ft_strdup(old_command[i - 1]);
-// 		++i;
-// 	}
-// 	i = 0;
-// 	while (old_command[i])
-// 	{
-// 		free(old_command[i]);
-// 		++i;
-// 	}
-// 	free(old_command); // 2
-// }
+bool	is_subshell(char **command)
+{
+	if (command[0][0] != '(')
+		return (false);
+	// remove_bracket(*command);
 
-// bool	do_subshell(char **command, char **redirections, char **envp,\
-// 		int pipe[2], bool has_pipe, int *prev_pipe_in)
-// {
-// 	pid_t pid;
-
-// 	if (command[0][0] != '(')
-// 		return (false);
-// 	remove_bracket(*command);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		if (*prev_pipe_in != -1)
-// 		{
-// 			dup2(*prev_pipe_in, 0);
-// 			close(*prev_pipe_in);
-// 		}
-// 		if (has_pipe)
-// 		{
-// 			dup2(pipe[1], 1);
-// 			close(pipe[1]);
-// 			close(pipe[0]);
-// 		}
-// 		redirection(redirections);
-// 		command = put_program_name(command);
-// 		execve("./minishell", command, envp);
-// 	}
-// 	if (*prev_pipe_in != -1)
-// 		close(*prev_pipe_in);
-// 	if (has_pipe)
-// 	{
-// 		*prev_pipe_in = pipe[0];
-// 		close(pipe[1]);
-// 	}
-// 	return (true);
-// }
-
+	// command = put_program_name(command);
+	// if (execve(command[0], command, envp) == -1)
+	// {
+	// 	write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
+	// 	exit(127);
+	// }
+	return (true);
+}
 // bool	do_builtin(char **command, char **redirections, char **envp,
-// 		int pipe[2], bool has_pipe, int *prev_pipe_in)
+// 		int pipe[2], bool has_pipe, int *prev_pipe_in, int stdin)
 // {
 // 	pid_t	pid;
 
@@ -257,7 +225,7 @@ void	remove_bracket(char *command)
 // 				close(pipe[1]);
 // 				close(pipe[0]);
 // 			}
-// 			redirection(redirections);
+// 			redirection(redirections, stdin);
 // 			exec_builtin(command);
 // 		}
 // 		if (*prev_pipe_in != -1)
@@ -270,33 +238,65 @@ void	remove_bracket(char *command)
 // 	}
 // 	else
 // 	{
-// 		redirection(redirections);
+// 		redirection(redirections, stdin);
 // 		exec_builtin(command);
 // 	}
 // }
 
-char	*find_path(char *command, char **envp)
+void	do_builtin(char **command)
 {
-	char	*path;
-	char	**path_list;
-	int		i;
-	struct stat	buf;
-	char 	*command_with_path;
+	// if (ft_strcmp(*command, "echo") == 0)
+	// {
+	// }
+	// if (ft_strcmp(*command, "cd") == 0)
+	// {		
+	// }
+	// if (ft_strcmp(*command, "pwd") == 0)
+	// {
+	// }
+	// if (ft_strcmp(*command, "export") == 0)
+	// {
+	// }
+	// if (ft_strcmp(*command, "unset") == 0)
+	// {
+	// }
+	// if (ft_strcmp(*command, "env") == 0)
+	// {
+	// }
+	if (ft_strcmp(*command, "exit") == 0)
+	{
+		b_exit();
+	}	
+}
 
+void	find_path(char **command, char **envp)
+{
+	char		**path_list;
+	int			i;
+	char		*command_with_path;
+	struct stat	buf;
+
+	if (ft_strchr(*command, '/') != NULL)
+	{
+		if (lstat(*command, &buf) != 0)
+			*command = NULL;
+		return ;
+	}
+	path_list = ft_split(getenv("PATH"), ':');
 	i = 0;
-	path = getenv("PATH");
-	path_list = ft_split(path, ':');
 	while (path_list[i])
 	{
 		command_with_path = ft_strjoin_left_free(path_list[i], "/");
-		command_with_path = ft_strjoin_left_free(command_with_path, command);
+		command_with_path = ft_strjoin_left_free(command_with_path, *command);
 		if (lstat(command_with_path, &buf) == 0)
 		{
-			return (command_with_path);
+			free(*command);
+			*command = command_with_path;
+			return ;
 		}
 		++i;
 	}
-	return (NULL);
+	*command = NULL;
 }
 
 void execute(t_list *exec_list, char **envp)
@@ -333,7 +333,7 @@ void execute(t_list *exec_list, char **envp)
 		else if (is_logical_and(token->value))
 		{	
 			waitpid(pid, &g_exit_status, 0);
-			// printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
+		//	printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
 			if (g_exit_status == 0)
 			{
 				cur_node = cur_node->next;
@@ -349,7 +349,7 @@ void execute(t_list *exec_list, char **envp)
 		else if (is_logical_or(token->value))
 		{
 			waitpid(pid, &g_exit_status, 0);
-			// printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
+			//printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
 			if (g_exit_status == 0)
 			{
 				cur_node = cur_node->next;
@@ -365,7 +365,14 @@ void execute(t_list *exec_list, char **envp)
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
 		expand_field(field);
 		refine_field(field, &command, &redirections); // command_argv 인수추가
-		// if (do_subshell(command, redirections, envp, fd_pipe, has_pipe, &prev_pipe_in))
+		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1) 
+		{
+			redirection(redirections,stdin);
+			do_builtin(command);
+			cur_node = cur_node->next;
+			continue ;
+		}
+		// if (do_subshell(command, redirections, envp, fd_pipe, has_pipe, &prev_pipe_in, stdin, pid_list))
 		// {
 		// 	cur_node = cur_node->next;
 		// 	continue;
@@ -390,16 +397,26 @@ void execute(t_list *exec_list, char **envp)
 				close(fd_pipe[0]);
 			}
 			redirection(redirections, stdin);
-			if (command[0] == NULL)
+			if (*command == NULL) // ㅇㅣㄸ보기
 				exit(0);
-			path = find_path(command[0], envp);
-			if (execve(path, command, envp) == -1)
+			if (is_subshell(command) == true)
+			{
+				remove_bracket(*command);
+				command = put_program_name(command);
+			}
+			else if (is_builtin(*command) == true)
+			{
+				do_builtin(command);
+			}
+			else
+				find_path(command, envp);
+			if (execve(command[0], command, envp) == -1)
 			{
 				write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
 				exit(127);
 			}
 		}
-		push_back(pid_list, make_node((void *)(long long)pid));
+			push_back(pid_list, make_node((void *)(long long)pid));
 		if (prev_pipe_in != -1)
 			close(prev_pipe_in);
 		if (has_pipe)
