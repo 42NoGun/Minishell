@@ -1,21 +1,58 @@
 # Minishell
-### 2022.12.8(목) (Day 22)
-- [ ] 서브쉘 실행 확인 필요
-- [ ] pipe 속도 해결하기 
+### 2022.12.9(금) (Day 23)
 - [ ] 함수 25줄 (vs 과거의 나)
-- [ ] 시그널 처리 (ctrl d, c, /)
-	- ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
-	- ctrl + d : shell을 종료 시켜야함
-	- ctrl + \ : 아무것도 하지 않음
+- [ ] 시그널 처리 (ctrl d, c, /) - Minsukan block_signal()
+	- [ ] ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
+	- [ ] readline 전에서 signal set - sig handler가 readline 다시 나오게 하기
+	- [ ] fork 하고 부모가 sigint signal block 자식은 sigint default (process terminate)
+	- [ ] 자식 ctrl c 받았을 때 부모는 무시해야되는데, 히어독에서는 자식이 ctrl c로 종료되었을 때 부모가 이를 알고 더이상 실행하지 않는당
+		- [ ] heredoc signal (WIFSIGNALED(status)로 exit status가 시그널로 종료 되었는지 확인할 수 있음 https://www.it-note.kr/133 )
+	- [ ] cat || ls // bash case 비교
+	- [ ] 자식이 sigint로 죽으면 exit status가 130번이 되고 부모가 이를 인지하면 cur_node를 NULL 인지하는 타이밍은 | , ||, && 노드에서 waitpid로 알아낼 수 있다
+		- [ ] cat << limiter다
+		- [ ] << limiter -> segfault
+		-> 중요개념 자식은 부모의 시그널 핸들러를 상속받는다.
+- [ ] 무지성 unlink here_doc vs 판단해서 지우기 vs 자식이 인터럽트로 종료되었을 때만 안 지우기 -> signal받고 unlink빨리하고 죽기
 - [ ] Makefile 정리
 	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
 	- make fclean libft 지우기
 	- readline dir 경로 수정 (경기는 무조건 home)
 - [ ] leak, norm
+
 - [ ] 추가 구현
-- [ ] ||, &&도 짝이 없을 때 syntax error
-- [ ] 문법오류 시 exit status 맞출것
-- [ ] 빌트인 구현
+	- [ ] 문법오류 시 exit status 맞출것
+	- [ ] 빌트인 구현
+	- [ ] echo, cd, pwd, export, unset, env, exit
+
+### 2022.12.8(목) (Day 22)
+- [X] 서브쉘 실행 확인 필요
+- [x] $? 한비킴 
+- [x] pipe 속도 해결하기 
+- [ ] 함수 25줄 (vs 과거의 나)
+- [ ] 시그널 처리 (ctrl d, c, /) - Minsukan block_signal()
+	- [ ] ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
+	- [x] ctrl + d : shell을 종료 시켜야함
+	- [x] ctrl + \ : 아무것도 하지 않음
+	- [ ] readline 전에서 signal set - sig handler가 readline 다시 나오게 하기
+	- [ ] fork 하고 부모가 sigint signal block 자식은 sigint default (process terminate)
+	- [ ] 자식 ctrl c 받았을 때 부모는 무시해야되는데, 히어독에서는 자식이 ctrl c로 종료되었을 때 부모가 이를 알고 더이상 실행하지 않는당
+		- [ ] heredoc signal (WIFSIGNALED(status)로 exit status가 시그널로 종료 되었는지 확인할 수 있음 https://www.it-note.kr/133 )
+	- [ ] cat || ls // bash case 비교
+	- [ ] 자식이 sigint로 죽으면 exit status가 130번이 되고 부모가 이를 인지하면 cur_node를 NULL 인지하는 타이밍은 | , ||, && 노드에서 waitpid로 알아낼 수 있다
+		- [ ] cat << limiter다
+		- [ ] << limiter -> segfault
+		-> 중요개념 자식은 부모의 시그널 핸들러를 상속받는다.
+- [ ] 무지성 unlink here_doc vs 판단해서 지우기 vs 자식이 인터럽트로 종료되었을 때만 안 지우기 -> signal받고 unlink빨리하고 죽기
+- [ ] Makefile 정리
+	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- make fclean libft 지우기
+	- readline dir 경로 수정 (경기는 무조건 home)
+- [ ] leak, norm
+
+- [ ] 추가 구현
+	- [x] ||, &&도 짝이 없을 때 syntax error
+	- [ ] 문법오류 시 exit status 맞출것
+	- [ ] 빌트인 구현
 	- [ ] echo, cd, pwd, export, unset, env, exit
 
 ### 2022.12.7(수) (Day 21)
