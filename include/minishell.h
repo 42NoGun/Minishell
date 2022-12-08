@@ -84,6 +84,8 @@ void	expand_field(t_field *field);
 void	refine_field(t_field *field, char ***command, char ***redirections);
 void	execute(t_list *exec_list, char **envp);
 
+void	b_exit(void);
+
 void	free_token(t_token *token);
 void	free_list(t_list *list);
 void	free_field(t_tree_node *tree_node);
