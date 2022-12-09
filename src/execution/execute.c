@@ -51,19 +51,18 @@ bool	is_builtin(char	*command)
 {
 	if (!command)
 		return false;
-	// if (ft_strcmp(command, "echo") == 0)
-	// 	return (true);
-	// if (ft_strcmp(command, "cd") == 0)
-	// 	return (true);
-	// if (ft_strcmp(command, "pwd") == 0)
-	// 	return (true);
-	// if (ft_strcmp(command, "export") == 0)
-	// 	return (true);
-	// if (ft_strcmp(command, "unset") == 0)
-	// 	return (true);
-	// if (ft_strcmp(command, "env") == 0)
-	// 	return (true);
-	printf("%s\n", command);
+	if (ft_strcmp(command, "echo") == 0)
+		return (true);
+	if (ft_strcmp(command, "cd") == 0)
+		return (true);
+	if (ft_strcmp(command, "pwd") == 0)
+		return (true);
+	if (ft_strcmp(command, "export") == 0)
+		return (true);
+	if (ft_strcmp(command, "unset") == 0)
+		return (true);
+	if (ft_strcmp(command, "env") == 0)
+		return (true);
 	if (ft_strcmp(command, "exit") == 0)
 		return (true);
 	return (false);
@@ -89,12 +88,14 @@ void	make_heredoc(char *limiter)
 	int		i;
 	char	*line;
 
-	fd = open("here_doc", O_CREAT | O_TRUNC | O_RDWR, 0666);
+	fd = open(".here_doc", O_CREAT | O_TRUNC | O_RDWR, 0666);
 	if (fd == -1)
 		ft_terminate("make_heredoc, open");
 	while (1)
 	{
 		line = readline("> ");
+		if (!line)
+			break ;
 		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
@@ -119,12 +120,12 @@ bool	redirection(char **redirections, int stdin)
 		{
 			dup2(stdin, 0); // heredoc여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
  			make_heredoc(redirections[i + 1]);
-			fd = open("here_doc", O_RDONLY);
+			fd = open(".here_doc", O_RDONLY);
 			if (fd == -1)
 				ft_terminate("redirection, open");
 			dup2(fd, 0);
 			close(fd);
-			unlink("here_doc");
+			unlink(".here_doc");
 		}
 		else if (ft_strcmp(redirections[i], ">>") == 0)
 		{
@@ -245,15 +246,18 @@ bool	is_subshell(char **command)
 
 void	do_builtin(char **command)
 {
-	// if (ft_strcmp(*command, "echo") == 0)
-	// {
-	// }
-	// if (ft_strcmp(*command, "cd") == 0)
-	// {		
-	// }
-	// if (ft_strcmp(*command, "pwd") == 0)
-	// {
-	// }
+	if (ft_strcmp(*command, "echo") == 0)
+	{
+		b_echo(command);
+	}
+	if (ft_strcmp(*command, "cd") == 0)
+	{
+		b_cd(command);
+	}
+	if (ft_strcmp(*command, "pwd") == 0)
+	{
+		b_pwd();
+	}
 	// if (ft_strcmp(*command, "export") == 0)
 	// {
 	// }
@@ -266,7 +270,7 @@ void	do_builtin(char **command)
 	if (ft_strcmp(*command, "exit") == 0)
 	{
 		b_exit();
-	}	
+	}
 }
 
 void	find_path(char **command, char **envp)
@@ -333,6 +337,11 @@ void execute(t_list *exec_list, char **envp)
 		else if (is_logical_and(token->value))
 		{	
 			waitpid(pid, &g_exit_status, 0);
+			if (WIFSIGNALED(g_exit_status) == true)
+			{
+				cur_node = NULL;
+				continue;
+			}
 		//	printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
 			if (g_exit_status == 0)
 			{
@@ -349,6 +358,11 @@ void execute(t_list *exec_list, char **envp)
 		else if (is_logical_or(token->value))
 		{
 			waitpid(pid, &g_exit_status, 0);
+			if (WIFSIGNALED(g_exit_status) == true)
+			{
+				cur_node = NULL;
+				continue;
+			}
 			//printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
 			if (g_exit_status == 0)
 			{
@@ -385,6 +399,8 @@ void execute(t_list *exec_list, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			if (prev_pipe_in != -1)
 			{
 				dup2(prev_pipe_in, 0);
@@ -407,6 +423,7 @@ void execute(t_list *exec_list, char **envp)
 			else if (is_builtin(*command) == true)
 			{
 				do_builtin(command);
+				exit(0);
 			}
 			else
 				find_path(command, envp);
@@ -416,7 +433,7 @@ void execute(t_list *exec_list, char **envp)
 				exit(127);
 			}
 		}
-			push_back(pid_list, make_node((void *)(long long)pid));
+		push_back(pid_list, make_node((void *)(long long)pid));
 		if (prev_pipe_in != -1)
 			close(prev_pipe_in);
 		if (has_pipe)
@@ -424,12 +441,18 @@ void execute(t_list *exec_list, char **envp)
 			prev_pipe_in = fd_pipe[0];
 			close(fd_pipe[1]);
 		}
+
 		cur_node = cur_node->next;
 	}
 	// 여기에서 전부기다리는 것
 	while (pid_list->len)
 	{
+		//signal(SIGINT, SIG_IGN);
 		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
+		if (WIFSIGNALED(g_exit_status) == true)
+		{
+			g_exit_status = (g_exit_status + 128) << 8 ;
+		}
 		pop_front(pid_list);
 	}
 	close(stdin);
