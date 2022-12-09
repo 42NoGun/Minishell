@@ -1,28 +1,49 @@
 # Minishell
+### 완성도 올리기
+- [ ] ./minishell ./minishell ^C
+- [ ] cat << lim 에서 ctrl + c 들어오면 ^C
+- [ ] pipe속도
+
+
 ### 2022.12.9(금) (Day 23)
+- [ ] lsof로 minishell fd누수 잡아야 한다 (Minukan) 
+- [ ] cd 경로 | ls -> 우리는 지금 이게 터진다. -> (Minsukan)
+- [ ] () | echo -> Minsukan
+- [ ] () -> syntax error , () -> 우리는 진행
+- [ ] (ls || ls (ls | ls)) -> Minsukan 
+- [ ] exit에 인자를 받으세요^^ (Minsukan)
 - [ ] 함수 25줄 (vs 과거의 나)
-- [ ] 시그널 처리 (ctrl d, c, /) - Minsukan block_signal()
-	- [ ] ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
-	- [ ] readline 전에서 signal set - sig handler가 readline 다시 나오게 하기
-	- [ ] fork 하고 부모가 sigint signal block 자식은 sigint default (process terminate)
-	- [ ] 자식 ctrl c 받았을 때 부모는 무시해야되는데, 히어독에서는 자식이 ctrl c로 종료되었을 때 부모가 이를 알고 더이상 실행하지 않는당
-		- [ ] heredoc signal (WIFSIGNALED(status)로 exit status가 시그널로 종료 되었는지 확인할 수 있음 https://www.it-note.kr/133 )
-	- [ ] cat || ls // bash case 비교
-	- [ ] 자식이 sigint로 죽으면 exit status가 130번이 되고 부모가 이를 인지하면 cur_node를 NULL 인지하는 타이밍은 | , ||, && 노드에서 waitpid로 알아낼 수 있다
-		- [ ] cat << limiter다
-		- [ ] << limiter -> segfault
+- [X] 시그널 처리 (ctrl d, c, /) - Minsukan block_signal()
+	- [X] ctrl + c : 새로운 행에 새로운 prompt를 띄워야함
+	- [X] readline 전에서 signal set - sig handler가 readline 다시 나오게 하기
+	- [X] fork 하고 부모가 sigint signal block 자식은 sigint default (process terminate)
+	- [X] 자식 ctrl c 받았을 때 부모는 무시해야되는데, 히어독에서는 자식이 ctrl c로 종료되었을 때 부모가 이를 알고 더이상 실행하지 않는당 지우
+		- [X] heredoc signal 
+	- [X] cat || ls // bash case 비교
+	- [X] heredoc, ctrl d handling
+	- [X] 자식이 sigint로 죽으면 exit status가 130번이 되고 부모가 이를 인지하면 cur_node를 NULL 인지하는 타이밍은 | , ||, && 노드에서 waitpid로 알아낼 수 있다
+		- [X] cat << limiter다
+		- [X] << limiter -> segfault
 		-> 중요개념 자식은 부모의 시그널 핸들러를 상속받는다.
-- [ ] 무지성 unlink here_doc vs 판단해서 지우기 vs 자식이 인터럽트로 종료되었을 때만 안 지우기 -> signal받고 unlink빨리하고 죽기
+- [X] 무지성 unlink here_doc vs 판단해서기 vs 자식이 인터럽트로 종료되었을 때만 안 지우기 -> signal받고 unlink 빨리 하고 죽기 -> 결국 숨긴파일로..
 - [ ] Makefile 정리
 	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
 	- make fclean libft 지우기
 	- readline dir 경로 수정 (경기는 무조건 home)
 - [ ] leak, norm
-
 - [ ] 추가 구현
 	- [ ] 문법오류 시 exit status 맞출것
 	- [ ] 빌트인 구현
-	- [ ] echo, cd, pwd, export, unset, env, exit
+		- [X] exit
+		- [X] pwd
+		- [X] cd
+		- [ ] echo -> 옵션 핸들링! -n 
+		- [ ] env
+		- [ ] unset
+		- [ ] export (evn vs shell variable) -> 지윤님 주말 숙제?
+
+- 시그널 이슈
+	(WIFSIGNALED(status)로 exit status가 시그널로 종료 되었는지 확인할 수 있음 -> 자식에서 인터럽트를 받는 동시에 부모가 waitpid에서 깨어나 signal 처리를 하기 때문에 불완전함 
 
 ### 2022.12.8(목) (Day 22)
 - [X] 서브쉘 실행 확인 필요
