@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/08 16:26:43 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/09 15:13:43 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <errno.h>
 #include "minishell.h"
 
-int i;
 void	subshell_logic(int argc, char **argv, char **envp)
 {
 	int	i;
@@ -53,18 +52,14 @@ void	subshell_logic(int argc, char **argv, char **envp)
 	free(line);
 }
 
-void	hello(char *out)
+void	signal_interrupt(int signum)
 {
+	g_exit_status = 130 << 8;
 	printf("\n");
 	if (rl_on_new_line() == -1)
 		exit(1);
     rl_replace_line("", 10);
    	rl_redisplay();
-}
-void	signal_interrupt(int signum)
-{
-	g_exit_status = 130 << 8;
-	hello(NULL);
 }
 
 void	define_signal(void)
@@ -80,21 +75,26 @@ int main(int argc, char **argv, char **envp)
 	t_tree *cmd_tree;
 
 	errno = 0;
-	define_signal();
 	if (argc >= 2)
 	{
 		subshell_logic(argc, argv, envp);
 		return (WEXITSTATUS(g_exit_status));
 	}
+
 	while (1)
 	{
-		i = 1;
+		define_signal();
 		cmd_list = init_list();
 		cmd_tree = init_tree();
-
 		//hello("minishell > "); 
+// 		if (WIFSIGNALED(g_exit_status) == true)
+// 		{
+// 			printf("\n");
+// //			printf("\033[1A");
+// 	//		printf("\033[13C");		
+// 		}
 		line = readline("minishell > ");
-		i = 0;
+		signal(SIGINT, SIG_IGN);
 		if (!line)
 		{
 			// printf("\033[1A");
