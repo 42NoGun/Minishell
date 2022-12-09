@@ -85,6 +85,10 @@ void	refine_field(t_field *field, char ***command, char ***redirections);
 void	execute(t_list *exec_list, char **envp);
 
 void	b_exit(void);
+void	b_pwd(void);
+void	b_cd(char **command);
+void	b_echo(char **commands);
+
 
 void	free_token(t_token *token);
 void	free_list(t_list *list);
