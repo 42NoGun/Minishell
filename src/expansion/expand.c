@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/07 14:19:02 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/12 17:05:32 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*read_not_quote_content(char **line)
 			2) els : getenv() -> parsing
 		*/
 
-char	*expand_content(char *content)
+char	*expand_content(char *content, t_list *env_list)
 {
 	char	*env_content;
 	char	*expanded_content;
@@ -140,8 +140,9 @@ char	*expand_content(char *content)
 			break ;
 		++content;
 		env_content_len = 0;
-		while (*content && (*content != ' '
-				&& *content != '$' && *content != '"' && *content != '\''))
+		while (*content && ft_isalnum(*content))
+		// (*content != ' '
+		// 		&& *content != '$' && *content != '=' && *content != '"' && *content != '\''))
 		{
 			++content;
 			++env_content_len;
@@ -155,7 +156,7 @@ char	*expand_content(char *content)
 		}
 		else
 		{
-			converted_env_content = getenv(env_content);
+			converted_env_content = ft_getenv(env_list, env_content);
 			if (converted_env_content)
 				expanded_content = ft_strjoin_left_free(expanded_content,
 						converted_env_content);
@@ -166,7 +167,7 @@ char	*expand_content(char *content)
 	return (expanded_content);
 }
 
-void	expand_dollar(t_token *token)
+void	expand_dollar(t_token *token, t_list *env_list)
 {
 	char	*command;
 	char	*quote_content;
@@ -184,13 +185,13 @@ void	expand_dollar(t_token *token)
 		else if (*command == '"')
 		{
 			quote_content = read_quote_content(&command, '\"');
-			quote_content = expand_content(quote_content);
+			quote_content = expand_content(quote_content, env_list);
 			expanded_command = ft_strjoin(expanded_command, quote_content);
 		}
 		else
 		{
 			quote_content = read_not_quote_content(&command);
-			quote_content = expand_content(quote_content);
+			quote_content = expand_content(quote_content, env_list);
 			expanded_command = ft_strjoin(expanded_command, quote_content);
 		}
 		++command;
