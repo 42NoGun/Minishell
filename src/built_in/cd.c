@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:52 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/09 16:21:01 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/12 15:42:02 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 
 #include "minishell.h"
 
-void b_cd(char **command)
+void	b_cd(char **command, t_list *env_list)
 {
 	char	*home;
 	int		i;
-	
+
 	i = 0;
 	while (command[i])
 		++i;
@@ -35,7 +35,7 @@ void b_cd(char **command)
 	}
 	if (command[1] == NULL || ft_strcmp(command[1], "~") == 0)
 	{
-		home = getenv("HOME");
+		home = ft_getenv(env_list, "HOME");
 		if (home == NULL)
 			return ;
 		chdir(home);
