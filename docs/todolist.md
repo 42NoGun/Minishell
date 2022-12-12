@@ -6,6 +6,13 @@
 - [ ] pipe속도
 
 ### 2022.12.13(화) (Day 25)
+- [ ] echo 1 && (echo 2 && echo 3) => subshell 아예 실행 안됨
+- [ ] echo 1 | cat << end > out | cat > out2 => heredoc 파이프랑 같이 오면 안됨
+- [ ] << abc | << abc
+- [ ] echo 1 | exit 123 // exit출력안도ㅣ야함
+- [ ] ls * => 파일 하나 실행하는 듯
+- [ ] minishell > exit 123 123 // exit: Too many arguments 출력
+	- [ ] echo $? => 갑자기 왜 터짐...???
 - [ ] export 출력, 정렬 
 - [ ] unset
 - [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan) 
