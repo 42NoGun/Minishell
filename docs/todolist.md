@@ -1,9 +1,47 @@
 # Minishell
 ### 완성도 올리기
-- [ ] ./minishell ./minishell ^C
-- [ ] cat << lim 에서 ctrl + c 들어오면 ^C
+- [X] ./minishell ./minishell ^C
+- [X] cat << lim 에서 ctrl + c 들어오면 ^C
+- [X] cat 하고 sigquit에서 출력
 - [ ] pipe속도
 
+### 2022.12.13(화) (Day 25)
+- [ ] export 출력, 정렬 
+- [ ] unset
+- [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan) 
+- [ ] 함수 25줄 (vs 과거의 나)
+- [ ] Makefile 정리
+	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- make fclean libft 지우기
+	- readline dir 경로 수정 (경기는 무조건 home)
+- [ ] leak, norm
+
+### 2022.12.12(월) (Day 24)
+- [ ] 추가 구현
+	- [X] 문법오류 시 exit status 맞출것
+	- [ ] 빌트인 구현
+		- [X] exit
+			- [X] exit에 인자를 받으세요^^ (Minsukan)
+			- exit 하고 난 뒤에 echo $?를 하면 전에 exit 1로 했다면 1이 출력됨
+			- exit도 exit 코드 봐야함ㅇ루미;ㄴ아러ㅣ먀;ㄴ 어라ㅣ;ㅁㄴ어ㅏ;ㄹ
+			- exit 뒤에 인자 하나만, 또는 하나도 없거나 또는 long max 넘어서는 거 그리고 문자열 =
+		- [X] pwd
+		- [X] cd
+		- [X] echo -> 옵션 핸들링! -n 
+		- [X] env
+		- [ ] export (evn vs shell variable) -> 지윤님 주말 숙제?
+		- [ ] unset
+- [X] cd 경로 | ls -> 우리는 지금 이게 터진다. -> (Minsukan)
+- [X] () | echo -> Minsukan
+- [X] () -> syntax error , () -> 우리는 진행
+- [X] (ls || ls (ls | ls)) -> Minsukan 
+- [ ] lsof로 minishell fd누수 잡아야 한다 (Minukan) 
+- [ ] 함수 25줄 (vs 과거의 나)
+- [ ] Makefile 정리
+	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- make fclean libft 지우기
+	- readline dir 경로 수정 (경기는 무조건 home)
+- [ ] leak, norm
 
 ### 2022.12.9(금) (Day 23)
 - [ ] lsof로 minishell fd누수 잡아야 한다 (Minukan) 
