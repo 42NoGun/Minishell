@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:40:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/29 15:13:14 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:52:03 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ bool	check_syntax_error(t_tree *cmd_tree)
 			check_operator_node_has_child_and_redirection) == false)
 	{
 		ft_putstr_fd("minishell : syntax error\n", 2);
+		g_exit_status = 2 << 8;
 		return (false);
 	}
 	return (true);

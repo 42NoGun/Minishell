@@ -101,16 +101,19 @@ bool	is_correct_pair(const char *line)
 	if (is_even_quote(line) == false)
 	{
 		ft_putstr_fd("minishell : pair error\n", 2);
+		g_exit_status = 2 << 8;
 		return (false);
 	}
 	if (is_pair_quote(line) == false)
 	{
 		ft_putstr_fd("minishell : pair error\n", 2);
+		g_exit_status = 2 << 8;
 		return (false);
 	}
 	if (is_pair_bracket(line) == false)
 	{
 		ft_putstr_fd("minishell : pair error\n", 2);
+		g_exit_status = 2 << 8;
 		return (false);
 	}
 	return (true);
