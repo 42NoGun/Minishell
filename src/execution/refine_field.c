@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	expand_field(t_field *field)
+void	expand_field(t_field *field, t_list *env_list)
 {
 	int		len;
 	t_token	*cur_token;
@@ -23,7 +23,7 @@ void	expand_field(t_field *field)
 	while (len)
 	{
 		cur_token = (t_token *)cur_node->content;
-		expand_dollar(cur_token);
+		expand_dollar(cur_token, env_list);
 		expand_wildcard(cur_token);
 		cur_node = cur_node->next;
 		--len;
@@ -45,7 +45,7 @@ void	find_refined_token(t_node *cur_node, int field_len,
 	int		i;
 
 	i = 0;
-	refined = ft_calloc(sizeof(bool) * field_len, field_len);
+	refined = ft_calloc(sizeof(bool), field_len);
 	while (i < field_len)
 	{
 		token = (t_token *)(cur_node->content);
@@ -122,8 +122,8 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 
 	argv_count = 0;
 	find_refined_token(field->start_ptr, field->len, &refined, &argv_count);
-	*command = ft_calloc(sizeof(char *) * (argv_count + 1), argv_count + 1);
-	*redirections = ft_calloc(sizeof(char *) * (field->len - argv_count + 1), field->len - argv_count + 1);
+	*command = ft_calloc(sizeof(char *), argv_count + 1);
+	*redirections = ft_calloc(sizeof(char *), field->len - argv_count + 1);
 	i = 0;
 	cmd_i = 0;
 	redir_i = 0;
