@@ -3,36 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:55 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/09 16:55:07 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/12 14:52:10 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	b_echo(char **commands)
+void	b_echo(char **command)
 {
-	int	i;
+	bool	print_newline;
+	int		i;
 
-	// echo -n -n -n 
-	if (commands[1] == NULL)
-	{
-		printf("\n");
-		return ;
-	}
+	print_newline = true;
 	i = 1;
-	while (commands[i])
+	while (command[i] && ft_strcmp(command[i], "-n") == 0)
 	{
-		if (ft_strcmp(commands[i], "-n") != 0)
-		{
-			printf("%s", commands[i]);
-			if (commands[i + 1] != NULL)
-				printf(" ");
-		}
+		print_newline = false;
 		++i;
 	}
-	if (ft_strcmp(commands[1], "-n") != 0)
-		printf("\n");
+	while (command[i])
+	{
+		ft_putstr_fd(command[i], 1);
+		if (command[i + 1] != NULL)
+			ft_putchar_fd(' ', 1);
+		++i;
+	}
+	if (print_newline)
+		ft_putchar_fd('\n', 1);
 }
