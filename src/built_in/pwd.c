@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:46 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/09 16:02:16 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/12 12:39:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@ void	b_pwd(void)
 	char	pwd[256];
 
 	if (getcwd(pwd, 256) != 0)
-		printf("%s\n", pwd);
+	{
+		ft_putendl_fd(pwd, 1);
+	}
 }
