@@ -88,7 +88,7 @@ void	make_heredoc(char *limiter)
 	int		i;
 	char	*line;
 
-	fd = open(".here_doc", O_CREAT | O_TRUNC | O_RDWR, 0666);
+	fd = open("/tmp/.here_doc", O_CREAT | O_TRUNC | O_RDWR, 0666);
 	if (fd == -1)
 		ft_terminate("make_heredoc, open");
 	while (1)
@@ -108,7 +108,7 @@ void	make_heredoc(char *limiter)
 	close(fd);
 }
 
-bool	redirection(char **redirections, int stdin)
+bool	redirection(char **redirections, int std_in, bool parent)
 {
 	int i;
 	int	fd;
@@ -118,14 +118,14 @@ bool	redirection(char **redirections, int stdin)
 	{		
 		if (ft_strcmp(redirections[i], "<<") == 0)
 		{
-			dup2(stdin, 0); // heredoc여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
+			dup2(std_in, 0); // heredoc 여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
  			make_heredoc(redirections[i + 1]);
-			fd = open(".here_doc", O_RDONLY);
+			fd = open("/tmp/.here_doc", O_RDONLY);
 			if (fd == -1)
 				ft_terminate("redirection, open");
 			dup2(fd, 0);
 			close(fd);
-			unlink(".here_doc");
+			unlink("/tmp/.here_doc");
 		}
 		else if (ft_strcmp(redirections[i], ">>") == 0)
 		{
@@ -138,22 +138,32 @@ bool	redirection(char **redirections, int stdin)
 		else if (ft_strcmp(redirections[i], "<") == 0)
 		{
 			fd = open(redirections[i + 1], O_RDONLY);
-			if (fd == -1)
+			if (fd == -1 && !parent)
 				ft_terminate("redirection, open");
+			if (fd == -1 && parent)
+			{
+				ft_putendl_fd(strerror(errno), 2);
+				return (0);
+			}
 			dup2(fd, 0);
 			close(fd);
 		}
 		else if (ft_strcmp(redirections[i], ">") == 0)
 		{
-			fd = open(redirections[i + 1], O_CREAT | O_TRUNC| O_WRONLY, 0666);
-			if (fd == -1)
+			fd = open(redirections[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0666);
+			if (fd == -1 && !parent)
 				ft_terminate("redirection, open");
+			if (fd == -1 && parent)
+			{
+				ft_putendl_fd(strerror(errno), 2);
+				return (0);
+			}
 			dup2(fd, 1);
 			close(fd);
 		}
 		i += 2; 
 	}
-	close(stdin);
+	close(std_in);
 	return (true);
 }
 
@@ -171,7 +181,7 @@ char	**put_program_name(char **old_command)
 	i = 0;
 	while(old_command[i])
 		++i;
-	new_command = ft_calloc(sizeof(char *) * (i + 1), i + 1);
+	new_command = ft_calloc(sizeof(char *), i + 1);
 	new_command[0] = ft_strdup("./minishell");
 	i = 1;
 	while(old_command[i - 1])
@@ -193,58 +203,12 @@ bool	is_subshell(char **command)
 {
 	if (command[0][0] != '(')
 		return (false);
-	// remove_bracket(*command);
 
-	// command = put_program_name(command);
-	// if (execve(command[0], command, envp) == -1)
-	// {
-	// 	write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
-	// 	exit(127);
-	// }
 	return (true);
 }
-// bool	do_builtin(char **command, char **redirections, char **envp,
-// 		int pipe[2], bool has_pipe, int *prev_pipe_in, int stdin)
-// {
-// 	pid_t	pid;
 
-// 	if (is_builtin(command[0]) == false)
-// 		return (false);	
-// 	if (has_pipe || *prev_pipe_in != -1)
-// 	{
-// 		pid = fork();
-// 		if (pid == 0)
-// 		{
-// 			if (*prev_pipe_in != -1)
-// 			{
-// 				dup2(*prev_pipe_in, 0);
-// 				close(*prev_pipe_in);
-// 			}
-// 			if (has_pipe)
-// 			{
-// 				dup2(pipe[1], 1);
-// 				close(pipe[1]);
-// 				close(pipe[0]);
-// 			}
-// 			redirection(redirections, stdin);
-// 			exec_builtin(command);
-// 		}
-// 		if (*prev_pipe_in != -1)
-// 			close(*prev_pipe_in);
-// 		if (has_pipe)
-// 		{
-// 			*prev_pipe_in = pipe[0];
-// 			close(pipe[1]);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		redirection(redirections, stdin);
-// 		exec_builtin(command);
-// 	}
-// }
 
-void	do_builtin(char **command)
+void	do_builtin(char **command, t_list *env_list)
 {
 	if (ft_strcmp(*command, "echo") == 0)
 	{
@@ -252,28 +216,30 @@ void	do_builtin(char **command)
 	}
 	if (ft_strcmp(*command, "cd") == 0)
 	{
-		b_cd(command);
+		b_cd(command, env_list);
 	}
 	if (ft_strcmp(*command, "pwd") == 0)
 	{
 		b_pwd();
 	}
-	// if (ft_strcmp(*command, "export") == 0)
-	// {
-	// }
+	if (ft_strcmp(*command, "export") == 0)
+	{
+		b_export(command, env_list);
+	}
 	// if (ft_strcmp(*command, "unset") == 0)
 	// {
 	// }
-	// if (ft_strcmp(*command, "env") == 0)
-	// {
-	// }
+	if (ft_strcmp(*command, "env") == 0)
+	{
+		b_env(command, env_list);
+	}
 	if (ft_strcmp(*command, "exit") == 0)
 	{
-		b_exit();
+		b_exit(command);
 	}
 }
 
-void	find_path(char **command, char **envp)
+void	find_path(char **command, t_list *env_list)
 {
 	char		**path_list;
 	int			i;
@@ -286,7 +252,7 @@ void	find_path(char **command, char **envp)
 			*command = NULL;
 		return ;
 	}
-	path_list = ft_split(getenv("PATH"), ':');
+	path_list = ft_split(ft_getenv(env_list, "PATH"), ':');
 	i = 0;
 	while (path_list[i])
 	{
@@ -303,11 +269,28 @@ void	find_path(char **command, char **envp)
 	*command = NULL;
 }
 
-void execute(t_list *exec_list, char **envp)
+char	**list_to_2d_array(t_list *envp_list)
+{
+	char	**arr;
+	int		i;
+	t_node	*cur_node;
+
+	arr = ft_calloc(sizeof(char *), envp_list->len + 1);
+	i = 0;
+	cur_node = envp_list->head;
+	while (cur_node)
+	{
+		arr[i] = (char *) cur_node->content;
+		++i;
+		cur_node = cur_node->next;
+	}
+	return (arr);
+}
+
+void execute(t_list *exec_list, t_list *env_list)
 {
 	t_field	*field;
 	t_token	*token;
-	
 	t_node	*cur_node;
 	t_node	*cur_next_node;
 	char	**command;
@@ -318,18 +301,20 @@ void execute(t_list *exec_list, char **envp)
 	char	*path;
 	t_list	*pid_list;
 	pid_t	pid;
-	int stdin;
+	int 	std_in;
+	int		std_out;
 
 	pid_list = init_list();
 	prev_pipe_in = -1;
 	cur_node = exec_list->head;
-	stdin = dup(0);
+	std_in = dup(0);
+	std_out = dup(1);
 	while (cur_node)
 	{
 		cur_next_node = cur_node->next;
 		field = (t_field *) cur_node->content;
 		token = (t_token *)(field->start_ptr->content);
-		if (ft_strcmp(token->value, "|") == 0)                                 
+		if (ft_strcmp(token->value, "|") == 0)
 		{
 			cur_node = cur_node->next;
 			continue ;
@@ -342,7 +327,6 @@ void execute(t_list *exec_list, char **envp)
 				cur_node = NULL;
 				continue;
 			}
-		//	printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
 			if (g_exit_status == 0)
 			{
 				cur_node = cur_node->next;
@@ -363,7 +347,6 @@ void execute(t_list *exec_list, char **envp)
 				cur_node = NULL;
 				continue;
 			}
-			//printf("exit status : %d\n", WEXITSTATUS(g_exit_status));
 			if (g_exit_status == 0)
 			{
 				cur_node = cur_node->next;
@@ -377,25 +360,19 @@ void execute(t_list *exec_list, char **envp)
 			}
 		}	
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
-		expand_field(field);
+		expand_field(field, env_list);
 		refine_field(field, &command, &redirections); // command_argv 인수추가
 		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1) 
 		{
-			redirection(redirections,stdin);
-			do_builtin(command);
+			if (redirection(redirections, std_in, true) == true)
+			{
+				do_builtin(command, env_list);
+				dup2(std_in, 0);
+				dup2(std_out, 1);
+			}
 			cur_node = cur_node->next;
 			continue ;
 		}
-		// if (do_subshell(command, redirections, envp, fd_pipe, has_pipe, &prev_pipe_in, stdin, pid_list))
-		// {
-		// 	cur_node = cur_node->next;
-		// 	continue;
-		// }
-		// if (do_builtin(command, redirections, envp, fd_pipe, has_pipe, &prev_pipe_in))
-		// {
-		// 	cur_node = cur_node->next;
-		// 	continue;
-		// }
 		pid = fork();
 		if (pid == 0)
 		{
@@ -412,7 +389,7 @@ void execute(t_list *exec_list, char **envp)
 				close(fd_pipe[1]);
 				close(fd_pipe[0]);
 			}
-			redirection(redirections, stdin);
+			redirection(redirections, std_in, false);
 			if (*command == NULL) // ㅇㅣㄸ보기
 				exit(0);
 			if (is_subshell(command) == true)
@@ -422,12 +399,12 @@ void execute(t_list *exec_list, char **envp)
 			}
 			else if (is_builtin(*command) == true)
 			{
-				do_builtin(command);
+				do_builtin(command, env_list);
 				exit(0);
 			}
 			else
-				find_path(command, envp);
-			if (execve(command[0], command, envp) == -1)
+				find_path(command, env_list);
+			if (execve(command[0], command, list_to_2d_array(env_list)) == -1)
 			{
 				write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
 				exit(127);
@@ -451,134 +428,14 @@ void execute(t_list *exec_list, char **envp)
 		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
+			if (g_exit_status == 3)
+				write(2, "Quit: 3\n", 9);
+			else
+				write(2, "\n", 1);
 			g_exit_status = (g_exit_status + 128) << 8 ;
 		}
 		pop_front(pid_list);
 	}
-	close(stdin);
+	close(std_in);
+	close(std_out);
 }
-
-// void	execute(t_list *exec_list)
-// {
-// 	t_node	*cur_node;
-// 	t_field	*cur_field;
-// 	t_token	*start_token;
-
-// 	cur_node = exec_list->head;
-// 	while (cur_node)
-// 	{
-// 		cur_field = (t_field *)(cur_node->content);
-// 		start_token = (t_token *)(cur_field->start_ptr->content);
-// 		if (is_logical_and(start_token->value))
-// 		{	
-// 			if (g_exit_status == 0)
-// 				cur_node = cur_node->next;
-// 			else
-// 				skip_node_to_logical_operator(&cur_node);
-// 		}
-// 		else if (is_logical_or(start_token->value))
-// 		{
-// 			if (g_exit_status == 0)
-// 				skip_node_to_logical_operator(&cur_node);
-// 			else
-// 				cur_node = cur_node->next;
-// 		}
-// 		else if (ft_strcmp(start_token->value, "|"))
-// 		{
-// 			cur_node = cur_node->next;
-// 		}
-// 		else
-// 		{
-// 			int		fd_pipe[2];
-// 			pid_t	pid;
-// 			int		cur_pipe_in;
-// 			int		cur_pipe_out;
-// 			int		prev_pipe_in = -1;
-// 			char	**command;
-
-// 			if (cur_node->next == '|')
-// 			{
-// 				if (pipe(fd_pipe) == -1)
-// 					ft_terminate("execute, pipe");
-// 				cur_pipe_in = fd_pipe[0];
-// 				// fork뜨기 직전에 확장한다?
-// 				pid = fork();
-// 				if (pid == -1)
-// 					ft_terminate("execute, fork");
-// 				if (pid == 0)
-// 				{
-// 					if (prev_pipe_in != -1) // 이전 파이프가 있었으면
-// 					{
-// 						dup2(prev_pipe_in, 0);
-// 						close(prev_pipe_in);
-// 					}
-// 					dup2(cur_pipe_out, 1);
-// 					close(cur_pipe_out);
-// 					close(cur_pipe_in);
-// 					expand_field(cur_field);
-// 					redirectioin();
-// 					command = refine_field(cur_field);
-// 					execve("/bin/echo", command, envp); // ./minishell, PATH 
-// 					// export a=*.c;
-// 					// cur_pipe_in을 prev_pipe_in에 담아주면 닫기.
-// 				}
-// 				// dup 
-// 				// expand
-// 				// redirection
-// 				// argv parsing
-// 				// execute
-// 			}
-// 			else
-// 			{
-// 				pid = fork();
-// 				if (pid == -1)
-// 					ft_terminate("execute, fork");
-// 				// expand
-// 				// redirection
-// 				// argv parsing
-// 				// execute
-// 			{
-
-// 			}
-// 			cur_node = cur_node->next;
-// 		}
-// 		}
-// 	// wait_pid
-// 	}
-// }
-	/*
-		리스트 순회 - X
-		현재 리스트와 다음 리스트를 비교하면서 연산자마다 행동 지정
-		현재 노드의 content가 && ,||, |
-		오퍼레이터가 아니라면 다음 노드가 파이프 인지 확인
-		- 다음 필드가 파이프인지  본다.
-			- 파이프를 열여주고 포크하기위해서
-		- 지금 필드가 ||, && 라면 
-			- exit_status확인해서 
-				- &&
-					- EXIT_STATUS 가 0이라면 실핸한다.
-					- EXIT_STATUS 가 0이아니면 다음 node는 건너뜀 
-				- ||
-					- EXIT_STATUS 가 0이라면 실행 안하고 다음 node 건너뜀.
-					- EXIT_STATUS 가 0이아니면 다음 node 실행 
-		- 지금 필드에 리다이렉션(<, >, <<, >>)이 있다면
-				- fork()하고 자식에서 이를 처리한다.
-		- 지금 필드에 리다이렉션이 있고, 다음 필드에 파이프라면
-				- 파이프 셋팅해주고
-				- 자식에서 리다이렉션 해주면 된다.                                                                                                                                                                                                                                              
-	*/
-
-	/*
-		부모
-		1. 파이프가 있으면 파이프를 열고
-		2. 포크
-			자식
-			1. 파이프가 열려있으면 파이프셋팅(표준 입출력 셋팅 파이프를 가르키도록)
-			2. 확장
-			3. 리다이렉션
-			4. 정제된 필드 만들기
-			5. execv 함수로 넘긴다
-		3.  쓰고 있는 파이프 제외하고 다 닫아준다. (+ prev_pipe_in)
-		4.부모는 자식이 다음 필드로 간다.
-			- 다음 필드가 ||, &&이라면
-	*/
