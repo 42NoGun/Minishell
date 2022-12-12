@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/12 11:46:221 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/12 22:16:44 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,13 +189,13 @@ int main(int argc, char **argv, char **envp)
 	t_list *env_list;
 
 	errno = 0;
+	env_list = init_list();
+	copy_envp(env_list, envp);
 	if (argc >= 2)
 	{
 		subshell_logic(argc, argv, env_list);
 		return (WEXITSTATUS(g_exit_status));
 	}
-	env_list = init_list();
-	copy_envp(env_list, envp);
 	while (1)
 	{
 		define_signal();

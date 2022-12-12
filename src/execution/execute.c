@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 10:39:03 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/05 15:17:069 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/12 22:16:32 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ char	**put_program_name(char **old_command)
 	i = 0;
 	while(old_command[i])
 		++i;
-	new_command = ft_calloc(sizeof(char *), i + 1);
+	new_command = ft_calloc(sizeof(char *), i + 2);
 	new_command[0] = ft_strdup("./minishell");
 	i = 1;
 	while(old_command[i - 1])
