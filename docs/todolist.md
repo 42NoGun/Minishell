@@ -5,12 +5,53 @@
 - [X] cat 하고 sigquit에서 출력
 - [ ] pipe속도
 
-### 2022.12.13(화) (Day 25)
-- [ ] echo 1 && (echo 2 && echo 3) => subshell 아예 실행 안됨
-- [ ] echo 1 | cat << end > out | cat > out2 => heredoc 파이프랑 같이 오면 안됨
+### 2022.12.14(수) (Day 26)
+- [ ] echo $PATH
 - [ ] << abc | << abc
 - [ ] echo 1 | exit 123 // exit출력안도ㅣ야함
 - [ ] ls * => 파일 하나 실행하는 듯
+	- cat *
+	- refine_field 
+	- token에서 value를 꺼낼 때 와일드 카드에서 확장 된 문자열인지 알수 있음
+		1) 쿼트가 없으면서 문자열에 공백이 있으면 와일드 카드 확장임
+			- 쿼트가 없는데 공백이 있는 반례가 있을까?
+			- export 구현 할때 "쿼트 붙인 상태로 env_list에 추가 필요
+	- heredoc
+		- [ ] heredoc_list -> cur_node 진행을 알려주는 i
+		- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
+		- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
+		ls << lim | sleep 5 | ls << lim2
+- [ ] minishell > exit 123 123 // exit: Too many arguments 출력
+	- [ ] echo $? => 갑자기 왜 터짐...???
+- [ ] export 출력, 정렬 
+- [ ] unset
+- [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan) 
+- [ ] 함수 25줄 (vs 과거의 나)
+- [ ] Makefile 정리
+	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- make fclean libft 지우기
+	- readline dir 경로 수정 (경기는 무조건 home)
+- [ ] leak, norm
+
+### 2022.12.13(화) (Day 25)
+- [x] echo 1 && (echo 2 && echo 3) => subshell 아예 실행 안됨
+- [X] echo 1 | cat << end > out | cat > out2 => heredoc 파이프랑 같이 오면 안됨
+- [ ] echo $PATH
+- [X] exit_status 고쳤음! (!is_alnum)
+- [ ] << abc | << abc
+- [ ] echo 1 | exit 123 // exit출력안도ㅣ야함
+- [ ] ls * => 파일 하나 실행하는 듯
+	- cat *
+	- refine_field 
+	- token에서 value를 꺼낼 때 와일드 카드에서 확장 된 문자열인지 알수 있음
+		1) 쿼트가 없으면서 문자열에 공백이 있으면 와일드 카드 확장임
+			- 쿼트가 없는데 공백이 있는 반례가 있을까?
+			- export 구현 할때 "쿼트 붙인 상태로 env_list에 추가 필요
+	- heredoc
+		- [ ] heredoc_list -> cur_node 진행을 알려주는 i
+		- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
+		- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
+		ls << lim | sleep 5 | ls << lim2
 - [ ] minishell > exit 123 123 // exit: Too many arguments 출력
 	- [ ] echo $? => 갑자기 왜 터짐...???
 - [ ] export 출력, 정렬 
