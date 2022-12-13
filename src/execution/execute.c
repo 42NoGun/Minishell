@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 10:39:03 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/12 22:16:32 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/13 15:09:26 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ void	make_heredoc(char *limiter)
 	}
 	close(fd);
 }
-
-bool	redirection(char **redirections, int std_in, bool parent)
+bool	heredoc(char **redirections, int std_in, bool parent)
 {
 	int i;
 	int	fd;
@@ -121,17 +120,36 @@ bool	redirection(char **redirections, int std_in, bool parent)
 			dup2(std_in, 0); // heredoc 여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
  			make_heredoc(redirections[i + 1]);
 			fd = open("/tmp/.here_doc", O_RDONLY);
-			if (fd == -1)
+			if (fd == -1 && !parent)
 				ft_terminate("redirection, open");
+			if (fd == -1 && parent)
+			{
+				ft_putendl_fd(strerror(errno), 2);
+				return (false);
+			}
 			dup2(fd, 0);
 			close(fd);
 			unlink("/tmp/.here_doc");
 		}
-		else if (ft_strcmp(redirections[i], ">>") == 0)
+		i += 2; 
+	}
+	close(std_in);
+	return (true);
+}
+
+bool	redirection(char **redirections, int std_in, bool parent)
+{
+	int i;
+	int	fd;
+
+	i = 0;
+	while (redirections[i])
+	{		
+		if (ft_strcmp(redirections[i], ">>") == 0)
 		{
 			fd = open(redirections[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
 			if (fd == -1)
-				ft_terminate("redirection, open");
+				ft_terminate("redirection, open");	
 			dup2(fd, 1);
 			close(fd);
 		}
@@ -143,7 +161,7 @@ bool	redirection(char **redirections, int std_in, bool parent)
 			if (fd == -1 && parent)
 			{
 				ft_putendl_fd(strerror(errno), 2);
-				return (0);
+				return (false);
 			}
 			dup2(fd, 0);
 			close(fd);
@@ -156,7 +174,7 @@ bool	redirection(char **redirections, int std_in, bool parent)
 			if (fd == -1 && parent)
 			{
 				ft_putendl_fd(strerror(errno), 2);
-				return (0);
+				return (false);
 			}
 			dup2(fd, 1);
 			close(fd);
@@ -309,6 +327,7 @@ void execute(t_list *exec_list, t_list *env_list)
 	cur_node = exec_list->head;
 	std_in = dup(0);
 	std_out = dup(1);
+	// i = 0;
 	while (cur_node)
 	{
 		cur_next_node = cur_node->next;
@@ -364,7 +383,7 @@ void execute(t_list *exec_list, t_list *env_list)
 		refine_field(field, &command, &redirections); // command_argv 인수추가
 		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1) 
 		{
-			if (redirection(redirections, std_in, true) == true)
+			if (heredoc(redirections, std_in, true) == true && redirection(redirections, std_in, true) == true)
 			{
 				do_builtin(command, env_list);
 				dup2(std_in, 0);
@@ -383,13 +402,17 @@ void execute(t_list *exec_list, t_list *env_list)
 				dup2(prev_pipe_in, 0);
 				close(prev_pipe_in);
 			}
+			// heredoc
+			heredoc(redirections, std_in, false);
 			if (has_pipe)
 			{
 				dup2(fd_pipe[1], 1);
 				close(fd_pipe[1]);
 				close(fd_pipe[0]);
+				redirection(redirections, std_in, false);
 			}
-			redirection(redirections, std_in, false);
+			else
+				redirection(redirections, std_in, false);
 			if (*command == NULL) // ㅇㅣㄸ보기
 				exit(0);
 			if (is_subshell(command) == true)
@@ -404,6 +427,8 @@ void execute(t_list *exec_list, t_list *env_list)
 			}
 			else
 				find_path(command, env_list);
+			// command 2ㅊ원 배열
+			// 아닐때는 -> *
 			if (execve(command[0], command, list_to_2d_array(env_list)) == -1)
 			{
 				write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
@@ -418,7 +443,7 @@ void execute(t_list *exec_list, t_list *env_list)
 			prev_pipe_in = fd_pipe[0];
 			close(fd_pipe[1]);
 		}
-
+		// i++;
 		cur_node = cur_node->next;
 	}
 	// 여기에서 전부기다리는 것
@@ -426,11 +451,12 @@ void execute(t_list *exec_list, t_list *env_list)
 	{
 		//signal(SIGINT, SIG_IGN);
 		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
+		printf("g_exit_status : %d\n", g_exit_status);
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
 			if (g_exit_status == 3)
 				write(2, "Quit: 3\n", 9);
-			else
+			else if (g_exit_status == 2)
 				write(2, "\n", 1);
 			g_exit_status = (g_exit_status + 128) << 8 ;
 		}
