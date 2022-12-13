@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/12 17:05:32 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/13 15:18:06 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ bool	is_matchable_asterisk(char *dst_file, char *src_file)
 	}
 	return (true);
 }
-
+// ls *(a, b, c) d e
+// 
 static void	skip_dot_directory(DIR *dirp)
 {
 	readdir(dirp);
@@ -140,9 +141,9 @@ char	*expand_content(char *content, t_list *env_list)
 			break ;
 		++content;
 		env_content_len = 0;
-		while (*content && ft_isalnum(*content))
-		// (*content != ' '
-		// 		&& *content != '$' && *content != '=' && *content != '"' && *content != '\''))
+		// while (*content && !ft_isalnum(*content))
+		while ((*content && *content != ' ' 
+				&& *content != '$' && *content != '=' && *content != '"' && *content != '\''))
 		{
 			++content;
 			++env_content_len;
