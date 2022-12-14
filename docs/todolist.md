@@ -1,28 +1,23 @@
 # Minishell
-### 완성도 올리기
-- [X] ./minishell ./minishell ^C
-- [X] cat << lim 에서 ctrl + c 들어오면 ^C
-- [X] cat 하고 sigquit에서 출력
-- [ ] pipe속도
 
-### 2022.12.14(수) (Day 26)
-- [ ] echo $PATH
-- [ ] << abc | << abc
-- [ ] echo 1 | exit 123 // exit출력안도ㅣ야함
-- [ ] ls * => 파일 하나 실행하는 듯
-	- cat *
-	- refine_field 
-	- token에서 value를 꺼낼 때 와일드 카드에서 확장 된 문자열인지 알수 있음
-		1) 쿼트가 없으면서 문자열에 공백이 있으면 와일드 카드 확장임
-			- 쿼트가 없는데 공백이 있는 반례가 있을까?
-			- export 구현 할때 "쿼트 붙인 상태로 env_list에 추가 필요
-	- heredoc
-		- [ ] heredoc_list -> cur_node 진행을 알려주는 i
-		- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
-		- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
-		ls << lim | sleep 5 | ls << lim2
-- [ ] minishell > exit 123 123 // exit: Too many arguments 출력
-	- [ ] echo $? => 갑자기 왜 터짐...???
+### 2022.12.15(목) (Day 27)
+- heredoc 로직 (전제: 비밀 폴더에 만든다. (이미 만들려고 하는 파일 이름이 존재하는 경우는 없음))
+	- [ ] 부모에서 exec_list 노드별로 순회하면서 << 있으면 히어독 만들어준다.
+		- [ ] 서브쉘이 아니라면 해당 필드의 모든 토큰을 순회하면서 << 있으면 갯수를 세준다..
+		- [ ] 서브쉘일 경우에는 문자열에서 << 찾아야 하고 쿼트 일때 쿼트 안의 << 는 무시("<<")
+			- [ ] 개수 만큼 파일만든다 네이밍 규칙: 특정경로/1.heredoc 특정경로/2.heredoc (특정경로는 makefile에서 만듬)
+	- [ ] heredoc 찾아내는 방법
+		- [ ] opendir
+		- [ ] readdir(skip dot directory 후)은 정렬된 순서로 읽어온다(검증 필요).  (0.heredoc -> 1.heredoc -> 2.heredoc)
+		- [ ] 바로 찾아온 거 반환. -> 그걸 열면 됌.
+		- [ ] 열고 리다이렉션 셋팅, 바로 찾아온 거 지우기
+
+- [ ] << abc | << abc 
+- [ ] cat << lim << lim2 | sleep 5 | (cat << lim3 << lim4)
+- heredoc (	ls << lim | sleep 5 | ls << lim2)
+	- [ ] heredoc_list -> cur_node 진행을 알려주는 i
+	- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
+	- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
 - [ ] export 출력, 정렬 
 - [ ] unset
 - [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan) 
@@ -32,27 +27,62 @@
 	- make fclean libft 지우기
 	- readline dir 경로 수정 (경기는 무조건 home)
 - [ ] leak, norm
+- [ ] 공백과 특수문자를 파일 이름에 포함하는 것을 권장하지 않기에 우리는 undefined behaviour로 남기기로 함
+	- touch "ab c" -> ls * -> ls ab c -> ls: ab: no such file or directory
+### 2022.12.14(수) (Day 26)
+- [X] (echo $PATH) 전에 이걸 안했었음.
+- [X] echo $PATH
+- [ ] << abc | << abc
+- [ ] cat << lim << lim2 | sleep 5 | (cat << lim3 << lim4)
+	- heredoc
+		- [ ] 
+		- [ ] heredoc_list -> cur_node 진행을 알려주는 i
+		- [ ] 기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
+		- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
+			- [ ] 
+		ls << lim | sleep 5 | ls << lim2
+- [X] echo 1 | exit 123 // exit출력안도ㅣ야함
+- [X] ls * => 파일 하나 실행하는 듯
+	- cat *
+	- refine_field 
+	- token에서 value를 꺼낼 때 와일드 카드에서 확장 된 문자열인지 알수 있음
+		1) 쿼트가 없으면서 문자열에 공백이 있으면 와일드 카드 확장임
+			- 쿼트가 없는데 공백이 있는 반례가 있을까?
+			- export 구현 할때 "쿼트 붙인 상태로 env_list에 추가 필요
+- [X] minishell > exit 123 123 // exit: Too many arguments 출력
+	- [X] echo $? => 갑자기 왜 터짐...???
+- [ ] export 출력, 정렬 
+- [ ] unset
+- [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan) 
+- [ ] 함수 25줄 (vs 과거의 나)
+- [ ] Makefile 정리
+	- minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- make fclean libft 지우기
+	- readline dir 경로 수정 (경기는 무조건 home)
+- [ ] leak, norm
+- [ ] 공백과 특수문자를 파일 이름에 포함하는 것을 권장하지 않기에 우리는 undefined behaviour로 남기기로 함
+	- touch "ab c" -> ls * -> ls ab c -> ls: ab: no such file or directory
 
 ### 2022.12.13(화) (Day 25)
 - [x] echo 1 && (echo 2 && echo 3) => subshell 아예 실행 안됨
 - [X] echo 1 | cat << end > out | cat > out2 => heredoc 파이프랑 같이 오면 안됨
-- [ ] echo $PATH
+- [X] echo $PATH
 - [X] exit_status 고쳤음! (!is_alnum)
 - [ ] << abc | << abc
-- [ ] echo 1 | exit 123 // exit출력안도ㅣ야함
-- [ ] ls * => 파일 하나 실행하는 듯
+	- heredoc
+		- [ ] heredoc_list -> cur_node 진행을 알려주는 i
+		- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
+		- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
+		ls << lim | sleep 5 | ls << lim2
+- [X] echo 1 | exit 123 // exit출력안도ㅣ야함
+- [X] ls * => 파일 하나 실행하는 듯
 	- cat *
 	- refine_field 
 	- token에서 value를 꺼낼 때 와일드 카드에서 확장 된 문자열인지 알수 있음
 		1) 쿼트가 없으면서 문자열에 공백이 있으면 와일드 카드 확장임
 			- 쿼트가 없는데 공백이 있는 반례가 있을까?
 			- export 구현 할때 "쿼트 붙인 상태로 env_list에 추가 필요
-	- heredoc
-		- [ ] heredoc_list -> cur_node 진행을 알려주는 i
-		- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
-		- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
-		ls << lim | sleep 5 | ls << lim2
-- [ ] minishell > exit 123 123 // exit: Too many arguments 출력
+- [x] minishell > exit 123 123 // exit: Too many arguments 출력
 	- [ ] echo $? => 갑자기 왜 터짐...???
 - [ ] export 출력, 정렬 
 - [ ] unset
@@ -64,6 +94,11 @@
 	- readline dir 경로 수정 (경기는 무조건 home)
 - [ ] leak, norm
 
+### 완성도 올리기
+- [X] ./minishell ./minishell ^C
+- [X] cat << lim 에서 ctrl + c 들어오면 ^C
+- [X] cat 하고 sigquit에서 출력
+- [X] pipe속도
 ### 2022.12.12(월) (Day 24)
 - [ ] 추가 구현
 	- [X] 문법오류 시 exit status 맞출것
@@ -408,3 +443,4 @@ $ gcc main.c -lreadline -L/opt/homebrew/opt/readline/lib/ -I /opt/homebrew/opt/r
 printf("\033[1A"); // 한줄 커서 위로(맨왼쪽끝)
 printf("\033[7C"); // cursor move right
 ```
+dfsdf
