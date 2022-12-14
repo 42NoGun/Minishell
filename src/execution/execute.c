@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 10:39:03 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/13 15:09:26 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:45:56 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,16 +217,7 @@ char	**put_program_name(char **old_command)
 	return (new_command);
 }
 
-bool	is_subshell(char **command)
-{
-	if (command[0][0] != '(')
-		return (false);
-
-	return (true);
-}
-
-
-void	do_builtin(char **command, t_list *env_list)
+void	do_builtin(char **command, t_list *env_list, bool parent)
 {
 	if (ft_strcmp(*command, "echo") == 0)
 	{
@@ -253,7 +244,7 @@ void	do_builtin(char **command, t_list *env_list)
 	}
 	if (ft_strcmp(*command, "exit") == 0)
 	{
-		b_exit(command);
+		b_exit(command, parent);
 	}
 }
 
@@ -321,6 +312,7 @@ void execute(t_list *exec_list, t_list *env_list)
 	pid_t	pid;
 	int 	std_in;
 	int		std_out;
+	bool	is_subshell;
 
 	pid_list = init_list();
 	prev_pipe_in = -1;
@@ -330,9 +322,12 @@ void execute(t_list *exec_list, t_list *env_list)
 	// i = 0;
 	while (cur_node)
 	{
+		is_subshell = false;
 		cur_next_node = cur_node->next;
 		field = (t_field *) cur_node->content;
 		token = (t_token *)(field->start_ptr->content);
+		if (token->value[0] == '(')
+			is_subshell = true;
 		if (ft_strcmp(token->value, "|") == 0)
 		{
 			cur_node = cur_node->next;
@@ -379,13 +374,14 @@ void execute(t_list *exec_list, t_list *env_list)
 			}
 		}	
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
-		expand_field(field, env_list);
+		expand_field(field, env_list, is_subshell);
 		refine_field(field, &command, &redirections); // command_argv 인수추가
 		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1) 
 		{
+			// 내가 부모니까 true
 			if (heredoc(redirections, std_in, true) == true && redirection(redirections, std_in, true) == true)
 			{
-				do_builtin(command, env_list);
+				do_builtin(command, env_list, true);
 				dup2(std_in, 0);
 				dup2(std_out, 1);
 			}
@@ -415,14 +411,21 @@ void execute(t_list *exec_list, t_list *env_list)
 				redirection(redirections, std_in, false);
 			if (*command == NULL) // ㅇㅣㄸ보기
 				exit(0);
-			if (is_subshell(command) == true)
+			if (is_subshell)
 			{
+				// int i = 0;
+				// while (command[i])
+				// {
+				// 	ft_putstr_fd(command[i], 2);
+				// 	write(1, " ", 1);
+				// 	i++;
+				// }
 				remove_bracket(*command);
 				command = put_program_name(command);
 			}
 			else if (is_builtin(*command) == true)
 			{
-				do_builtin(command, env_list);
+				do_builtin(command, env_list, false);
 				exit(0);
 			}
 			else
@@ -451,7 +454,6 @@ void execute(t_list *exec_list, t_list *env_list)
 	{
 		//signal(SIGINT, SIG_IGN);
 		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
-		printf("g_exit_status : %d\n", g_exit_status);
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
 			if (g_exit_status == 3)

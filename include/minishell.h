@@ -82,7 +82,7 @@ void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token, t_list *env_list);
 t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
 void	remove_quote(t_token *token);
-void	expand_field(t_field *field, t_list *env_list);
+void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
 void	refine_field(t_field *field, char ***command, char ***redirections);
 void	execute(t_list *exec_list, t_list *env_list);
 
@@ -90,7 +90,7 @@ void	b_pwd(void);
 void	b_cd(char **command, t_list *env_list);
 void	b_echo(char **commands);
 void	b_env(char **command, t_list *env_list);
-void	b_exit(char **command);
+void	b_exit(char **command, bool paren, bool parent);
 void	b_export(char **command, t_list *env_list);
 
 
