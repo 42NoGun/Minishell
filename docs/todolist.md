@@ -1,9 +1,11 @@
 # Minishell
 ### 2022.12.16(금) (Day 28)
 - 구현사항
-	- [ ] expand
-		- [ ] echo $USER^$USER
-		- [ ] echo $ -> 현재 pwd가 출력됨
+	- [x] expand
+		- [x] echo $USER^$USER
+		-> 조건식 고쳐서 해결 (ft_isalnum(*content) || *content == '?')
+		- [x] echo $ -> 현재 pwd가 출력됨
+		-> $뒤에 아무것도 없을 때 env_content의 길이가 0인데 ft_strncmp에서 len이 0일때 반환 값이 0이라서 문제가 되었음
 	- [ ] export 출력, 정렬
 	- [ ] unset
 - 평가 받기 전
