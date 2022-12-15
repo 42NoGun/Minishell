@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 10:39:03 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/14 15:45:56 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/15 15:02:12:1 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <dirent.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -82,44 +83,67 @@ bool	pipe_connect(t_node *cur_next_node, int fd_pipe[2])
 	return (true);
 }
 
-void	make_heredoc(char *limiter)
+bool	is_ordered_heredoc(char **file_path, char *sequence)
 {
-	int		fd;
-	int		i;
-	char	*line;
+	DIR				*dirp;
+	struct dirent	*dp;
+	int				i;
 
-	fd = open("/tmp/.here_doc", O_CREAT | O_TRUNC | O_RDWR, 0666);
-	if (fd == -1)
-		ft_terminate("make_heredoc, open");
+	i = 0;
+	dirp = opendir("/tmp/heredoc/");
+	dp = readdir(dirp);
+	dp = readdir(dirp);
+	while (true)
+	{
+		dp = readdir(dirp);
+		if (dp == NULL)
+		{
+			closedir(dirp);
+			return (false);
+		}
+		if (ft_strcmp(sequence, dp->d_name) == 0)
+		{
+			*file_path = ft_strdup(dp->d_name);
+			closedir(dirp);
+			return (true);
+		}
+	}
+}
+
+char	*get_heredoc_file_path(void)
+{
+	char			*file_path;
+	char			*sequence;
+	const char		*prefix = "/tmp/heredoc/";
+	int				i;
+
+	i = 0;
 	while (1)
 	{
-		line = readline("> ");
-		if (!line)
+		sequence = ft_itoa(i);
+		if (is_ordered_heredoc(&file_path, sequence))
 			break ;
-		if (ft_strcmp(line, limiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		free(sequence);
+		++i;
 	}
-	close(fd);
+	file_path = ft_strjoin_right_free(prefix, file_path);
+	return (file_path);
 }
+
 bool	heredoc(char **redirections, int std_in, bool parent)
 {
-	int i;
-	int	fd;
+	int		i;
+	int		fd;
+	char	*file_path;
 
 	i = 0;
 	while (redirections[i])
-	{		
+	{	
 		if (ft_strcmp(redirections[i], "<<") == 0)
 		{
 			dup2(std_in, 0); // heredoc 여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
- 			make_heredoc(redirections[i + 1]);
-			fd = open("/tmp/.here_doc", O_RDONLY);
+			file_path = get_heredoc_file_path();
+			fd = open(file_path, O_RDONLY);
 			if (fd == -1 && !parent)
 				ft_terminate("redirection, open");
 			if (fd == -1 && parent)
@@ -129,7 +153,8 @@ bool	heredoc(char **redirections, int std_in, bool parent)
 			}
 			dup2(fd, 0);
 			close(fd);
-			unlink("/tmp/.here_doc");
+			unlink(file_path);
+			free(file_path);
 		}
 		i += 2; 
 	}
@@ -375,10 +400,9 @@ void execute(t_list *exec_list, t_list *env_list)
 		}	
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
 		expand_field(field, env_list, is_subshell);
-		refine_field(field, &command, &redirections); // command_argv 인수추가
+		refine_field(field, &command, &redirections);
 		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1) 
 		{
-			// 내가 부모니까 true
 			if (heredoc(redirections, std_in, true) == true && redirection(redirections, std_in, true) == true)
 			{
 				do_builtin(command, env_list, true);
@@ -398,7 +422,6 @@ void execute(t_list *exec_list, t_list *env_list)
 				dup2(prev_pipe_in, 0);
 				close(prev_pipe_in);
 			}
-			// heredoc
 			heredoc(redirections, std_in, false);
 			if (has_pipe)
 			{
@@ -409,17 +432,10 @@ void execute(t_list *exec_list, t_list *env_list)
 			}
 			else
 				redirection(redirections, std_in, false);
-			if (*command == NULL) // ㅇㅣㄸ보기
+			if (*command == NULL)
 				exit(0);
 			if (is_subshell)
 			{
-				// int i = 0;
-				// while (command[i])
-				// {
-				// 	ft_putstr_fd(command[i], 2);
-				// 	write(1, " ", 1);
-				// 	i++;
-				// }
 				remove_bracket(*command);
 				command = put_program_name(command);
 			}
@@ -430,11 +446,9 @@ void execute(t_list *exec_list, t_list *env_list)
 			}
 			else
 				find_path(command, env_list);
-			// command 2ㅊ원 배열
-			// 아닐때는 -> *
 			if (execve(command[0], command, list_to_2d_array(env_list)) == -1)
 			{
-				write(2, "ㄴㅏ능능한한비킴ㅏ\n", 29);
+				write(2, "command not found\n", 19);
 				exit(127);
 			}
 		}
@@ -446,13 +460,10 @@ void execute(t_list *exec_list, t_list *env_list)
 			prev_pipe_in = fd_pipe[0];
 			close(fd_pipe[1]);
 		}
-		// i++;
 		cur_node = cur_node->next;
 	}
-	// 여기에서 전부기다리는 것
 	while (pid_list->len)
 	{
-		//signal(SIGINT, SIG_IGN);
 		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
 		if (WIFSIGNALED(g_exit_status) == true)
 		{

@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/15 11:41:06 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/15 16:26:554 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
 #include "minishell.h"
 
 int		ft_strlen_no_space(char *str)
@@ -79,7 +80,7 @@ bool	check_bracket_syntax_error(t_list *exec_list)
 	return (true);
 }
 
-// // (echo hello )
+// // // (echo hello )
 // bool	has_heredoc(t_field *field, int field_len, int i)
 // {
 // 	t_node	*cur_node;
@@ -96,9 +97,6 @@ bool	check_bracket_syntax_error(t_list *exec_list)
 // 		// value 자체를 끝가지 돌면서, << 있을 때 마다 열어준다.
 // 		// 따옴표 있으면 밀어준다.
 // 		// i로 파일 이름만들어주는 걸 어떻게 이걸 적용하죠?
-
-
-
 // 		// value = ((t_token *)cur_node->content)->value;
 // 		// if (value[0] == '(' && ft_strlen_no_space(value) == 2) // (공백 있는 경우)
 // 		// 	return (true);
@@ -110,73 +108,158 @@ bool	check_bracket_syntax_error(t_list *exec_list)
 // 	return (false);
 // }
 
-int	count_heredoc(t_field *field, int field_len)
+void	skip_quote_content(char **value, char quote)
+{
+	size_t	len;
+
+	len = ft_strchr((*value + 1), quote) - *value;
+	*value += len;
+}
+
+void	push_back_limiter(t_node *node, t_list *limiter_list)
+{
+	char	*value;
+
+	value = ((t_token *)node->content)->value;
+	push_back(limiter_list, make_node(ft_strdup(value)));
+}
+
+char	*get_limiter(char *value)
+{
+	int	end;
+
+	end = 0;
+	while (value[end])
+	{
+		if (!ft_isalnum(value[end]))
+			break ;
+		++end;
+	}
+	return (ft_substr(value, 0, end));
+}
+
+void	push_back_subshell_limiter(char *value, t_list *limiter_list)
+{
+	char	*limiter;
+
+	++value;
+	while (*value && *value == ' ')
+		++value;
+	limiter = get_limiter(value);
+	push_back(limiter_list, make_node(limiter));
+}
+
+int	count_heredoc(t_field *field, int field_len, t_list *limiter_list)
 {
 	t_node	*cur_node;
 	char	*value;
 	int		loop_len;
 	int		heredoc_count;
-	
+
 	heredoc_count = 0;
-	loop_len = field_len;
 	cur_node = field->start_ptr;
-	if (value[0] == '(')
-	{		
-		while (value) // 밸류를 끝까지 돌면서 << 체크, "<<" 재외
-		{
-	
-		}
-		break ;
-	}
-	while (loop_len)
+	while (field_len)
 	{
 		value = ((t_token *)cur_node->content)->value;
+		if (value[0] == '(')
+		{		
+			while (*value)
+			{
+				if (*value == '"' || *value == '\'')
+					skip_quote_content(&value, *value);
+				else
+				{
+					if (*value == '<' && *(value + 1) == '<')
+					{
+						++heredoc_count;
+						++value; // 커서가 두번째 <에 있어요
+						push_back_subshell_limiter(value, limiter_list);
+					}
+				}
+				++value;
+			}
+		}
 		else
 		{
-
+			if (ft_strcmp(value, "<<") == 0)
+			{
+				++heredoc_count;
+				push_back_limiter(cur_node->next, limiter_list);
+			}
 		}
-		// if (value[0] == '(' && ft_strlen_no_space(value) == 2) // (공백 있는 경우)
-		// 	return (true);
-		// if (value[0] == '(' && field_len != 1) // () 토큰이 붙었을 때
-		// 	return (true);
 		cur_node = cur_node->next;
-		--loop_len;
+		--field_len;
 	}
-	return (false);
-
-	
 	return (heredoc_count);
 }
 
-int check_heredoc(t_list *exec_list)
+int check_heredoc(t_list *exec_list, t_list *limiter_list)
 {
-
 	t_node		*cur_exec_node;
 	t_field		*field;
 	int			heredoc_count;
 
 	cur_exec_node = exec_list->head;
+	heredoc_count = 0;
 	while (cur_exec_node)
 	{
 		field = (t_field *)cur_exec_node->content;
-		heredoc_count = count_heredoc(field, field->len);
+		heredoc_count += count_heredoc(field, field->len, limiter_list);
 		cur_exec_node = cur_exec_node->next;
 	}
+	return (heredoc_count);
 }
 
-bool	make_heredoc(t_list *exec_list)
+void	write_heredoc(char *file_path, t_list *limiter_list)
 {
-	int count = 0;
-	int i = 0;
-	count = count_heredoc();
+	int		fd;
+	int		i;
+	char	*line;
+	char	*limiter;
+
+
+	limiter = (limiter_list->head->content);
+	pop_front(limiter_list);
+	fd = open(file_path, O_CREAT | O_TRUNC | O_RDWR, 0666);
+	if (fd == -1)
+		ft_terminate("write_heredoc, open");
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strcmp(line, limiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	close(fd);
+}
+
+bool	make_heredoc_file(t_list *exec_list)
+{
+	int			count;
+	int			i;
+	int			fd;
+	char		*current_file_sequence;
+	char		*current_file_path;
+	const char	*file_name_prefix = "/tmp/heredoc/";
+	t_list		*limiter_list;
+
+	i = 0;
+	limiter_list = init_list();
+	count = check_heredoc(exec_list, limiter_list);
 	while (i < count)
 	{
-		// 파일이름: /tmp/heredoc/1.heredoc => /tmp/heredoc/heredoc1
-		// open("heredoc%d", i);
-		//open()
-		//readline
+		current_file_sequence = ft_itoa(i);
+		current_file_path = ft_strjoin_right_free(file_name_prefix, current_file_sequence);
+		write_heredoc(current_file_path, limiter_list);
+		++i;
 	}
-	
 	return (true);
 }
 
@@ -225,8 +308,8 @@ void	signal_interrupt(int signum)
 	ft_putchar_fd('\n', 2);
 	if (rl_on_new_line() == -1)
 		exit(1);
-    rl_replace_line("", 10);
-   	rl_redisplay();
+	rl_replace_line("", 10);
+	rl_redisplay();
 }
 
 void	define_signal(void)
@@ -284,7 +367,7 @@ void	ft_setenv(t_list *env_list, char *key, char *command)
 int main(int argc, char **argv, char **envp, char **envp2)
 {
 	char *line;
-	t_list *cmd_list; // free필요
+	t_list *cmd_list;
 	t_tree *cmd_tree;
 	t_list *cmd_exec_list;
 	t_list *env_list;
@@ -335,9 +418,32 @@ int main(int argc, char **argv, char **envp, char **envp2)
 			free(line);
 			continue;
 		}
-		make_heredoc(cmd_exec_list);
+		pid_t pid = fork();
+		if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			make_heredoc_file(cmd_exec_list);
+			return (WEXITSTATUS(g_exit_status));
+		}
+		waitpid(pid, &g_exit_status, 0);
+		if (WIFSIGNALED(g_exit_status) == true)
+		{
+			if (g_exit_status == 3)
+				write(2, "Quit: 3\n", 9);
+			else if (g_exit_status == 2)
+				write(2, "\n", 1);
+			g_exit_status = (g_exit_status + 128) << 8;
+			/*
+			모든동적할당 메모리 해제할 것
+			*/
+			continue ;
+		}
+		signal(SIGINT, SIG_IGN);
 		execute(cmd_exec_list, env_list);
 		free(line);
+		/*
+		모든동적할당 메모리 해제할 것
+		*/
 	}
 	return (0);
 }
