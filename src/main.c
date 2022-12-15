@@ -333,11 +333,13 @@ void copy_envp(t_list *env_list, char **envp)
 char	*ft_getenv(t_list *env_list, char *env)
 {
 	t_node	*cur_node;
+	int		env_len;
 
 	cur_node = env_list->head;
+	env_len = ft_strlen(env);
 	while (cur_node)
 	{
-		if (ft_strncmp((char *)(cur_node->content), env, ft_strlen(env)) == 0)
+		if (env_len != 0 && ft_strncmp((char *)(cur_node->content), env, env_len) == 0)
 		{
 			return (ft_strchr((char *)cur_node->content, '=') + 1);
 		}
