@@ -1,23 +1,41 @@
 # Minishell
+### 2022.12.16(금) (Day 28)
+- 구현사항
+	- [ ] expand
+		- [ ] echo $USER^$USER
+		- [ ] echo $ -> 현재 pwd가 출력됨
+	- [ ] export 출력, 정렬
+	- [ ] unset
+- 평가 받기 전
+	- [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan)
+	- [ ] 함수 25줄 (vs 과거의 나)
+	- [ ] Makefile 정리
+		- [ ] minishell 폴더에서 make 했을 때 libft 컴파일 되게
+		- [ ] make fclean libft 지우기
+		- [ ] readline dir 경로 수정 (경기는 무조건 home)
+	- [ ] leak
+	- [ ] norm
 
 ### 2022.12.15(목) (Day 27)
 - heredoc 로직 (전제: 비밀 폴더에 만든다. (이미 만들려고 하는 파일 이름이 존재하는 경우는 없음))
-	- [ ] 부모에서 exec_list 노드별로 순회하면서 << 있으면 히어독 만들어준다.
-		- [ ] 서브쉘이 아니라면 해당 필드의 모든 토큰을 순회하면서 << 있으면 갯수를 세준다..
-		- [ ] 서브쉘일 경우에는 문자열에서 << 찾아야 하고 쿼트 일때 쿼트 안의 << 는 무시("<<")
-			- [ ] 개수 만큼 파일만든다 네이밍 규칙: 특정경로/1.heredoc 특정경로/2.heredoc (특정경로는 makefile에서 만듬)
-	- [ ] heredoc 찾아내는 방법
-		- [ ] opendir
-		- [ ] readdir(skip dot directory 후)은 정렬된 순서로 읽어온다(검증 필요).  (0.heredoc -> 1.heredoc -> 2.heredoc)
-		- [ ] 바로 찾아온 거 반환. -> 그걸 열면 됌.
-		- [ ] 열고 리다이렉션 셋팅, 바로 찾아온 거 지우기
+	- [X] 부모에서 exec_list 노드별로 순회하면서 << 있으면 히어독 만들어준다.
+		- [X] 서브쉘이 아니라면 해당 필드의 모든 토큰을 순회하면서 << 있으면 갯수를 세준다..
+		- [X] 서브쉘일 경우에는 문자열에서 << 찾아야 하고 쿼트 일때 쿼트 안의 << 는 무시("<<")
+			- [X] 개수 만큼 파일만든다 네이밍 규칙: 특정경로/1.heredoc 특정경로/2.heredoc (특정경로는 makefile에서 만듬)
+	- [X] heredoc 찾아내는 방법
+		- [X] opendir
+		- [X] readdir(skip dot directory 후)은 정렬된 순서로 읽어온다(검증 필요).  (0.heredoc -> 1.heredoc -> 2.heredoc)
+		- [X] 바로 찾아온 거 반환. -> 그걸 열면 됌.
+		- [X] 열고 리다이렉션 셋팅, 바로 찾아온 거 지우기
+	- [X] 부모에서 시그널 받을 때 처리
 
-- [ ] << abc | << abc 
-- [ ] cat << lim << lim2 | sleep 5 | (cat << lim3 << lim4)
+- [X] cat << lim1 | ls | (cat << lim2) | (cat << lim3)
+- [X] << abc | << abc 
+- [X] cat << lim << lim2 | sleep 5 | (cat << lim3 << lim4)
 - heredoc (	ls << lim | sleep 5 | ls << lim2)
-	- [ ] heredoc_list -> cur_node 진행을 알려주는 i
-	- [ ] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
-	- [ ] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
+	- [X] heredoc_list -> cur_node 진행을 알려주는 i
+	- [X] i기반한 파일 이름 (access로 파일이 있는지 없는지 먼저 확인)
+	- [X] heredoc node를 exec_list cur_node 에 맞춰서 진행시키기
 - [ ] export 출력, 정렬 
 - [ ] unset
 - [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan) 
