@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/14 16:13:38 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/15 11:41:06 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,54 +79,104 @@ bool	check_bracket_syntax_error(t_list *exec_list)
 	return (true);
 }
 
-// (echo hello )
-bool	has_heredoc(t_field *field, int field_len, int i)
+// // (echo hello )
+// bool	has_heredoc(t_field *field, int field_len, int i)
+// {
+// 	t_node	*cur_node;
+// 	int		value_len;
+// 	int		i;
+// 	char	*value;
+// 	int		loop_len;
+
+// 	loop_len = field_len;
+// 	cur_node = field->start_ptr;
+// 	while (loop_len)
+// 	{
+// 		// 1. 서브쉘이면
+// 		// value 자체를 끝가지 돌면서, << 있을 때 마다 열어준다.
+// 		// 따옴표 있으면 밀어준다.
+// 		// i로 파일 이름만들어주는 걸 어떻게 이걸 적용하죠?
+
+
+
+// 		// value = ((t_token *)cur_node->content)->value;
+// 		// if (value[0] == '(' && ft_strlen_no_space(value) == 2) // (공백 있는 경우)
+// 		// 	return (true);
+// 		// if (value[0] == '(' && field_len != 1) // () 토큰이 붙었을 때
+// 		// 	return (true);
+// 		// cur_node = cur_node->next;
+// 		// --loop_len;
+// 	}
+// 	return (false);
+// }
+
+int	count_heredoc(t_field *field, int field_len)
 {
 	t_node	*cur_node;
-	int		value_len;
-	int		i;
 	char	*value;
 	int		loop_len;
-
+	int		heredoc_count;
+	
+	heredoc_count = 0;
 	loop_len = field_len;
 	cur_node = field->start_ptr;
+	if (value[0] == '(')
+	{		
+		while (value) // 밸류를 끝까지 돌면서 << 체크, "<<" 재외
+		{
+	
+		}
+		break ;
+	}
 	while (loop_len)
 	{
-		// 1. 서브쉘이면
-		// value 자체를 끝가지 돌면서, << 있을 때 마다 열어준다.
-		// 따옴표 있으면 밀어준다.
-		// i로 파일 이름만들어주는 걸 어떻게 이걸 적용하죠?
+		value = ((t_token *)cur_node->content)->value;
+		else
+		{
 
-
-
-		// value = ((t_token *)cur_node->content)->value;
+		}
 		// if (value[0] == '(' && ft_strlen_no_space(value) == 2) // (공백 있는 경우)
 		// 	return (true);
 		// if (value[0] == '(' && field_len != 1) // () 토큰이 붙었을 때
 		// 	return (true);
-		// cur_node = cur_node->next;
-		// --loop_len;
+		cur_node = cur_node->next;
+		--loop_len;
 	}
 	return (false);
+
+	
+	return (heredoc_count);
 }
 
-bool	make_heredoc(t_list *exec_list)
+int check_heredoc(t_list *exec_list)
 {
+
 	t_node		*cur_exec_node;
 	t_field		*field;
+	int			heredoc_count;
 
 	cur_exec_node = exec_list->head;
 	while (cur_exec_node)
 	{
 		field = (t_field *)cur_exec_node->content;
-		if (has_heredoc(field, field->len))
-		{
-			// ft_putstr_fd("minishell : subshell syntax error\n", 2);
-			// g_exit_status = 2 << 8;
-			// return (false);
-		}
+		heredoc_count = count_heredoc(field, field->len);
 		cur_exec_node = cur_exec_node->next;
 	}
+}
+
+bool	make_heredoc(t_list *exec_list)
+{
+	int count = 0;
+	int i = 0;
+	count = count_heredoc();
+	while (i < count)
+	{
+		// 파일이름: /tmp/heredoc/1.heredoc => /tmp/heredoc/heredoc1
+		// open("heredoc%d", i);
+		//open()
+		//readline
+	}
+	
 	return (true);
 }
 
@@ -285,6 +335,7 @@ int main(int argc, char **argv, char **envp, char **envp2)
 			free(line);
 			continue;
 		}
+		make_heredoc(cmd_exec_list);
 		execute(cmd_exec_list, env_list);
 		free(line);
 	}

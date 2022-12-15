@@ -90,7 +90,7 @@ void	b_pwd(void);
 void	b_cd(char **command, t_list *env_list);
 void	b_echo(char **commands);
 void	b_env(char **command, t_list *env_list);
-void	b_exit(char **command, bool paren, bool parent);
+void	b_exit(char **command, bool parent);
 void	b_export(char **command, t_list *env_list);
 
 

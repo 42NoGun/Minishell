@@ -29,6 +29,7 @@
 - [ ] leak, norm
 - [ ] 공백과 특수문자를 파일 이름에 포함하는 것을 권장하지 않기에 우리는 undefined behaviour로 남기기로 함
 	- touch "ab c" -> ls * -> ls ab c -> ls: ab: no such file or directory
+
 ### 2022.12.14(수) (Day 26)
 - [X] (echo $PATH) 전에 이걸 안했었음.
 - [X] echo $PATH
