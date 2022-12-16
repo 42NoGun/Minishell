@@ -1,4 +1,15 @@
 # Minishell
+### 2022.12.17(토) (Day 29)
+- [ ] 폴더 나누기, 파일 나누기
+- [ ] 1. System Call 반환값 예외 핸들링!!
+- [ ] 2. 함수 25줄 (vs 과거의 나)
+- [ ] 3. lsof로 minishell fd누수 잡아야 한다 (Minsukan)
+- [ ] 4. norm
+- [ ] 5. Makefile 정리
+	- [ ] minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- [ ] make fclean libft 지우기
+	- [ ] readline dir 경로 수정 (경기는 무조건 home)
+	- [ ] CFLAG 확인
 ### 2022.12.16(금) (Day 28)
 - 구현사항
 	- [x] expand
@@ -6,17 +17,63 @@
 		-> 조건식 고쳐서 해결 (ft_isalnum(*content) || *content == '?')
 		- [x] echo $ -> 현재 pwd가 출력됨
 		-> $뒤에 아무것도 없을 때 env_content의 길이가 0인데 ft_strncmp에서 len이 0일때 반환 값이 0이라서 문제가 되었음
-	- [ ] export 출력, 정렬
-	- [ ] unset
+	- [x] export 출력, 정렬
+	- [x] unset
 - 평가 받기 전
-	- [ ] lsof로 minishell fd누수 잡아야 한다 (Minsukan)
-	- [ ] 함수 25줄 (vs 과거의 나)
-	- [ ] Makefile 정리
+	- [x] 1. leak잡기
+		- free_function
+			- 1. free_list_only_node
+			- 2. free_list_node_content
+			- 3. free_list_node_token
+			- 4. free_tree_node_field
+			- 5. free_2d_str
+		- continue; 위에 잘 생각해 보기
+		- [X] env_list  -> 2
+			- node : malloc
+			- node->content: 문자열(malloc) 
+		- [x] cmd_list  -> 3
+			- node : malloc
+			- node->content : token(malloc)
+			- node->content->value : 문자열(malloc)
+		- [x] cmd_tree -> 4
+			- tree_node : malloc 
+			- tree_node->content : field(malloc)
+			- tree_node->content->str_ptr : token(same with cmd_list) -> cmd_list free 하면 없어짐
+		- [x] cmd_exec_list -> 1
+			- node : malloc
+			- node->content : field(same with tree) -> cmd_tree free 하면 없어짐
+		- [X] line: malloc(readline)
+		- [X] make_heredoc_file
+			- ft_itoa(i) -> free(current_file_sequnce);
+		- [X] limiter_list  
+			- node : malloc
+			- node->content : 문자열(malloc)
+				- write_heredoc에서 pop();
+				- 나와서 limiter_list free();
+		- [X] pid_list -> 1
+			- node : malloc
+			- node->content : longlong(malloc 아님)
+		- [X] expand_dollar
+		- [X] expand_wildcard
+		- [ ] refine_field
+			- [X] refined
+			- [ ] command -> 5
+				- field에 들어간 것들이 있음
+				- 이차원배열
+			- [X] redirections -> 5
+				- 이차원배열
+			- [x] wildcard_split -> 5
+				- 이차원배열
+
+	- [ ] 2. System Call 반환값 예외 핸들링!!
+	- [ ] 3. 함수 25줄 (vs 과거의 나)
+	- [ ] 4. lsof로 minishell fd누수 잡아야 한다 (Minsukan)
+	- [ ] 5. norm
+	- [ ] 6. Makefile 정리
 		- [ ] minishell 폴더에서 make 했을 때 libft 컴파일 되게
 		- [ ] make fclean libft 지우기
 		- [ ] readline dir 경로 수정 (경기는 무조건 home)
-	- [ ] leak
-	- [ ] norm
+		- [ ] CFLAG 확인
 
 ### 2022.12.15(목) (Day 27)
 - heredoc 로직 (전제: 비밀 폴더에 만든다. (이미 만들려고 하는 파일 이름이 존재하는 경우는 없음))
