@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:11:26 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/14 16:28:26 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:17:49 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ t_node	*make_node(void *content)
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
+}
+
+void	pop_middle(t_list *list, t_node *node)
+{
+	t_node	*cursor;
+
+	cursor = node;
+	cursor->prev->next = cursor->next;
+	cursor->next->prev = cursor->prev;
+	list->len--;
+	free(cursor);
 }
 
 void	pop_front(t_list *list)

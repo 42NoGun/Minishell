@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 11:36:52 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/11/15 13:43:14 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:07:11 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_list
 
 t_node	*make_node(void *content);
 void	pop_front(t_list *list);
+void	pop_middle(t_list *list, t_node *node);
 void	pop_back(t_list *list);
 void	push_front(t_list *list, t_node *node);
 void	push_back(t_list *list, t_node *node);
