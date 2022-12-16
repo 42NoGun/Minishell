@@ -70,7 +70,7 @@ bool	is_pair_quote(const char *line);
 char	*ft_charjoin(char *str, char c);
 char	*ft_chardup(char c);
 char	*ft_getenv(t_list *env_list, char *env);
-void	ft_setenv(t_list *env_list, char *key, char *command);
+void	ft_setenv(t_list *env_list, char *key, char *value, char *command);
 
 int		get_priority(char *prev_str);
 t_token	*create_token(char *prev_str);
@@ -92,6 +92,9 @@ void	b_echo(char **commands);
 void	b_env(char **command, t_list *env_list);
 void	b_exit(char **command, bool parent);
 void	b_export(char **command, t_list *env_list);
+void	b_unset(char **command, t_list *env_list);
+char	*get_quoted_env(char *command);
+char	**list_to_2d_array(t_list *envp_list);
 
 
 void	free_token(t_token *token);
