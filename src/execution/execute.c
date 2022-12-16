@@ -470,7 +470,6 @@ void execute(t_list *exec_list, t_list *env_list)
 		}
 		pop_front(pid_list);
 	}
-	printf("command[0]: %p\n", command[0]);
 	free_list_only_node(pid_list);
 	close(std_in);
 	close(std_out);

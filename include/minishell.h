@@ -55,6 +55,13 @@ typedef struct s_field
 	int				len;
 }	t_field;
 
+void	copy_envp(t_list *env_list, char **envp);
+char	*get_quoted_env(char *command);
+void	define_signal(void);
+void	signal_interrupt(int signum);
+void	subshell_logic(int argc, char **argv, t_list *env_list);
+bool	check_bracket_syntax_error(t_list *exec_list);
+
 void	tokenize(char *line, t_list *cmd_list);
 
 char	*read_quote_content(char **line, char quote);
@@ -93,7 +100,6 @@ void	b_env(char **command, t_list *env_list);
 void	b_exit(char **command, bool parent);
 void	b_export(char **command, t_list *env_list);
 void	b_unset(char **command, t_list *env_list);
-char	*get_quoted_env(char *command);
 char	**list_to_2d_array(t_list *envp_list);
 
 
@@ -105,4 +111,5 @@ void	free_list_only_node(t_list *list);
 void	free_list_node_content(t_list *list);
 void	free_2d_str(char **arr_str);
 
+bool	make_heredoc_file(t_list *exec_list);
 #endif
