@@ -318,14 +318,53 @@ void	define_signal(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+static char	*get_key(char *command, char *value)
+{
+	char	*key;
+
+	key = ft_substr(command, 0, value - command);
+	if (!key)
+		ft_terminate("get_key, ft_substr");
+	return (key);
+}
+
+static char	*get_value(char *command)
+{
+	char	*value;
+
+	value = ft_strchr(command, '=');
+	if (!value)
+		return (NULL);
+	return (value + 1);
+}
+
+char	*get_quoted_env(char *command)
+{
+	char	*quoted_env;
+	char	*value;
+	char	*key;
+
+	value = get_value(command);
+	if (!value)
+		return (command);
+	key = get_key(command, value);
+	value = ft_strdup(value);
+	value = ft_strjoin_right_free("\"", value);
+	value = ft_strjoin_left_free(value, "\"");
+	quoted_env = ft_strjoin(key, value);
+	return (quoted_env);
+}
+
 void copy_envp(t_list *env_list, char **envp)
 {
-	int i;
+	int		i;
+	char	*quoted_env;
 
 	i = 0;
 	while (envp[i])
 	{
-		push_back(env_list, make_node(ft_strdup(envp[i])));
+		quoted_env = get_quoted_env(envp[i]);
+		push_back(env_list, make_node(quoted_env));
 		++i;
 	}
 }
@@ -348,17 +387,21 @@ char	*ft_getenv(t_list *env_list, char *env)
 	return (NULL);
 }
 
-void	ft_setenv(t_list *env_list, char *key, char *command)
+void	ft_setenv(t_list *env_list, char *key, char *value, char *command)
 {
 	t_node	*cur_node;
+	char	*quoted_env;
+	int		key_len;
 
 	cur_node = env_list->head;
+	key_len = ft_strlen(key);
 	while (cur_node)
 	{
-		if (ft_strncmp((char *)(cur_node->content), key, ft_strlen(key)) == 0)
+		if (key_len && ft_strncmp((char *)(cur_node->content), key, key_len) == 0)
 		{
+			quoted_env = get_quoted_env(command);
 			free(cur_node->content);
-			cur_node->content = command;
+			cur_node->content = quoted_env;
 			return ;
 		}
 		cur_node = cur_node->next;
@@ -366,7 +409,7 @@ void	ft_setenv(t_list *env_list, char *key, char *command)
 	return ;
 }
 
-int main(int argc, char **argv, char **envp, char **envp2)
+int main(int argc, char **argv, char **envp)
 {
 	char *line;
 	t_list *cmd_list;
