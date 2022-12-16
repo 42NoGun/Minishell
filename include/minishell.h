@@ -98,8 +98,11 @@ char	**list_to_2d_array(t_list *envp_list);
 
 
 void	free_token(t_token *token);
-void	free_list(t_list *list);
+void	free_list_node_token(t_list *list);
 void	free_field(t_tree_node *tree_node);
-void	free_tree(t_tree *tree);
+void	free_tree_node_field(t_tree *tree);
+void	free_list_only_node(t_list *list);
+void	free_list_node_content(t_list *list);
+void	free_2d_str(char **arr_str);
 
 #endif

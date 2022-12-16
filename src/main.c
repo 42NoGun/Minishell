@@ -260,6 +260,7 @@ bool	make_heredoc_file(t_list *exec_list)
 		write_heredoc(current_file_path, limiter_list);
 		++i;
 	}
+	free(limiter_list);
 	return (true);
 }
 
@@ -411,13 +412,12 @@ void	ft_setenv(t_list *env_list, char *key, char *value, char *command)
 
 int main(int argc, char **argv, char **envp)
 {
-	char *line;
-	t_list *cmd_list;
-	t_tree *cmd_tree;
-	t_list *cmd_exec_list;
-	t_list *env_list;
+	char	*line;
+	t_list	*cmd_list;
+	t_tree	*cmd_tree;
+	t_list	*cmd_exec_list;
+	t_list	*env_list;
 
-	int i = 0;
 	errno = 0;
 	env_list = init_list();
 	copy_envp(env_list, envp);
@@ -429,14 +429,12 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		define_signal();
-		cmd_list = init_list();
-		cmd_tree = init_tree();
 		line = readline("minishell > ");
 		signal(SIGINT, SIG_IGN);
 		if (!line)
 		{
 			ft_putstr_fd("exit\n", 1);
-			exit(0);
+			break ;
 		}
 		if (ft_strcmp(line, "") == 0)
 		{
@@ -448,20 +446,27 @@ int main(int argc, char **argv, char **envp)
 		if (is_correct_pair(line) == false)
 		{
 			free(line);
-			continue;
+			continue ;
 		}
+		cmd_list = init_list();
+		cmd_tree = init_tree();
 		tokenize(line, cmd_list);
 		parser(cmd_tree, cmd_list);
 		if (check_syntax_error(cmd_tree) == false)
 		{
+			free_list_node_token(cmd_list);
+			free_tree_node_field(cmd_tree);
 			free(line);
-			continue;
+			continue ;
 		}
 		cmd_exec_list = convert_tree_to_exec_list(cmd_tree);
 		if (check_bracket_syntax_error(cmd_exec_list) == false)
 		{
+			free_list_node_token(cmd_list);
+			free_tree_node_field(cmd_tree);
+			free_list_only_node(cmd_exec_list);
 			free(line);
-			continue;
+			continue ;
 		}
 		pid_t pid = fork();
 		if (pid == 0)
@@ -478,17 +483,20 @@ int main(int argc, char **argv, char **envp)
 			else if (g_exit_status == 2)
 				write(2, "\n", 1);
 			g_exit_status = (g_exit_status + 128) << 8;
-			/*
-			모든동적할당 메모리 해제할 것
-			*/
+			free_list_node_token(cmd_list);
+			free_tree_node_field(cmd_tree);
+			free_list_only_node(cmd_exec_list);
+			free(line);
 			continue ;
 		}
 		signal(SIGINT, SIG_IGN);
 		execute(cmd_exec_list, env_list);
+		free_list_node_token(cmd_list);
+		free_tree_node_field(cmd_tree);
+		free_list_only_node(cmd_exec_list);
 		free(line);
-		/*
-		모든동적할당 메모리 해제할 것
-		*/
+		system("leaks minishell");
 	}
+	free_list_node_content(env_list);
 	return (0);
 }

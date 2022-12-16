@@ -101,7 +101,6 @@ void	remove_quote(t_token *token)
 char	*get_field_index_refined_value(t_field *field, int i)
 {
 	t_node	*cur_node;
-	// char	*value;
 
 	cur_node = field->start_ptr;
 	while (i)
@@ -109,7 +108,6 @@ char	*get_field_index_refined_value(t_field *field, int i)
 		cur_node = cur_node->next;
 		i--;
 	}
-//	value = ((t_token *)(cur_node->content))->value;
 	remove_quote(cur_node->content);
 	return (((t_token *) cur_node->content)->value);
 }
@@ -193,7 +191,8 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 
 	argv_count = 0;
 	find_refined_token(field->start_ptr, field->len, &refined, &argv_count);
-	*command = ft_calloc(sizeof(char *), argv_count + 1);
+	*command = ft_calloc(sizeof(char *), argv_count + 1); // ls && ls -> 3
+
 	*redirections = ft_calloc(sizeof(char *), field->len - argv_count + 1);
 	i = 0;
 	cmd_i = 0;
@@ -227,6 +226,7 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 					(*command)[cmd_i++] = wildcard_split[j];
 					++j;
 				}
+				free_2d_str(wildcard_split);
 			}
 			else
 			{
@@ -239,5 +239,6 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 		}
 		++i;
 	}
+	// printf("refine_field, command[0]: %p\n", (*command)[0]);
 	free(refined);
 }

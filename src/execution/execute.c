@@ -72,10 +72,10 @@ bool	is_builtin(char	*command)
 bool	pipe_connect(t_node *cur_next_node, int fd_pipe[2])
 {
 	t_token	*token;
-	
-	if (cur_next_node  == NULL)
+
+	if (cur_next_node == NULL)
 		return (false);
-	token = (t_token *) ((t_field *)cur_next_node->content)->start_ptr->content;
+	token = (t_token *)((t_field *)cur_next_node->content)->start_ptr->content;
 	if (ft_strcmp(token->value, "|") != 0)
 		return (false);
 	if (pipe(fd_pipe) == -1)
@@ -122,7 +122,10 @@ char	*get_heredoc_file_path(void)
 	{
 		sequence = ft_itoa(i);
 		if (is_ordered_heredoc(&file_path, sequence))
+		{
+			free(sequence);
 			break ;
+		}
 		free(sequence);
 		++i;
 	}
@@ -141,7 +144,7 @@ bool	heredoc(char **redirections, int std_in, bool parent)
 	{	
 		if (ft_strcmp(redirections[i], "<<") == 0)
 		{
-			dup2(std_in, 0); // heredoc 여러개 들어왓을 때 처리하려고 vs pipe랑 heredoc왔을 때 파이프연결을 이게 끊어비림
+			dup2(std_in, 0); // heredoc 여러개 들어왓을 때 처리하려고
 			file_path = get_heredoc_file_path();
 			fd = open(file_path, O_RDONLY);
 			if (fd == -1 && !parent)
@@ -156,25 +159,26 @@ bool	heredoc(char **redirections, int std_in, bool parent)
 			unlink(file_path);
 			free(file_path);
 		}
-		i += 2; 
+		i += 2;
 	}
-	close(std_in);
+	if (!parent)
+		close(std_in);
 	return (true);
 }
 
 bool	redirection(char **redirections, int std_in, bool parent)
 {
-	int i;
+	int	i;
 	int	fd;
 
 	i = 0;
 	while (redirections[i])
-	{		
+	{
 		if (ft_strcmp(redirections[i], ">>") == 0)
 		{
 			fd = open(redirections[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
 			if (fd == -1)
-				ft_terminate("redirection, open");	
+				ft_terminate("redirection, open");
 			dup2(fd, 1);
 			close(fd);
 		}
@@ -204,9 +208,10 @@ bool	redirection(char **redirections, int std_in, bool parent)
 			dup2(fd, 1);
 			close(fd);
 		}
-		i += 2; 
+		i += 2;
 	}
-	close(std_in);
+	if (!parent)
+		close(std_in);
 	return (true);
 }
 
@@ -245,33 +250,19 @@ char	**put_program_name(char **old_command)
 void	do_builtin(char **command, t_list *env_list, bool parent)
 {
 	if (ft_strcmp(*command, "echo") == 0)
-	{
 		b_echo(command);
-	}
-	if (ft_strcmp(*command, "cd") == 0)
-	{
+	else if (ft_strcmp(*command, "cd") == 0)
 		b_cd(command, env_list);
-	}
-	if (ft_strcmp(*command, "pwd") == 0)
-	{
+	else if (ft_strcmp(*command, "pwd") == 0)
 		b_pwd();
-	}
-	if (ft_strcmp(*command, "export") == 0)
-	{
+	else if (ft_strcmp(*command, "export") == 0)
 		b_export(command, env_list);
-	}
-	if (ft_strcmp(*command, "unset") == 0)
-	{
+	else if (ft_strcmp(*command, "unset") == 0)
 		b_unset(command, env_list);
-	}
-	if (ft_strcmp(*command, "env") == 0)
-	{
+	else if (ft_strcmp(*command, "env") == 0)
 		b_env(command, env_list);
-	}
-	if (ft_strcmp(*command, "exit") == 0)
-	{
+	else if (ft_strcmp(*command, "exit") == 0)
 		b_exit(command, parent);
-	}
 }
 
 void	find_path(char **command, t_list *env_list)
@@ -345,7 +336,6 @@ void execute(t_list *exec_list, t_list *env_list)
 	cur_node = exec_list->head;
 	std_in = dup(0);
 	std_out = dup(1);
-	// i = 0;
 	while (cur_node)
 	{
 		is_subshell = false;
@@ -365,7 +355,7 @@ void execute(t_list *exec_list, t_list *env_list)
 			if (WIFSIGNALED(g_exit_status) == true)
 			{
 				cur_node = NULL;
-				continue;
+				continue ;
 			}
 			if (g_exit_status == 0)
 			{
@@ -385,7 +375,7 @@ void execute(t_list *exec_list, t_list *env_list)
 			if (WIFSIGNALED(g_exit_status) == true)
 			{
 				cur_node = NULL;
-				continue;
+				continue ;
 			}
 			if (g_exit_status == 0)
 			{
@@ -411,6 +401,8 @@ void execute(t_list *exec_list, t_list *env_list)
 				dup2(std_out, 1);
 			}
 			cur_node = cur_node->next;
+			free(command);
+			free(redirections);
 			continue ;
 		}
 		pid = fork();
@@ -462,6 +454,8 @@ void execute(t_list *exec_list, t_list *env_list)
 			close(fd_pipe[1]);
 		}
 		cur_node = cur_node->next;
+		free(command);
+		free(redirections);
 	}
 	while (pid_list->len)
 	{
@@ -476,6 +470,8 @@ void execute(t_list *exec_list, t_list *env_list)
 		}
 		pop_front(pid_list);
 	}
+	printf("command[0]: %p\n", command[0]);
+	free_list_only_node(pid_list);
 	close(std_in);
 	close(std_out);
 }
