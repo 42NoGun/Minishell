@@ -260,9 +260,10 @@ void	do_builtin(char **command, t_list *env_list, bool parent)
 	{
 		b_export(command, env_list);
 	}
-	// if (ft_strcmp(*command, "unset") == 0)
-	// {
-	// }
+	if (ft_strcmp(*command, "unset") == 0)
+	{
+		b_unset(command, env_list);
+	}
 	if (ft_strcmp(*command, "env") == 0)
 	{
 		b_env(command, env_list);
