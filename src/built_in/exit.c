@@ -6,12 +6,14 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 13:53:25 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/14 15:46:22 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/17 19:46:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// exit
+// - when exit built-in execute in child process, don't print "exit" on terminal
 void	b_exit(char **command, bool parent)
 {
 	int	i;

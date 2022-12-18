@@ -6,42 +6,21 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:57 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/16 11:53:53 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/18 19:23:24 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_key(char *command, char *value)
-{
-	char	*key;
-
-	key = ft_substr(command, 0, value - command);
-	if (!key)
-		ft_terminate("get_key, ft_substr");
-	return (key);
-}
-
-static char	*get_value(char *command)
-{
-	char	*value;
-
-	value = ft_strchr(command, '=');
-	if (!value)
-		return (NULL);
-	return (value + 1);
-}
-
-// h="hello";
-// key : h=
-// value : "hello"
+// command : h="hello";
+// reutrn : h=hello
 static char	*get_not_quoted_env(char *command)
 {
 	char	*not_quoted_env;
 	char	*value;
 	char	*key;
 
-	value = get_value(command);
+	value = get_value_env(command);
 	if (!value)
 		return (command);
 	key = get_key(command, value);
@@ -50,6 +29,13 @@ static char	*get_not_quoted_env(char *command)
 	return (not_quoted_env);
 }
 
+// env
+// - env_list is doubly linked list
+// - each node has string value as below
+// ex) USER="jiyunpar" -> unquoted key & quoted value
+// 1. unquote value
+// ex) h="hello" -> h=hello
+// 2. print list which is unorderd
 void	b_env(char **command, t_list *env_list)
 {
 	t_node	*cur_node;

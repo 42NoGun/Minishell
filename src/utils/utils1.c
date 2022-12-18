@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:11:44 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/16 17:14:19 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/18 21:35:56 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_key(char *command, char *value)
+char	*get_key(char *command, char *value)
 {
 	char	*key;
 
@@ -22,7 +22,7 @@ static char	*get_key(char *command, char *value)
 	return (key);
 }
 
-static char	*get_value(char *command)
+char	*get_value_env(char *command)
 {
 	char	*value;
 
@@ -32,15 +32,25 @@ static char	*get_value(char *command)
 	return (value + 1);
 }
 
+char	*get_value_export(char *command)
+{
+	char	*value;
+
+	value = ft_strchr(command, '=');
+	if (!value)
+		return (NULL);
+	return (value);
+}
+
 char	*get_quoted_env(char *command)
 {
 	char	*quoted_env;
 	char	*value;
 	char	*key;
 
-	value = get_value(command);
+	value = get_value_env(command);
 	if (!value)
-		return (command);
+		return (ft_strdup(command));
 	key = get_key(command, value);
 	value = ft_strdup(value);
 	value = ft_strjoin_right_free("\"", value);
@@ -49,7 +59,7 @@ char	*get_quoted_env(char *command)
 	return (quoted_env);
 }
 
-void copy_envp(t_list *env_list, char **envp)
+void	copy_envp(t_list *env_list, char **envp)
 {
 	int		i;
 	char	*quoted_env;
