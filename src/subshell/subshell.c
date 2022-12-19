@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/16 17:19:48 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/19 12:21:25 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_strlen_no_space(char *str)
+int	ft_strlen_no_space(char *str)
 {
 	int	i;
 	int	len;
@@ -28,7 +28,7 @@ int		ft_strlen_no_space(char *str)
 	return (len);
 }
 
-bool	has_subshell_error(t_field *field, int field_len)
+bool	has_subshell_error(t_field *field, int redirection_len)
 {
 	t_node	*cur_node;
 	int		value_len;
@@ -36,14 +36,14 @@ bool	has_subshell_error(t_field *field, int field_len)
 	char	*value;
 	int		loop_len;
 
-	loop_len = field_len;
+	loop_len = field->len;
 	cur_node = field->start_ptr;
 	while (loop_len)
 	{
 		value = ((t_token *)cur_node->content)->value;
 		if (value[0] == '(' && ft_strlen_no_space(value) == 2) // (공백 있는 경우)
 			return (true);
-		if (value[0] == '(' && field_len != 1) // () 토큰이 붙었을 때
+		if (value[0] == '(' && ((field->len - redirection_len) != 1)) // () 토큰이 붙었을 때
 			return (true);
 		cur_node = cur_node->next;
 		--loop_len;
@@ -51,16 +51,46 @@ bool	has_subshell_error(t_field *field, int field_len)
 	return (false);
 }
 
+static bool	is_redirection_value(char *value)
+{
+	if (ft_strncmp(value, "<", 1) == 0 || ft_strncmp(value, ">", 1) == 0)
+		return (true);
+	return (false);
+}
+
+int	count_field_len(t_field *field)
+{
+	t_node	*cur_node;
+	int		len;
+	char	*value;
+	int		field_len;
+
+	field_len = 0;
+	cur_node = field->start_ptr;
+	len = field->len;
+	while (len)
+	{
+		value = ((t_token *)(cur_node->content))->value;
+		if (is_redirection_value(value))
+			++field_len;
+		--len;
+		cur_node = cur_node->next;
+	}
+	return (2 * field_len);
+}
+
 bool	check_bracket_syntax_error(t_list *exec_list)
 {
 	t_node		*cur_exec_node;
 	t_field		*field;
+	int			redirection_len;
 
 	cur_exec_node = exec_list->head;
 	while (cur_exec_node)
 	{
 		field = (t_field *)cur_exec_node->content;
-		if (has_subshell_error(field, field->len))
+		redirection_len = count_field_len(field);
+		if (has_subshell_error(field, redirection_len))
 		{
 			ft_putstr_fd("minishell : subshell syntax error\n", 2);
 			g_exit_status = 2 << 8;
