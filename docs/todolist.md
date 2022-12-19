@@ -1,5 +1,6 @@
 # Minishell
-### 2022.12.17(토) (Day 29)
+
+### 2022.12.20(화) (Day 30)
 - [ ] 폴더 나누기, 파일 나누기
 - [ ] 1. System Call 반환값 예외 핸들링!!
 - [ ] 2. 함수 25줄 (vs 과거의 나)
@@ -10,6 +11,33 @@
 	- [ ] make fclean libft 지우기
 	- [ ] readline dir 경로 수정 (경기는 무조건 home)
 	- [ ] CFLAG 확인
+
+### 2022.12.19(월) (Day 29)
+- [X] builtin 처리
+	- [X] cd
+		- PWD, OLDPWD, absolute path
+	- [X] export , env
+		- refactoring(unnecessary malloc)
+	- [X] clear
+		- env_list value format 수정
+		- h="hello" -> h=hello
+	- [X] subshell
+		- redirection 있을 경우 syntax에러로 보는 것
+	- [X] execute
+		- leak 처리
+- leak 처리
+	- refind_field free wildcard_split
+- [ ] 폴더 나누기, 파일 나누기
+- [ ] 1. System Call 반환값 예외 핸들링!!
+- [ ] 2. 함수 25줄 (vs 과거의 나)
+- [ ] 3. lsof로 minishell fd누수 잡아야 한다 (Minsukan)
+- [ ] 4. norm
+- [ ] 5. Makefile 정리
+	- [ ] minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- [ ] make fclean libft 지우기
+	- [ ] readline dir 경로 수정 (경기는 무조건 home)
+	- [ ] CFLAG 확인
+
 ### 2022.12.16(금) (Day 28)
 - 구현사항
 	- [x] expand
@@ -83,7 +111,7 @@
 			- [X] 개수 만큼 파일만든다 네이밍 규칙: 특정경로/1.heredoc 특정경로/2.heredoc (특정경로는 makefile에서 만듬)
 	- [X] heredoc 찾아내는 방법
 		- [X] opendir
-		- [X] readdir(skip dot directory 후)은 정렬된 순서로 읽어온다(검증 필요).  (0.heredoc -> 1.heredoc -> 2.heredoc)
+		- [X] readdir(skip dot directory 후)은 정렬된 순서로 읽어온다(검증 필요).  (0.heredoc -> 1.heredoc -> 2.heredoc) -> readdir 랜덤
 		- [X] 바로 찾아온 거 반환. -> 그걸 열면 됌.
 		- [X] 열고 리다이렉션 셋팅, 바로 찾아온 거 지우기
 	- [X] 부모에서 시그널 받을 때 처리
