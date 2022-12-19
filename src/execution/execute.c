@@ -18,14 +18,14 @@
 #include <sys/stat.h>
 #include "minishell.h"
 
-bool is_logical_and(char *cmd)
+bool	is_logical_and(char *cmd)
 {
 	if (ft_strcmp(cmd, "&&") == 0)
 		return (true);
 	return (false);
 }
 
-bool is_logical_or(char *cmd)
+bool	is_logical_or(char *cmd)
 {
 	if (ft_strcmp(cmd, "||") == 0)
 		return (true);
@@ -51,7 +51,7 @@ void	skip_node_to_logical_operator(t_node **cur_node)
 bool	is_builtin(char	*command)
 {
 	if (!command)
-		return false;
+		return (false);
 	if (ft_strcmp(command, "echo") == 0)
 		return (true);
 	if (ft_strcmp(command, "cd") == 0)
@@ -219,12 +219,12 @@ void	remove_bracket(char *command)
 {
 	ft_memmove(command, command + 1, ft_strlen(command));
 	command[ft_strlen(command) - 1] = 0;
-} 
+}
 
 char	**put_program_name(char **old_command)
 {
-	char **new_command;
-	int	i;
+	char	**new_command;
+	int		i;
 
 	i = 0;
 	while(old_command[i])
@@ -392,17 +392,18 @@ void execute(t_list *exec_list, t_list *env_list)
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
 		expand_field(field, env_list, is_subshell);
 		refine_field(field, &command, &redirections);
-		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1) 
+		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1)
 		{
-			if (heredoc(redirections, std_in, true) == true && redirection(redirections, std_in, true) == true)
+			if (heredoc(redirections, std_in, true) == true
+				&& redirection(redirections, std_in, true) == true)
 			{
 				do_builtin(command, env_list, true);
 				dup2(std_in, 0);
 				dup2(std_out, 1);
 			}
 			cur_node = cur_node->next;
-			free(command);
-			free(redirections);
+			free_2d_str(command);
+			free_2d_str(redirections);
 			continue ;
 		}
 		pid = fork();
@@ -454,8 +455,8 @@ void execute(t_list *exec_list, t_list *env_list)
 			close(fd_pipe[1]);
 		}
 		cur_node = cur_node->next;
-		free(command);
-		free(redirections);
+		free_2d_str(command);
+		free_2d_str(redirections);
 	}
 	while (pid_list->len)
 	{
