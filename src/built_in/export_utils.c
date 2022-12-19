@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:06:02 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/18 20:00:30 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/19 17:03:34 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,27 @@ static void	ft_swap(char **a, char **b)
 	temp = *a;
 	*a = *b;
 	*b = temp;
+}
+
+// Author: hanbkim
+void	print_export_value(char	*arg)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strchr(arg, '=') != NULL)
+	{
+		while (arg[i] != '=')
+			++i;
+		write(1, arg, i + 1);
+		write(1, "\"", 1);
+		write(1, arg + i + 1, ft_strlen(arg) - i - 1);
+		write(1, "\"\n", 2);
+	}
+	else
+	{
+		ft_putendl_fd(arg, 1);
+	}
 }
 
 void	print_export(t_list *env_list)
@@ -42,6 +63,7 @@ void	print_export(t_list *env_list)
 	while (++index < env_list->len)
 	{
 		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(env_argument[index], 1);
+		print_export_value(env_argument[index]);
 	}
+	free(env_argument);
 }

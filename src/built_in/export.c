@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:09 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/18 01:57:06 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/19 16:57:06 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,12 @@ static void	export_with_no_arguments(char **command, t_list *env_list)
 static void	update_env(char *command, char *key, char *value, t_list *env_list)
 {
 	if (value)
-		ft_setenv(env_list, key, value, command);
+		ft_setenv(env_list, key, command);
 }
 
 static void	push_env(char *command, t_list *env_list)
 {
-	char	*quoted_env;
-
-	quoted_env = get_quoted_env(command);
-	push_back(env_list, make_node(quoted_env));
+	push_back(env_list, make_node(ft_strdup(command)));
 }
 
 static void	export_with_arguments(char **command, t_list *env_list)
@@ -64,15 +61,13 @@ static void	export_with_arguments(char **command, t_list *env_list)
 // export
 // - env_list is doubly linked list
 // - each node has string value as below
-// ex) USER="jiyunpar" -> unquoted key & quoted value
+// ex) USER=jiyunpar -> unquoted key & unquoted value
 // with no arguments
 // 1. change linked list to 2d array
 // 2. sort 2d array in ascending order
-// 2. print 
+// 3. print with quote 
 // with arguments
-// 1. change variable format as below
-// ex) h=hello -> h="hello"
-// 2. pushback variable to linked list
+// 1. pushback variable to linked list
 void	b_export(char **command, t_list *env_list)
 {
 	export_with_no_arguments(command, env_list);
