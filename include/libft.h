@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:07:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/15 13:54:30 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/19 15:56:02 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	ft_assert(bool test_func, bool answer, char *error_message);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strjoin_left_free(char const *s1, char const *s2);
 char	*ft_strjoin_right_free(char const *s1, char const *s2);
+char	*ft_strjoin_no_free(char const *s1, char const *s2);
 
 #endif
