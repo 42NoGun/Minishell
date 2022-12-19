@@ -77,7 +77,7 @@ bool	is_pair_quote(const char *line);
 char	*ft_charjoin(char *str, char c);
 char	*ft_chardup(char c);
 char	*ft_getenv(t_list *env_list, char *env);
-void	ft_setenv(t_list *env_list, char *key, char *value, char *command);
+void	ft_setenv(t_list *env_list, char *key, char *command);
 
 int		get_priority(char *prev_str);
 t_token	*create_token(char *prev_str);
