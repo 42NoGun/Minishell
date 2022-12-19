@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:15 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/16 13:14:17 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/18 02:00:47 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	ft_delete_env(t_list *env_list, char *key)
 	while (cur_node)
 	{
 		next_node = cur_node->next;
-		if (key_len && ft_strncmp((char *)(cur_node->content), key, key_len) == 0)
+		if (key_len && ft_strncmp((char *)(cur_node->content),
+			key, key_len) == 0)
 		{
 			free(cur_node->content);
 			if (cur_node == env_list->head)
@@ -37,35 +38,19 @@ void	ft_delete_env(t_list *env_list, char *key)
 	}
 }
 
-static char	*get_key(char *command, char *value)
-{
-	char	*key;
-
-	key = ft_substr(command, 0, value - command);
-	if (!key)
-		ft_terminate("get_key, ft_substr");
-	return (key);
-}
-
-static char	*get_value(char *command)
-{
-	char	*value;
-
-	value = ft_strchr(command, '=');
-	return (value);
-}
-
+// unset
+// -delete variable from env_list
 void	b_unset(char **command, t_list *env_list)
 {
 	int		i;
-	char 	*key;
-	char 	*value;
-	char 	*quoted_env;
+	char	*key;
+	char	*value;
+	char	*quoted_env;
 
 	i = 1;
 	while (command[i])
 	{
-		value = get_value(command[i]);
+		value = get_value_env(command[i]);
 		key = get_key(command[i], value);
 		ft_delete_env(env_list, key);
 		free(key);

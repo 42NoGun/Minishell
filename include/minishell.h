@@ -101,7 +101,10 @@ void	b_exit(char **command, bool parent);
 void	b_export(char **command, t_list *env_list);
 void	b_unset(char **command, t_list *env_list);
 char	**list_to_2d_array(t_list *envp_list);
-
+void	print_export(t_list *env_list);
+char	*get_key(char *command, char *value);
+char	*get_value_env(char *command);
+char	*get_value_export(char *command);
 
 void	free_token(t_token *token);
 void	free_list_node_token(t_list *list);
