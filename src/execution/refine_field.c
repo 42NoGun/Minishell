@@ -192,7 +192,6 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 	argv_count = 0;
 	find_refined_token(field->start_ptr, field->len, &refined, &argv_count);
 	*command = ft_calloc(sizeof(char *), argv_count + 1); // ls && ls -> 3
-
 	*redirections = ft_calloc(sizeof(char *), field->len - argv_count + 1);
 	i = 0;
 	cmd_i = 0;
@@ -212,6 +211,8 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 			
 			// 1. cat * *
 			// 2. echo hello" "hello2
+			
+			// echo hello * (hello2 hello3)
 			if (is_expanded_wildcard(field, i) == true)
 			{	
 				char *value = get_field_index_refined_value(field, i);
@@ -226,16 +227,16 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 					(*command)[cmd_i++] = wildcard_split[j];
 					++j;
 				}
-				free_2d_str(wildcard_split);
+				free(wildcard_split);
 			}
 			else
 			{
-				(*command)[cmd_i++] = get_field_index_refined_value(field, i);
+				(*command)[cmd_i++] = ft_strdup(get_field_index_refined_value(field, i));
 			}
 		}
 		else
 		{
-			(*redirections)[redir_i++] = get_field_index_refined_value(field, i);
+			(*redirections)[redir_i++] = ft_strdup(get_field_index_refined_value(field, i));
 		}
 		++i;
 	}
