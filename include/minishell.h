@@ -117,4 +117,9 @@ void	free_list_node_content(t_list *list);
 void	free_2d_str(char **arr_str);
 
 bool	make_heredoc_file(t_list *exec_list);
+void	skip_quote_content(char **value, char quote);
+void	push_back_limiter(t_node *node, t_list *limiter_list);
+char	*get_limiter(char *value);
+void	push_back_subshell_limiter(char *value, t_list *limiter_list);
+
 #endif
