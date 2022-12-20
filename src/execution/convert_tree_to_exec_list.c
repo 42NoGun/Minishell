@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 15:42:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/01 13:12:07 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/20 11:29:20 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_list	*convert_tree_to_exec_list(t_tree *cmd_tree)
 	t_list	*exec_list;
 
 	exec_list = init_list();
-	inorder_traverse_make_exec_list(cmd_tree->root, exec_list, make_execution_order_list);
+	inorder_traverse_make_exec_list(
+		cmd_tree->root, exec_list, make_execution_order_list);
 	return (exec_list);
 }

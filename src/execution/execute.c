@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: hanbkim <hanbkim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 10:39:03 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/15 15:02:12:1 by cheseo           ###   ########.fr       */
+/*   Created: 2022/12/20 11:30:18 by hanbkim           #+#    #+#             */
+/*   Updated: 2022/12/20 15:38:26 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ bool	is_ordered_heredoc(char **file_path, char *sequence)
 	int				i;
 
 	i = 0;
-	dirp = opendir("/tmp/heredoc/");
+	dirp = opendir("/tmp/heredoc/"); // error 처리 필요 
 	dp = readdir(dirp);
 	dp = readdir(dirp);
 	while (true)
@@ -133,6 +133,18 @@ char	*get_heredoc_file_path(void)
 	return (file_path);
 }
 
+bool	open_error(int fd, bool parent)
+{
+	if (fd == -1 && !parent)
+		ft_terminate("redirection, open");
+	if (fd == -1 && parent)
+	{
+		ft_putendl_fd(strerror(errno), 2);
+		return (true);
+	}
+	return (false);
+}
+
 bool	heredoc(char **redirections, int std_in, bool parent)
 {
 	int		i;
@@ -144,16 +156,11 @@ bool	heredoc(char **redirections, int std_in, bool parent)
 	{	
 		if (ft_strcmp(redirections[i], "<<") == 0)
 		{
-			dup2(std_in, 0); // heredoc 여러개 들어왓을 때 처리하려고
+			dup2(std_in, 0);
 			file_path = get_heredoc_file_path();
 			fd = open(file_path, O_RDONLY);
-			if (fd == -1 && !parent)
-				ft_terminate("redirection, open");
-			if (fd == -1 && parent)
-			{
-				ft_putendl_fd(strerror(errno), 2);
+			if (open_error(fd, parent) == true)
 				return (false);
-			}
 			dup2(fd, 0);
 			close(fd);
 			unlink(file_path);
@@ -227,12 +234,12 @@ char	**put_program_name(char **old_command)
 	int		i;
 
 	i = 0;
-	while(old_command[i])
+	while (old_command[i])
 		++i;
 	new_command = ft_calloc(sizeof(char *), i + 2);
 	new_command[0] = ft_strdup("./minishell");
 	i = 1;
-	while(old_command[i - 1])
+	while (old_command[i - 1])
 	{
 		new_command[i] = ft_strdup(old_command[i - 1]);
 		++i;
@@ -313,7 +320,27 @@ char	**list_to_2d_array(t_list *envp_list)
 	return (arr);
 }
 
-void execute(t_list *exec_list, t_list *env_list)
+void	expand_field(t_field *field, t_list *env_list, bool is_subshell)
+{
+	int		len;
+	t_token	*cur_token;
+	t_node	*cur_node;
+
+	len = field->len;
+	cur_node = field->start_ptr;
+	if (is_subshell)
+		return ;
+	while (len)
+	{
+		cur_token = (t_token *)cur_node->content;
+		expand_dollar(cur_token, env_list);
+		expand_wildcard(cur_token);
+		cur_node = cur_node->next;
+		--len;
+	}
+}
+
+void	execute(t_list *exec_list, t_list *env_list)
 {
 	t_field	*field;
 	t_token	*token;
@@ -322,12 +349,12 @@ void execute(t_list *exec_list, t_list *env_list)
 	char	**command;
 	char	**redirections;
 	int		fd_pipe[2];
-	int 	prev_pipe_in;
+	int		prev_pipe_in;
 	bool	has_pipe;
 	char	*path;
 	t_list	*pid_list;
 	pid_t	pid;
-	int 	std_in;
+	int		std_in;
 	int		std_out;
 	bool	is_subshell;
 
@@ -391,7 +418,7 @@ void execute(t_list *exec_list, t_list *env_list)
 		}	
 		has_pipe = pipe_connect(cur_next_node, fd_pipe);
 		expand_field(field, env_list, is_subshell);
-		refine_field(field, &command, &redirections);
+		refine_field(field, &command, &redirections, 0);
 		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1)
 		{
 			if (heredoc(redirections, std_in, true) == true
