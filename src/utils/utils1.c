@@ -50,8 +50,7 @@ void	copy_envp(t_list *env_list, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		quoted_env = get_quoted_env(envp[i]);
-		push_back(env_list, make_node(quoted_env));
+		push_back(env_list, make_node(ft_strdup(envp[i])));
 		++i;
 	}
 }
