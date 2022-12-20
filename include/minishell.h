@@ -91,6 +91,8 @@ t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
 void	remove_quote(t_token *token);
 void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
 void	refine_field(t_field *field, char ***command, char ***redirections);
+void	concatenate_not_expanded_content(char **expanded_content, char **content);
+void	concatenate_expanded_content(char **expanded_content, char **content, t_list *env_list);
 void	execute(t_list *exec_list, t_list *env_list);
 
 void	b_pwd(void);
