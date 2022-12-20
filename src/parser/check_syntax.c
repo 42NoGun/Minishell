@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:40:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/12 14:52:03 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/20 10:54:58 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ static bool	check_operator_node_has_child_and_redirection(t_tree_node *cursor)
 		if (cursor->left == NULL || cursor->right == NULL)
 			return (false);
 	}
-	// redirection(<, <<, >, >>) 기호가 있으면 ("쿼트 안에 있는 건 아님")
-	// 그 다음 토큰이 redirection 기호거나 마지막이면  syntax error  
 	if (check_redirection_error(field) == false)
 		return (false);
 	return (true);

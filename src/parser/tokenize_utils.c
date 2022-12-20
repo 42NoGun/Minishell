@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/14 15:11:21 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/20 11:11:53 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,6 @@ int	get_priority(char *prev_str)
 		return (0);
 	if (ft_strcmp(prev_str, "|") == 0)
 		return (1);
-	// if (ft_strcmp(prev_str, ">>") == 0)
-	// 	return (1);
-	// if (ft_strcmp(prev_str, "<<") == 0)
-	// 	return (1);
-	// if (ft_strcmp(prev_str, ">") == 0)
-	// 	return (1);
-	// if (ft_strcmp(prev_str, "<") == 0)
-	// 	return (1);
 	return (2);
 }
 
@@ -95,64 +87,4 @@ void	put_token_in_list(char *prev_str, t_list *list)
 	}
 	node = make_node(create_token(prev_str));
 	push_back(list, node);
-}
-
-// read_quote_content
-// - make str with quoted characters
-// 1. ++line
-// 2. ft_strdup("")
-// 3. ft_charjoin() until next quote
-
-char	*read_quote_content(char **line, char quote)
-{
-	char	*quote_content;
-	size_t	len;
-
-	len = ft_strchr((*line + 1), quote) - *line;
-	quote_content = ft_substr(*line, 0, len + 1);
-	*line += len;
-	return (quote_content);
-}
-
-char	*read_inside_quote_content(char **line, char quote)
-{
-	char	*quote_content;
-	size_t	len;
-
-	len = ft_strchr((*line + 1), quote) - *line;
-	quote_content = ft_substr(*line + 1, 0, len - 1);
-	*line += len;
-	return (quote_content);
-}
-
-
-char	*read_group_content(char **line)
-{
-	char	*grouped_content;
-	char	*init_pos;
-	size_t	len;
-	int		bracket_count;
-
-	init_pos = *line;
-	bracket_count = 0;
-	len = 0;
-	while (**line)
-	{
-		if (**line == OPEN_BRACKET)
-		{
-			++bracket_count;
-		}
-		else if (**line == CLOSE_BRACKET)
-		{
-			--bracket_count;
-			if (bracket_count == 0)
-			{
-				len = *line - init_pos;
-				break ;
-			}
-		}
-		++(*line);
-	}
-	grouped_content = ft_substr(init_pos, 0, len + 1);
-	return (grouped_content);
 }
