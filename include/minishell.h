@@ -55,12 +55,28 @@ typedef struct s_field
 	int				len;
 }	t_field;
 
+typedef struct s_cmd_tool
+{
+	t_list	*cmd_list;
+	t_tree	*cmd_tree;
+	t_list	*cmd_exec_list;
+}	t_cmd_tool;
+
 void	copy_envp(t_list *env_list, char **envp);
 char	*get_quoted_env(char *command);
 void	define_signal(void);
 void	signal_interrupt(int signum);
 void	subshell_logic(int argc, char **argv, t_list *env_list);
 bool	check_bracket_syntax_error(t_list *exec_list);
+
+int		run_subshell(int argc, char **argv, t_list *env_list);
+int		end_program(t_list *env_list);
+int		make_heredoc_process(t_list *cmd_exec_list);
+bool	is_cmd_input(char *line);
+bool	is_executable_command(char *line);
+void	free_cmd_tool(t_cmd_tool *cmd_tool);
+bool	making_heredoc(t_cmd_tool *cmd_tool);
+void	execute_command(t_cmd_tool *cmd_tool, t_list *env_list);
 
 void	tokenize(char *line, t_list *cmd_list);
 
@@ -115,4 +131,9 @@ void	free_list_node_content(t_list *list);
 void	free_2d_str(char **arr_str);
 
 bool	make_heredoc_file(t_list *exec_list);
+void	skip_quote_content(char **value, char quote);
+void	push_back_limiter(t_node *node, t_list *limiter_list);
+char	*get_limiter(char *value);
+void	push_back_subshell_limiter(char *value, t_list *limiter_list);
+
 #endif
