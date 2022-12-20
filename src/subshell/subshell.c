@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/19 12:21:25 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/20 10:56:42 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	ft_strlen_no_space(char *str)
 bool	has_subshell_error(t_field *field, int redirection_len)
 {
 	t_node	*cur_node;
-	int		value_len;
-	int		i;
 	char	*value;
 	int		loop_len;
 
@@ -41,20 +39,13 @@ bool	has_subshell_error(t_field *field, int redirection_len)
 	while (loop_len)
 	{
 		value = ((t_token *)cur_node->content)->value;
-		if (value[0] == '(' && ft_strlen_no_space(value) == 2) // (공백 있는 경우)
+		if (value[0] == '(' && ft_strlen_no_space(value) == 2)
 			return (true);
-		if (value[0] == '(' && ((field->len - redirection_len) != 1)) // () 토큰이 붙었을 때
+		if (value[0] == '(' && ((field->len - redirection_len) != 1))
 			return (true);
 		cur_node = cur_node->next;
 		--loop_len;
 	}
-	return (false);
-}
-
-static bool	is_redirection_value(char *value)
-{
-	if (ft_strncmp(value, "<", 1) == 0 || ft_strncmp(value, ">", 1) == 0)
-		return (true);
 	return (false);
 }
 
@@ -71,7 +62,7 @@ int	count_field_len(t_field *field)
 	while (len)
 	{
 		value = ((t_token *)(cur_node->content))->value;
-		if (is_redirection_value(value))
+		if (ft_strncmp(value, "<", 1) == 0 || ft_strncmp(value, ">", 1) == 0)
 			++field_len;
 		--len;
 		cur_node = cur_node->next;
@@ -103,39 +94,23 @@ bool	check_bracket_syntax_error(t_list *exec_list)
 
 void	subshell_logic(int argc, char **argv, t_list *env_list)
 {
-	int	i;
+	t_list	*cmd_list;
+	t_tree	*cmd_tree;
+	t_list	*cmd_exec_list;
+	char	*line;
 
-	t_list *cmd_list;
-	t_tree *cmd_tree;
-	t_list *cmd_exec_list;
-	char *line;
-
+	(void)argc;
+	line = ft_strdup(argv[1]);
+	if (is_correct_pair(line) == false)
+		return ;
 	cmd_list = init_list();
 	cmd_tree = init_tree();
-	line = ft_strdup(argv[1]);
-	if (ft_strcmp(line, "") == 0)
-	{
-		free(line);
-		return ;
-	}
-	if (is_correct_pair(line) == false)
-	{
-		free(line);
-		return ;
-	}
 	tokenize(line, cmd_list);
 	parser(cmd_tree, cmd_list);
 	if (check_syntax_error(cmd_tree) == false)
-	{
-		free(line);
 		return ;
-	}
 	cmd_exec_list = convert_tree_to_exec_list(cmd_tree);
 	if (check_bracket_syntax_error(cmd_exec_list) == false)
-	{
-		free(line);
 		return ;
-	}
 	execute(cmd_exec_list, env_list);
-	free(line);
 }
