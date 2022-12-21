@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 09:49:30 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/19 15:56:09 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:48:28 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*ft_strjoin_no_free(char const *s1, char const *s2)
 	size_t	j;
 	char	*ptr;
 
-	ptr = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (!ptr)
-		return (0);
+	ptr = (char *)_malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	i = 0;
 	while (s1[i] != 0)
 	{

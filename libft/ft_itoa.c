@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seou.kr>      +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 20:38:00 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/07/18 17:24:04 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 15:13:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ char	*ft_itoa(int n)
 
 	nb = (long)n;
 	int_len = get_int_len(nb);
-	ptr = (char *)malloc(sizeof(char) * (int_len + 1));
-	if (!ptr)
-		return (0);
+	ptr = (char *)_malloc(sizeof(char) * (int_len + 1));
 	i = int_len;
 	ptr[i--] = 0;
 	if (nb < 0)

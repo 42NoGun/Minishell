@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   write.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:49:46 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:36:51 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/12/21 16:00:34 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/12/21 16:08:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <unistd.h>
+#include "libft.h"
 
-int	b_pwd(void)
+ssize_t	_write(int fildes, const void *buf, size_t nbyte)
 {
-	char	pwd[256];
+	ssize_t	ret;
 
-	if (getcwd(pwd, 256) != 0)
-		ft_putendl_fd(pwd, 1);
-	return (0);
+	ret = write(fildes, buf, nbyte);
+	if (ret == -1)
+		ft_terminate("write()");
+	return (ret);
 }

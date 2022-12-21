@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:49:46 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:36:51 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/12/21 15:07:10 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/12/21 15:09:05 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
 
-int	b_pwd(void)
+void	*_malloc(size_t size)
 {
-	char	pwd[256];
+	void	*ptr;
 
-	if (getcwd(pwd, 256) != 0)
-		ft_putendl_fd(pwd, 1);
-	return (0);
+	ptr = malloc(size);
+	if (!ptr)
+		ft_terminate("malloc()");
+	return (ptr);
 }

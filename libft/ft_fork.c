@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:49:46 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:36:51 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/12/21 14:53:26 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/12/21 16:52:41 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <unistd.h>
+#include "libft.h"
 
-int	b_pwd(void)
+int	_fork(void)
 {
-	char	pwd[256];
+	pid_t	pid;
 
-	if (getcwd(pwd, 256) != 0)
-		ft_putendl_fd(pwd, 1);
-	return (0);
+	pid = fork();
+	if (pid == -1)
+		ft_terminate("fork()");
+	return (pid);
 }

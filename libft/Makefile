@@ -6,44 +6,31 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/13 10:36:05 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/19 15:57:32 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/21 16:47:15 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-SRC_NAME_MAN = isalpha isdigit isalnum isascii isprint \
+SRC_NAME = isalpha isdigit isalnum isascii isprint \
 			toupper tolower strchr strrchr strlen strncmp \
 			memset bzero memchr memcpy memcmp memmove \
 			strnstr strlcpy strlcat atoi calloc strdup \
 			substr strjoin strtrim split itoa strmapi terminate assert\
 			striteri putchar_fd putstr_fd putendl_fd putnbr_fd \
-			strcmp strjoin_left_free strjoin_right_free strjoin_no_free
-			
-SRC_NAME_BONUS = lstnew lstadd_front lstsize lstlast lstadd_back lstdelone \
-					lstclear lstiter lstmap
- 
-SRC_MAN = $(addprefix ft_, $(addsuffix .c, $(SRC_NAME_MAN)))
-SRC_BONUS = $(addprefix ft_, $(addsuffix .c, $(SRC_NAME_BONUS)))
-OBJ_MAN = $(SRC_MAN:.c=.o)
-OBJ_BONUS = $(SRC_BONUS:.c=.o)
+			strcmp strjoin_left_free strjoin_right_free strjoin_no_free \
+			malloc pipe write fork dup2 close chdir
 
-ifdef WITH_BONUS
-	OBJ = $(OBJ_MAN) $(OBJ_BONUS)
-else
-	OBJ = $(OBJ_MAN)
-endif
+SRC = $(addprefix ft_, $(addsuffix .c, $(SRC_NAME)))
+OBJ = $(SRC:.c=.o)
 
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 ARFLAGS = -rcus
 
 all : $(NAME)
 
-bonus :
-	@make WITH_BONUS=1 all
-
 clean :
-		rm -f $(OBJ_MAN) $(OBJ_BONUS)
+		rm -f $(OBJ)
 
 fclean : clean
 		rm -f $(NAME)

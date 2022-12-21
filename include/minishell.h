@@ -94,18 +94,17 @@ char	*get_field_index_refined_value(t_field *field, int i);
 void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
 void	refine_field(t_field *field, char ***command, char ***redirections, int i);
 
-
 void	concatenate_not_expanded_content(char **expanded_content, char **content);
 void	concatenate_expanded_content(char **expanded_content, char **content, t_list *env_list);
 void	execute(t_list *exec_list, t_list *env_list);
 
-void	b_pwd(void);
-void	b_cd(char **command, t_list *env_list);
-void	b_echo(char **commands);
-void	b_env(char **command, t_list *env_list);
-void	b_exit(char **command, bool parent);
-void	b_export(char **command, t_list *env_list);
-void	b_unset(char **command, t_list *env_list);
+int		b_pwd(void);
+int		b_cd(char **command, t_list *env_list);
+int		b_echo(char **commands);
+int		b_env(char **command, t_list *env_list);
+int		b_exit(char **command, bool parent);
+int		b_export(char **command, t_list *env_list);
+int		b_unset(char **command, t_list *env_list);
 char	**list_to_2d_array(t_list *envp_list);
 void	print_export(t_list *env_list);
 char	*get_key(char *command, char *value);

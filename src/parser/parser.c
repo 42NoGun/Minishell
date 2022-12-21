@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:20:21 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 11:08:46 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 15:22:31 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ t_field	*make_field(t_node **cur_node)
 	t_token	*token;
 	t_field	*field;
 
-	field = malloc(sizeof(t_field));
-	if (!field)
-		ft_terminate("make_field, malloc error");
+	field = _malloc(sizeof(t_field));
 	token = (*cur_node)->content;
 	field->start_ptr = *cur_node;
 	field->len = 0;

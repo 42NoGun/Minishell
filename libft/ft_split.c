@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seou.kr>      +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:28:30 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/07/19 14:56:53 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 15:15:32 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ static char	*make_word(char const *s, char c)
 
 	i = 0;
 	word_len = get_word_len(s, c);
-	word = (char *)malloc(sizeof(char) * (word_len + 1));
-	if (!word)
-		return (0);
+	word = (char *)_malloc(sizeof(char) * (word_len + 1));
 	while (i < word_len)
 	{
 		word[i] = s[i];
@@ -84,9 +82,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	j = 0;
 	word_cnt = count_word(s, c);
-	list = (char **)malloc(sizeof(char *) * (word_cnt + 1));
-	if (!list)
-		return (0);
+	list = (char **)_malloc(sizeof(char *) * (word_cnt + 1));
 	while (i < word_cnt)
 	{
 		while (s[j] != 0 && s[j] == c)

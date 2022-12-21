@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   chdir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:49:46 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:36:51 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/12/21 14:56:04 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/12/21 15:08:13 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <unistd.h>
+#include <stdio.h>
 
-int	b_pwd(void)
+int	_chdir(char *path)
 {
-	char	pwd[256];
+	int	ret;
 
-	if (getcwd(pwd, 256) != 0)
-		ft_putendl_fd(pwd, 1);
-	return (0);
+	ret = chdir(path);
+	if (ret == 0)
+		return (0);
+	else
+	{
+		perror("cd");
+		return (1);
+	}
 }

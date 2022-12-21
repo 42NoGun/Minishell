@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:55 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/12 14:52:10 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 11:23:16 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	b_echo(char **command)
+int	b_echo(char **command)
 {
 	bool	print_newline;
 	int		i;
@@ -33,4 +33,5 @@ void	b_echo(char **command)
 	}
 	if (print_newline)
 		ft_putchar_fd('\n', 1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:06:02 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/19 17:03:34 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:15:41 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_swap(char **a, char **b)
 }
 
 // Author: hanbkim
-void	print_export_value(char	*arg)
+static void	print_export_value(char	*arg)
 {
 	int	i;
 
@@ -31,10 +31,10 @@ void	print_export_value(char	*arg)
 	{
 		while (arg[i] != '=')
 			++i;
-		write(1, arg, i + 1);
-		write(1, "\"", 1);
-		write(1, arg + i + 1, ft_strlen(arg) - i - 1);
-		write(1, "\"\n", 2);
+		_write(1, arg, i + 1);
+		_write(1, "\"", 1);
+		_write(1, arg + i + 1, ft_strlen(arg) - i - 1);
+		_write(1, "\"\n", 2);
 	}
 	else
 	{

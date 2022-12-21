@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 15:49:46 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:36:51 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/12/21 15:07:10 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/12/21 15:48:35 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
 
-int	b_pwd(void)
+int	_pipe(int **fildes)
 {
-	char	pwd[256];
+	int	ret;
 
-	if (getcwd(pwd, 256) != 0)
-		ft_putendl_fd(pwd, 1);
+	ret = pipe(*fildes);
+	if (ret == -1)
+		ft_terminate("pipe");
 	return (0);
 }

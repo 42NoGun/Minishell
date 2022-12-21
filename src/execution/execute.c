@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanbkim <hanbkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: cjeseo <cjiyunpeseo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:30:18 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/20 15:38:26 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 10:42:20 by cjiyunpeseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ bool	pipe_connect(t_node *cur_next_node, int fd_pipe[2])
 	token = (t_token *)((t_field *)cur_next_node->content)->start_ptr->content;
 	if (ft_strcmp(token->value, "|") != 0)
 		return (false);
-	if (pipe(fd_pipe) == -1)
-		ft_terminate("pipe_connect, pipe");
+	_pipe(&fd_pipe);
 	return (true);
 }
 
@@ -162,18 +161,18 @@ bool	heredoc(char **redirections, int std_in, bool parent)
 			if (open_error(fd, parent) == true)
 				return (false);
 			dup2(fd, 0);
-			close(fd);
+			_close(fd);
 			unlink(file_path);
 			free(file_path);
 		}
 		i += 2;
 	}
 	if (!parent)
-		close(std_in);
+		_close(std_in);
 	return (true);
 }
 
-bool	redirection(char **redirections, int std_in, bool parent)
+bool	redirection(char **redirections, bool parent)
 {
 	int	i;
 	int	fd;
@@ -187,7 +186,7 @@ bool	redirection(char **redirections, int std_in, bool parent)
 			if (fd == -1)
 				ft_terminate("redirection, open");
 			dup2(fd, 1);
-			close(fd);
+			_close(fd);
 		}
 		else if (ft_strcmp(redirections[i], "<") == 0)
 		{
@@ -200,7 +199,7 @@ bool	redirection(char **redirections, int std_in, bool parent)
 				return (false);
 			}
 			dup2(fd, 0);
-			close(fd);
+			_close(fd);
 		}
 		else if (ft_strcmp(redirections[i], ">") == 0)
 		{
@@ -213,12 +212,10 @@ bool	redirection(char **redirections, int std_in, bool parent)
 				return (false);
 			}
 			dup2(fd, 1);
-			close(fd);
+			_close(fd);
 		}
 		i += 2;
 	}
-	if (!parent)
-		close(std_in);
 	return (true);
 }
 
@@ -257,19 +254,19 @@ char	**put_program_name(char **old_command)
 void	do_builtin(char **command, t_list *env_list, bool parent)
 {
 	if (ft_strcmp(*command, "echo") == 0)
-		b_echo(command);
+		g_exit_status = b_echo(command) << 8 ;
 	else if (ft_strcmp(*command, "cd") == 0)
-		b_cd(command, env_list);
+		g_exit_status = b_cd(command, env_list) << 8;
 	else if (ft_strcmp(*command, "pwd") == 0)
-		b_pwd();
+		g_exit_status = b_pwd() << 8;
 	else if (ft_strcmp(*command, "export") == 0)
-		b_export(command, env_list);
+		g_exit_status = b_export(command, env_list) << 8;
 	else if (ft_strcmp(*command, "unset") == 0)
-		b_unset(command, env_list);
+		g_exit_status = b_unset(command, env_list) << 8;
 	else if (ft_strcmp(*command, "env") == 0)
-		b_env(command, env_list);
+		g_exit_status = b_env(command, env_list) << 8;
 	else if (ft_strcmp(*command, "exit") == 0)
-		b_exit(command, parent);
+		g_exit_status = b_exit(command, parent) << 8;
 }
 
 void	find_path(char **command, t_list *env_list)
@@ -422,7 +419,7 @@ void	execute(t_list *exec_list, t_list *env_list)
 		if (has_pipe == false && is_builtin(*command) && prev_pipe_in == -1)
 		{
 			if (heredoc(redirections, std_in, true) == true
-				&& redirection(redirections, std_in, true) == true)
+				&& redirection(redirections, true) == true)
 			{
 				do_builtin(command, env_list, true);
 				dup2(std_in, 0);
@@ -441,18 +438,18 @@ void	execute(t_list *exec_list, t_list *env_list)
 			if (prev_pipe_in != -1)
 			{
 				dup2(prev_pipe_in, 0);
-				close(prev_pipe_in);
+				_close(prev_pipe_in);
 			}
 			heredoc(redirections, std_in, false);
 			if (has_pipe)
 			{
 				dup2(fd_pipe[1], 1);
-				close(fd_pipe[1]);
-				close(fd_pipe[0]);
-				redirection(redirections, std_in, false);
+				_close(fd_pipe[1]);
+				_close(fd_pipe[0]);
+				redirection(redirections, false);
 			}
 			else
-				redirection(redirections, std_in, false);
+				redirection(redirections, false);
 			if (*command == NULL)
 				exit(0);
 			if (is_subshell)
@@ -469,17 +466,17 @@ void	execute(t_list *exec_list, t_list *env_list)
 				find_path(command, env_list);
 			if (execve(command[0], command, list_to_2d_array(env_list)) == -1)
 			{
-				write(2, "command not found\n", 19);
+				_write(2, "command not found\n", 19);
 				exit(127);
 			}
 		}
 		push_back(pid_list, make_node((void *)(long long)pid));
 		if (prev_pipe_in != -1)
-			close(prev_pipe_in);
+			_close(prev_pipe_in);
 		if (has_pipe)
 		{
 			prev_pipe_in = fd_pipe[0];
-			close(fd_pipe[1]);
+			_close(fd_pipe[1]);
 		}
 		cur_node = cur_node->next;
 		free_2d_str(command);
@@ -491,14 +488,18 @@ void	execute(t_list *exec_list, t_list *env_list)
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
 			if (g_exit_status == 3)
-				write(2, "Quit: 3\n", 9);
+				_write(2, "Quit: 3\n", 9);
 			else if (g_exit_status == 2)
-				write(2, "\n", 1);
+			{
+				_write(2, "\n", 1);
+				g_exit_status = (g_exit_status + 128) << 8 ;
+				break ;
+			}
 			g_exit_status = (g_exit_status + 128) << 8 ;
 		}
 		pop_front(pid_list);
 	}
 	free_list_only_node(pid_list);
-	close(std_in);
-	close(std_out);
+	_close(std_in);
+	_close(std_out);
 }

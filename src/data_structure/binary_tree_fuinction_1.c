@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_tree.c                                      :+:      :+:    :+:   */
+/*   binary_tree_fuinction_1.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/01 11:32:21 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 15:21:57 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+#include "minishell.h"
 #include "binary_tree.h"
 #include "libft.h"
 
@@ -18,9 +19,7 @@ t_tree	*init_tree(void)
 {
 	t_tree	*tree;
 
-	tree = malloc(sizeof(t_tree));
-	if (!tree)
-		ft_terminate("init_tree, malloc error");
+	tree = _malloc(sizeof(t_tree));
 	tree->root = NULL;
 	return (tree);
 }
@@ -29,9 +28,7 @@ t_tree_node	*make_tree_node(void *content)
 {
 	t_tree_node	*new_node;
 
-	new_node = malloc(sizeof(t_tree_node));
-	if (!new_node)
-		ft_terminate("make_tree_node, malloc error");
+	new_node = _malloc(sizeof(t_tree_node));
 	new_node->content = content;
 	new_node->level = 0;
 	new_node->left = NULL;
