@@ -1,5 +1,31 @@
 # Minishell
 
+### 2022.12.21(수) (Day 31)
+- [ ] junji 바로 푸쉬하기
+- [ ] ls() -> syntax error 볼지 아니면 command not founvd 로 냅둘지 => 저는 냅둬야 한다고 생각합니다!!!!! (cheseo가 한 말임)
+- [ ] subhsell (cat) | (cat) | (cat) -> 인터럽트 했을 때 띄어쓰기 3번되는 문제
+- [ ] builtin exit status 처리
+- [ ] norm
+	- [ ] execute
+	- [ ] refien_field
+	- [ ] tokenize
+	- [ ] main
+- [ ] 1. System Call 반환값 예외 핸들링!!
+- [ ] 2. lsof로 minishell fd누수 잡아야 한다 (Minsukan)
+- [ ] 3. Makefile 정리
+	- [ ] minishell 폴더에서 make 했을 때 libft 컴파일 되게
+	- [ ] make fclean libft 지우기
+	- [ ] readline dir 경로 수정 (경기는 무조건 home)
+	- [ ] CFLAG 확인
+	- [ ] Makefile heredoc
+
+- 지윤님이 확인해주셔야 할 것
+	- 1. execute()
+	- 2. expand
+	- 3. heredoc
+	- 4. subshell
+	- 5. (그냥 다 해주세요 ㅎ)
+
 ### 2022.12.20(화) (Day 30)
 - [ ] 폴더 나누기, 파일 나누기
 - [ ] 1. System Call 반환값 예외 핸들링!!
