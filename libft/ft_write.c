@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   write.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/14 09:19:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 16:48:02 by jiyunpar         ###   ########.fr       */
+/*   Created: 2022/12/21 16:00:34 by jiyunpar          #+#    #+#             */
+/*   Updated: 2022/12/21 16:08:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+ssize_t	_write(int fildes, const void *buf, size_t nbyte)
 {
-	unsigned int	i;
-	size_t			s_len;
-	char			*ptr;
+	ssize_t	ret;
 
-	s_len = ft_strlen(s);
-	if (start >= s_len)
-		len = 0;
-	if (len >= s_len)
-		len = s_len;
-	ptr = (char *)_malloc(sizeof(char) * len + 1);
-	i = 0;
-	while (i < len && s[start + i] != 0)
-	{
-		ptr[i] = s[start + i];
-		i++;
-	}
-	ptr[i] = 0;
-	return (ptr);
+	ret = write(fildes, buf, nbyte);
+	if (ret == -1)
+		ft_terminate("write()");
+	return (ret);
 }

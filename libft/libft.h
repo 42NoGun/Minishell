@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:07:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/19 15:56:25 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:44:53 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,14 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strjoin_left_free(char const *s1, char const *s2);
 char	*ft_strjoin_right_free(char const *s1, char const *s2);
 char	*ft_strjoin_no_free(char const *s1, char const *s2);
+
+int		_chdir(char *path);
+int		_fork(void);
+void	*_malloc(size_t size);
+int		_pipe(int **fildes);
+// int		_open(const char *path, int oflag, ...);
+int		_close(int fd);
+int		_dup2(int fildes, int fildes2);
+ssize_t	_write(int fildes, const void *buf, size_t nbyte);
 
 #endif
