@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/20 16:23:33 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/21 14:20:45 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	is_expanded_wildcard(char *value)
 	return (false);
 }
 
-void	convert_wildcard_to_command_list(char ***command, int *cmd_i, int *old_command_len, int argv_count, char *value)
+void	convert_wildcard_to_command_list(char ***command, int *cmd_i, int *old_command_len, char *value)
 {
 	char	**wildcard_split;
 	int		word_len;
@@ -82,7 +82,7 @@ void	convert_wildcard_to_command_list(char ***command, int *cmd_i, int *old_comm
 
 void	refine_field(t_field *field, char ***command, char ***redirections, int i)
 {
-	bool	*refine;
+	bool	*is_command;
 	int		argv_count;
 	int		cmd_i;
 	int		redir_i;
@@ -90,7 +90,7 @@ void	refine_field(t_field *field, char ***command, char ***redirections, int i)
 	int		old_command_len;
 
 	argv_count = 0;
-	find_to_refine_token(field->start_ptr, field->len, &refine, &argv_count);
+	find_to_command_token(field->start_ptr, field->len, &is_command, &argv_count);
 	*command = ft_calloc(sizeof(char *), argv_count + 1);
 	*redirections = ft_calloc(sizeof(char *), field->len - argv_count + 1);
 	i = 0;
@@ -100,10 +100,10 @@ void	refine_field(t_field *field, char ***command, char ***redirections, int i)
 	while (i < field->len)
 	{
 		value = get_field_index_refined_value(field, i);
-		if (refine[i] == true)
+		if (is_command[i] == true)
 		{
 			if (is_expanded_wildcard(value) == true)
-				convert_wildcard_to_command_list(command, &cmd_i, &old_command_len, argv_count, value);
+				convert_wildcard_to_command_list(command, &cmd_i, &old_command_len, value);
 			else
 				(*command)[cmd_i++] = ft_strdup(value);
 		}
@@ -111,5 +111,5 @@ void	refine_field(t_field *field, char ***command, char ***redirections, int i)
 			(*redirections)[redir_i++] = ft_strdup(value);
 		++i;
 	}
-	free(refine);
+	free(is_command);
 }

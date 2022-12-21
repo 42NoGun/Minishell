@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_field_index_and_refine_value.c                 :+:      :+:    :+:   */
+/*   refine_and_get_field_index.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hanbkim <hanbkim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/20 12:23:01 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 14:21:14 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static bool	is_redirection_value(char *value)
 	return (false);
 }
 
-void	find_to_refine_token(t_node *cur_node, int field_len,
+void	find_to_command_token(t_node *cur_node, int field_len,
 	bool **refine_ret, int *command_len)
 {
 	bool	*to_refine;
