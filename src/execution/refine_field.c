@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_field.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/21 15:35:20 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:18:110 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static char	**list_to_array(t_list *list)
 	while (list->len)
 	{
 		ret[i++] = ft_strdup(list->head->content);
+		free(list->head->content);
 		pop_front(list);
 	}
 	free(list);
@@ -53,14 +54,14 @@ static void	push_command(t_list *cmd_list, char *value)
 
 	if (is_expanded_wildcard(value) == false)
 	{
-		push_back(cmd_list, make_node(value));
+		push_back(cmd_list, make_node(ft_strdup(value)));
 		return ;
 	}
 	wildcard_split = ft_split(value, ' ');
 	i = 0;
 	while (wildcard_split[i])
 	{
-		push_back(cmd_list, make_node(value));
+		push_back(cmd_list, make_node(wildcard_split[i]));
 		++i;
 	}
 	free(wildcard_split);
