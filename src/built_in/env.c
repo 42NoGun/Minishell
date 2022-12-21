@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:57 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/19 14:34:30 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 14:29:40 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // - each node has string value as below
 // ex) USER=jiyunpar -> unquoted key & unquoted value
 // 1. print list which is unorderd
-void	b_env(char **command, t_list *env_list)
+int	b_env(char **command, t_list *env_list)
 {
 	t_node	*cur_node;
 	char	*value;
@@ -28,6 +28,7 @@ void	b_env(char **command, t_list *env_list)
 	if (command[1] != NULL)
 	{
 		ft_putendl_fd("env: Have argument", 2);
+		return (127);
 	}
 	while (cur_node)
 	{
@@ -38,4 +39,5 @@ void	b_env(char **command, t_list *env_list)
 		}
 		cur_node = cur_node->next;
 	}
+	return (0);
 }

@@ -6,17 +6,9 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:52 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/19 16:58:56 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:35:07 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// cd /Home/junji/Desktop
-// cd ../d
-// cd ~ <- 절대 경로
-// cd <- ..???
-// int chdir( const char *dirname );
-//dirname : 변경할 디렉토리의 경로
-//반환값 : 정상 일 때 0, 에러 시 -1
 
 #include "minishell.h"
 
@@ -81,25 +73,25 @@ static bool	has_cd_many_argument(char **command)
 	return (false);
 }
 
-void	b_cd(char **command, t_list *env_list)
+int	b_cd(char **command, t_list *env_list)
 {
 	char	*path;
 	char	*old_pwd;
 	char	*pwd;
+	int		ret;
 
 	if (has_cd_many_argument(command) == true)
-		return ;
+		return (1);
 	path = get_path(command[1], env_list);
 	if (path == NULL)
-		return ;
+		return (1);
 	old_pwd = set_oldpwd(env_list);
 	if (old_pwd != NULL)
 	{
 		ft_setenv(env_list, "OLDPWD", old_pwd);
 		free(old_pwd);
 	}
-	if (chdir(path) != 0)
-		perror("cd");
+	ret = _chdir(path);
 	pwd = set_pwd();
 	if (pwd != NULL)
 	{
@@ -107,4 +99,5 @@ void	b_cd(char **command, t_list *env_list)
 		free(pwd);
 	}
 	free(path);
+	return (ret);
 }

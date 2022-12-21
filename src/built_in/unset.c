@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:15 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/18 02:00:47 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 11:40:33 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_delete_env(t_list *env_list, char *key)
 
 // unset
 // -delete variable from env_list
-void	b_unset(char **command, t_list *env_list)
+int	b_unset(char **command, t_list *env_list)
 {
 	int		i;
 	char	*key;
@@ -56,4 +56,5 @@ void	b_unset(char **command, t_list *env_list)
 		free(key);
 		++i;
 	}
+	return (0);
 }

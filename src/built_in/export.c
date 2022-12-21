@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:09 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/19 16:57:06 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 15:32:34 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	push_env(char *command, t_list *env_list)
 	push_back(env_list, make_node(ft_strdup(command)));
 }
 
-static void	export_with_arguments(char **command, t_list *env_list)
+static void	export_with_arguments(char **command, t_list *env_list, int *ret)
 {
 	int		i;
 	char	*value;
@@ -41,9 +41,10 @@ static void	export_with_arguments(char **command, t_list *env_list)
 	i = 1;
 	while (command[i])
 	{
-		if (ft_isdigit(command[i][0]))
+		if (!ft_isalpha(command[i][0]))
 		{
-			perror("export: not an identifier");
+			ft_putendl_fd("export: not an identifier", 2);
+			*ret = 1;
 			++i;
 			continue ;
 		}
@@ -68,8 +69,12 @@ static void	export_with_arguments(char **command, t_list *env_list)
 // 3. print with quote 
 // with arguments
 // 1. pushback variable to linked list
-void	b_export(char **command, t_list *env_list)
+int	b_export(char **command, t_list *env_list)
 {
+	int	ret;
+
+	ret = 0;
 	export_with_no_arguments(command, env_list);
-	export_with_arguments(command, env_list);
+	export_with_arguments(command, env_list, &ret);
+	return (ret);
 }
