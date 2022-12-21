@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/16 17:24:32 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 16:16:39 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 #include <fcntl.h>
 #include "minishell.h"
 
-int main(int argc, char **argv, char **envp)
+
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_list	*cmd_list;
@@ -79,7 +80,7 @@ int main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		pid_t pid = fork();
+		pid_t pid = _fork();
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
@@ -90,9 +91,9 @@ int main(int argc, char **argv, char **envp)
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
 			if (g_exit_status == 3)
-				write(2, "Quit: 3\n", 9);
+				_write(2, "Quit: 3\n", 9);
 			else if (g_exit_status == 2)
-				write(2, "\n", 1);
+				_write(2, "\n", 1);
 			g_exit_status = (g_exit_status + 128) << 8;
 			free_list_node_token(cmd_list);
 			free_tree_node_field(cmd_tree);
@@ -106,6 +107,7 @@ int main(int argc, char **argv, char **envp)
 		free_tree_node_field(cmd_tree);
 		free_list_only_node(cmd_exec_list);
 		free(line);
+		// system("leaks minishell");
 	}
 	free_list_node_content(env_list);
 	return (0);

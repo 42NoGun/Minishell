@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 11:11:53 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 15:20:55 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ char	*ft_charjoin(char *str, char c)
 	size_t	i;
 	char	*ret;
 
-	ret = malloc(sizeof(char) * (ft_strlen(str) + 2));
-	if (!ret)
-		ft_terminate("ft_charjoin, malloc error");
+	ret = _malloc(sizeof(char) * (ft_strlen(str) + 2));
 	i = 0;
 	while (str[i] != 0)
 	{
@@ -40,9 +38,7 @@ char	*ft_chardup(char c)
 {
 	char	*ret;
 
-	ret = malloc(2);
-	if (!ret)
-		ft_terminate("ft_chardup, malloc error");
+	ret = _malloc(2);
 	ret[0] = c;
 	ret[1] = '\0';
 	return (ret);
@@ -68,9 +64,7 @@ t_token	*create_token(char *prev_str)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
-	if (!token)
-		ft_terminate("creat_token, malloc error");
+	token = _malloc(sizeof(t_token));
 	token->value = prev_str;
 	token->priority = get_priority(prev_str);
 	return (token);

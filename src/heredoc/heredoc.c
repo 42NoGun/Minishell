@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:18:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 11:51:47 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/21 16:20:44 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	write_heredoc(char *file_path, t_list *limiter_list)
 	pop_front(limiter_list);
 	fd = open(file_path, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	if (fd == -1)
-		ft_terminate("write_heredoc, open");
+		ft_terminate("open()");
 	while (1)
 	{
 		line = readline("> ");
@@ -101,11 +101,11 @@ void	write_heredoc(char *file_path, t_list *limiter_list)
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		_write(fd, line, ft_strlen(line));
+		_write(fd, "\n", 1);
 		free(line);
 	}
-	close(fd);
+	_close(fd);
 }
 
 bool	make_heredoc_file(t_list *exec_list)

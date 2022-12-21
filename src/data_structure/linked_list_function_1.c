@@ -6,20 +6,19 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:11:26 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/16 13:17:49 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 15:22:05 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "linked_list.h"
 #include "libft.h"
+#include "minishell.h"
 
 t_list	*init_list(void)
 {
 	t_list	*list;
 
-	list = malloc(sizeof(t_list));
-	if (!list)
-		ft_terminate("init_list, malloc error");
+	list = _malloc(sizeof(t_list));
 	list->head = NULL;
 	list->tail = NULL;
 	list->len = 0;
@@ -30,9 +29,7 @@ t_node	*make_node(void *content)
 {
 	t_node	*new_node;
 
-	new_node = (t_node *)malloc(sizeof(t_node));
-	if (!new_node)
-		ft_terminate("make_node, malloc error");
+	new_node = (t_node *)_malloc(sizeof(t_node));
 	new_node->content = content;
 	new_node->next = NULL;
 	new_node->prev = NULL;
