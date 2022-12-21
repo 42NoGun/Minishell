@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 14:22:05 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 15:15:06 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token, t_list *env_list);
 t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
 
-void	find_to_command_token(t_node *cur_node, int field_len,
-	bool **refine_ret, int *command_len);
+bool	*find_to_command_token(t_node *cur_node, int field_len);
 char	*get_field_index_refined_value(t_field *field, int i);
 void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
 void	refine_field(t_field *field, char ***command, char ***redirections, int i);

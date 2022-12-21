@@ -6,39 +6,11 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/21 14:20:45 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/21 15:35:20 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_count_word_splited(char **wildcard_split)
-{
-	int	len;
-
-	len = 0;
-	while (wildcard_split[len])
-	{
-		++len;
-	}
-	return (len);
-}
-
-char	**ft_str_realloc(char **ptr, int old_len, int new_len)
-{
-	char	**new_ptr;
-	int		i;
-
-	i = 0;
-	new_ptr = calloc(sizeof(char *), new_len);
-	while (i < old_len)
-	{
-		new_ptr[i] = ptr[i];
-		++i;
-	}
-	free(ptr);
-	return (new_ptr);
-}
 
 bool	is_expanded_wildcard(char *value)
 {
@@ -58,58 +30,64 @@ bool	is_expanded_wildcard(char *value)
 	return (false);
 }
 
-void	convert_wildcard_to_command_list(char ***command, int *cmd_i, int *old_command_len, char *value)
+static char	**list_to_array(t_list *list)
+{
+	char	**ret;
+	int		i;
+
+	ret = ft_calloc(sizeof(char *), list->len + 1);
+	i = 0;
+	while (list->len)
+	{
+		ret[i++] = ft_strdup(list->head->content);
+		pop_front(list);
+	}
+	free(list);
+	return (ret);
+}
+
+static void	push_command(t_list *cmd_list, char *value)
 {
 	char	**wildcard_split;
-	int		word_len;
-	int		new_command_len;
-	int		j;
+	int		i;
 
-	wildcard_split = ft_split(value, ' ');
-	word_len = ft_count_word_splited(wildcard_split);
-	new_command_len = *old_command_len + word_len - 1;
-	*command = ft_str_realloc(*command, *old_command_len, new_command_len);
-	*old_command_len = new_command_len;
-	j = 0;
-	while (wildcard_split[j])
+	if (is_expanded_wildcard(value) == false)
 	{
-		(*command)[*cmd_i] = wildcard_split[j];
-		++j;
-		++(*cmd_i);
+		push_back(cmd_list, make_node(value));
+		return ;
+	}
+	wildcard_split = ft_split(value, ' ');
+	i = 0;
+	while (wildcard_split[i])
+	{
+		push_back(cmd_list, make_node(value));
+		++i;
 	}
 	free(wildcard_split);
 }
 
-void	refine_field(t_field *field, char ***command, char ***redirections, int i)
+void	refine_field(t_field *field,
+			char ***command, char ***redirections, int i)
 {
 	bool	*is_command;
-	int		argv_count;
-	int		cmd_i;
-	int		redir_i;
 	char	*value;
-	int		old_command_len;
+	t_list	*cmd_list;
+	t_list	*redir_list;
 
-	argv_count = 0;
-	find_to_command_token(field->start_ptr, field->len, &is_command, &argv_count);
-	*command = ft_calloc(sizeof(char *), argv_count + 1);
-	*redirections = ft_calloc(sizeof(char *), field->len - argv_count + 1);
+	is_command = find_to_command_token(field->start_ptr, field->len);
+	cmd_list = init_list();
+	redir_list = init_list();
 	i = 0;
-	cmd_i = 0;
-	redir_i = 0;
-	old_command_len = argv_count + 1;
 	while (i < field->len)
 	{
 		value = get_field_index_refined_value(field, i);
 		if (is_command[i] == true)
-		{
-			if (is_expanded_wildcard(value) == true)
-				convert_wildcard_to_command_list(command, &cmd_i, &old_command_len, value);
-			else
-				(*command)[cmd_i++] = ft_strdup(value);
-		}
+			push_command(cmd_list, value);
 		else
-			(*redirections)[redir_i++] = ft_strdup(value);
+			push_back(redir_list, make_node(value));
 		++i;
 	}
+	*command = list_to_array(cmd_list);
+	*redirections = list_to_array(redir_list);
 	free(is_command);
 }
