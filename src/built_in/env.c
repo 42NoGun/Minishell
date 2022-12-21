@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:57 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 14:29:40 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:47:26 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	b_env(char **command, t_list *env_list)
 {
 	t_node	*cur_node;
 	char	*value;
-	char	*not_quoted_env;
-	int		i;
 
 	cur_node = env_list->head;
 	if (command[1] != NULL)

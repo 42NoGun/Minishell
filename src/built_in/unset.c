@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:15 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:40:33 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:46:03 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	b_unset(char **command, t_list *env_list)
 	int		i;
 	char	*key;
 	char	*value;
-	char	*quoted_env;
 
 	i = 1;
 	while (command[i])

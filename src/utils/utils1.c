@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:11:44 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/19 17:10:44 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:47:25 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*get_value_export(char *command)
 void	copy_envp(t_list *env_list, char **envp)
 {
 	int		i;
-	char	*quoted_env;
 
 	i = 0;
 	while (envp[i])

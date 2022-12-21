@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:18:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 16:20:44 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/21 17:46:34 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	count_heredoc(t_field *field, int field_len, t_list *limiter_list)
 {
 	t_node	*cur_node;
 	char	*value;
-	int		loop_len;
 	int		heredoc_count;
 
 	heredoc_count = 0;
@@ -82,7 +81,6 @@ int	check_heredoc(t_list *exec_list, t_list *limiter_list)
 void	write_heredoc(char *file_path, t_list *limiter_list)
 {
 	int		fd;
-	int		i;
 	char	*line;
 	char	*limiter;
 

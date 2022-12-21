@@ -348,7 +348,6 @@ void	execute(t_list *exec_list, t_list *env_list)
 	int		fd_pipe[2];
 	int		prev_pipe_in;
 	bool	has_pipe;
-	char	*path;
 	t_list	*pid_list;
 	pid_t	pid;
 	int		std_in;
