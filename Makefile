@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/07 11:45:39 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/21 11:004:37 by cheseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,14 +52,13 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDE = -I${HOME}/.brew/opt/readline/include -I./include
 
-
 # gcc -lreadline -L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include src/main.c
 
-CFLAGS = -g3 -fsanitize=address
+CFLAGS = -UseLargePages -g3 #-fsanitize=address
 
 all : all_check
 
-debugs : 
+debugs :
 	make DEBUG=2
 
 debug :
