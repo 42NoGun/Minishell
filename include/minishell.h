@@ -88,9 +88,14 @@ bool	is_matchable_asterisk(char *dst_file, char *src_file);
 void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token, t_list *env_list);
 t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
-void	remove_quote(t_token *token);
+
+void	find_to_refine_token(t_node *cur_node, int field_len,
+	bool **refine_ret, int *command_len);
+char	*get_field_index_refined_value(t_field *field, int i);
 void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
-void	refine_field(t_field *field, char ***command, char ***redirections);
+void	refine_field(t_field *field, char ***command, char ***redirections, int i);
+
+
 void	concatenate_not_expanded_content(char **expanded_content, char **content);
 void	concatenate_expanded_content(char **expanded_content, char **content, t_list *env_list);
 void	execute(t_list *exec_list, t_list *env_list);

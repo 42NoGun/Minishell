@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_field.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanbkim <hanbkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/20 15:40:10 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/20 16:23:33 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,25 @@ bool	is_expanded_wildcard(char *value)
 	return (false);
 }
 
-void	convert_wildcard_to_command_list(char ***command, int *cmd_i, int argv_count, char *value)
+void	convert_wildcard_to_command_list(char ***command, int *cmd_i, int *old_command_len, int argv_count, char *value)
 {
 	char	**wildcard_split;
-	int		old_command_len;
 	int		word_len;
 	int		new_command_len;
 	int		j;
 
-	old_command_len = argv_count + 1;
 	wildcard_split = ft_split(value, ' ');
 	word_len = ft_count_word_splited(wildcard_split);
-	new_command_len = old_command_len + word_len - 1;
-	*command = ft_str_realloc(*command, old_command_len, new_command_len);
-	old_command_len = new_command_len;
+	new_command_len = *old_command_len + word_len - 1;
+	*command = ft_str_realloc(*command, *old_command_len, new_command_len);
+	*old_command_len = new_command_len;
 	j = 0;
 	while (wildcard_split[j])
-		(*command)[(*cmd_i)++] = wildcard_split[j++];
+	{
+		(*command)[*cmd_i] = wildcard_split[j];
+		++j;
+		++(*cmd_i);
+	}
 	free(wildcard_split);
 }
 
@@ -85,6 +87,7 @@ void	refine_field(t_field *field, char ***command, char ***redirections, int i)
 	int		cmd_i;
 	int		redir_i;
 	char	*value;
+	int		old_command_len;
 
 	argv_count = 0;
 	find_to_refine_token(field->start_ptr, field->len, &refine, &argv_count);
@@ -93,13 +96,14 @@ void	refine_field(t_field *field, char ***command, char ***redirections, int i)
 	i = 0;
 	cmd_i = 0;
 	redir_i = 0;
+	old_command_len = argv_count + 1;
 	while (i < field->len)
 	{
 		value = get_field_index_refined_value(field, i);
 		if (refine[i] == true)
 		{
 			if (is_expanded_wildcard(value) == true)
-				convert_wildcard_to_command_list(command, &cmd_i, argv_count, value);
+				convert_wildcard_to_command_list(command, &cmd_i, &old_command_len, argv_count, value);
 			else
 				(*command)[cmd_i++] = ft_strdup(value);
 		}
