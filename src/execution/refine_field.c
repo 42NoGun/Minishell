@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/21 17:18:110 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/22 15:47:08 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ static void	push_command(t_list *cmd_list, char *value)
 	free(wildcard_split);
 }
 
-void	refine_field(t_field *field,
-			char ***command, char ***redirections, int i)
+void	refine_field(t_field *field, char ***command, char ***redirections)
 {
 	bool	*is_command;
 	char	*value;
 	t_list	*cmd_list;
 	t_list	*redir_list;
+	int		i;
 
 	is_command = find_to_command_token(field->start_ptr, field->len);
 	cmd_list = init_list();
