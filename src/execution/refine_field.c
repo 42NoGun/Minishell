@@ -85,7 +85,7 @@ void	refine_field(t_field *field,
 		if (is_command[i] == true)
 			push_command(cmd_list, value);
 		else
-			push_back(redir_list, make_node(value));
+			push_back(redir_list, make_node(ft_strdup(value)));
 		++i;
 	}
 	*command = list_to_array(cmd_list);
