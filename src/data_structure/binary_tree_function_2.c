@@ -37,12 +37,12 @@ bool	inorder_traverse_bool(t_tree_node *cursor, bool (*f)(t_tree_node *))
 {
 	bool	b;
 
-	b = true;
+	b = false;
 	if (cursor == NULL)
 		return (b);
-	b &= inorder_traverse_bool(cursor->left, f);
-	b &= f(cursor);
-	b &= inorder_traverse_bool(cursor->right, f);
+	b |= inorder_traverse_bool(cursor->left, f);
+	b |= f(cursor);
+	b |= inorder_traverse_bool(cursor->right, f);
 	return (b);
 }
 

@@ -41,10 +41,12 @@ bool	is_space(char c)
 	return (false);
 }
 
-void	tokenize(char *line, t_list *cmd_list)
+t_list	*tokenize(char *line)
 {
 	char	*prev_str;
+	t_list	*cmd_list;
 
+	cmd_list = init_list();
 	prev_str = ft_strdup("");
 	while (*line)
 	{
@@ -95,7 +97,7 @@ void	tokenize(char *line, t_list *cmd_list)
 				++line;
 			}
 			if (!*line)
-				return ;
+				break ;
 			if (!is_operator(*line))
 			{
 				prev_str = ft_strdup("");
@@ -109,4 +111,5 @@ void	tokenize(char *line, t_list *cmd_list)
 	}
 	if (prev_str)
 		put_token_in_list(prev_str, cmd_list);
+	return (cmd_list);
 }

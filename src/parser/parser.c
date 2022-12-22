@@ -65,11 +65,13 @@ void	hang_from_tree(t_tree *cmd_tree, t_field *field)
 	}
 }
 
-bool	parser(t_tree *cmd_tree, t_list *cmd_list)
+t_tree	*make_tree(t_list *cmd_list)
 {
+	t_tree		*cmd_tree;
 	t_field		*field;
 	t_node		*cur_node;
 
+	cmd_tree = init_tree();
 	cur_node = cmd_list->head;
 	field = make_field(&cur_node);
 	push_left(NULL, make_tree_node(field), cmd_tree);
@@ -77,6 +79,29 @@ bool	parser(t_tree *cmd_tree, t_list *cmd_list)
 	{
 		field = make_field(&cur_node);
 		hang_from_tree(cmd_tree, field);
+	}
+	return (cmd_tree);
+}
+
+bool	can_parse(t_list **tokenized_list, t_tree **cmd_tree,
+	t_list **cmd_list, char *line)
+{
+	*tokenized_list = tokenize(line);
+	*cmd_tree = make_tree(*tokenized_list);
+	free(line);
+	if (!is_valid_operator_or_redirection(*cmd_tree))
+	{
+		free_list_node_token(*tokenized_list);
+		free_tree_node_field(*cmd_tree);
+		return (false);
+	}
+	*cmd_list = convert_tree_to_exec_list(*cmd_tree);
+	if (!is_valid_bracket_subshell(*cmd_list))
+	{
+		free_list_node_token(*tokenized_list);
+		free_tree_node_field(*cmd_tree);
+		free_list_only_node(*cmd_list);
+		return (false);
 	}
 	return (true);
 }

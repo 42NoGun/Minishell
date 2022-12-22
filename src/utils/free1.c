@@ -54,3 +54,9 @@ void	free_list_node_token(t_list *list)
 	free(list);
 }
 
+void	free_rest(t_list *tokenized_list, t_tree *cmd_tree, t_list *cmd_list)
+{
+	free_list_node_token(tokenized_list);
+	free_tree_node_field(cmd_tree);
+	free_list_only_node(cmd_list);
+}
