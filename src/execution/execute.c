@@ -374,6 +374,7 @@ void	execute(t_list *exec_list, t_list *env_list)
 		}
 		else if (is_logical_and(token->value))
 		{	
+			prev_pipe_in = -1;
 			waitpid(pid, &g_exit_status, 0);
 			if (WIFSIGNALED(g_exit_status) == true)
 			{
@@ -387,13 +388,14 @@ void	execute(t_list *exec_list, t_list *env_list)
 			}
 			else
 			{
-				cur_node = cur_next_node->next;
+				cur_node = cur_node->next;
 				skip_node_to_logical_operator(&cur_node);
 				continue ;
 			}
 		}
 		else if (is_logical_or(token->value))
 		{
+			prev_pipe_in = -1;
 			waitpid(pid, &g_exit_status, 0);
 			if (WIFSIGNALED(g_exit_status) == true)
 			{
@@ -437,7 +439,7 @@ void	execute(t_list *exec_list, t_list *env_list)
 			if (prev_pipe_in != -1)
 			{
 				dup2(prev_pipe_in, 0);
-				_close(prev_pipe_in);
+				_close(prev_pipe_in); // 여기
 			}
 			heredoc(redirections, std_in, false);
 			if (has_pipe)
@@ -471,7 +473,7 @@ void	execute(t_list *exec_list, t_list *env_list)
 		}
 		push_back(pid_list, make_node((void *)(long long)pid));
 		if (prev_pipe_in != -1)
-			_close(prev_pipe_in);
+			_close(prev_pipe_in); // 여기
 		if (has_pipe)
 		{
 			prev_pipe_in = fd_pipe[0];
