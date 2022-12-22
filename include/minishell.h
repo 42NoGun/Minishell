@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 15:15:06 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/22 17:04:45 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "libft.h"
 # include "linked_list.h"
 # include "binary_tree.h"
+
 
 int g_exit_status;
 
@@ -54,6 +55,42 @@ typedef struct s_field
 	t_node			*start_ptr;
 	int				len;
 }	t_field;
+
+typedef struct s_pipe
+{
+	bool	has_pipe;
+	int		fd_pipe[2];
+	int		prev_pipe_in;
+	int		std_in;
+	int		std_out;
+}	t_pipe;
+
+typedef struct s_pid
+{
+	t_list	*pid_list;
+	pid_t	pid;
+}	t_pid_utils;
+
+typedef struct s_context
+{
+	char	**command;
+	char	**redirections;
+}	t_context;
+
+static __inline t_field	*get_field(t_node *node)
+{
+	return (node->content);
+}
+
+static __inline char	*get_value(t_node *node)
+{
+	return (((t_token *)(get_field(node)->start_ptr->content))->value);
+}
+
+static __inline char	is_subshell(t_node *node)
+{
+	return (get_value(node)[0] == '(');
+}
 
 void	copy_envp(t_list *env_list, char **envp);
 char	*get_quoted_env(char *command);
@@ -92,7 +129,7 @@ t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
 bool	*find_to_command_token(t_node *cur_node, int field_len);
 char	*get_field_index_refined_value(t_field *field, int i);
 void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
-void	refine_field(t_field *field, char ***command, char ***redirections, int i);
+void	refine_field(t_field *field, char ***command, char ***redirections);
 
 void	concatenate_not_expanded_content(char **expanded_content, char **content);
 void	concatenate_expanded_content(char **expanded_content, char **content, t_list *env_list);
@@ -105,7 +142,6 @@ int		b_env(char **command, t_list *env_list);
 int		b_exit(char **command, bool parent);
 int		b_export(char **command, t_list *env_list);
 int		b_unset(char **command, t_list *env_list);
-char	**list_to_2d_array(t_list *envp_list);
 void	print_export(t_list *env_list);
 char	*get_key(char *command, char *value);
 char	*get_value_env(char *command);
@@ -124,5 +160,19 @@ void	skip_quote_content(char **value, char quote);
 void	push_back_limiter(t_node *node, t_list *limiter_list);
 char	*get_limiter(char *value);
 void	push_back_subshell_limiter(char *value, t_list *limiter_list);
+void	remove_bracket(char *command);
+bool	is_builtin(char	*command);
+void	do_builtin(char **command, t_list *env_list, bool parent);
 
+// execution/heredoc?
+bool	heredoc(char **redirections, int std_in, bool parent);
+bool	redirection(char **redirections, bool parent);
+
+
+// execution/child.c
+pid_t	do_child_process(t_context *c, t_list *env_list, \
+		bool is_subshell, t_pipe *p);
+
+// utils/utils2.c
+char	**list_to_2d_array(t_list *envp_list);
 #endif

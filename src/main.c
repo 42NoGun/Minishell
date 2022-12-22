@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 17:23:45 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/22 13:33:32 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		free_tree_node_field(cmd_tree);
 		free_list_only_node(cmd_exec_list);
 		free(line);
-		system("leaks minishell");
+		// system("leaks minishell");
 	}
 	free_list_node_content(env_list);
 	return (0);

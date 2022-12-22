@@ -54,7 +54,7 @@ INCLUDE = -I${HOME}/.brew/opt/readline/include -I./include
 
 # gcc -lreadline -L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include src/main.c
 
-CFLAGS = -UseLargePages -g3 #-fsanitize=address
+CFLAGS = -UseLargePages -g3 -Winline 
 
 all : all_check
 
