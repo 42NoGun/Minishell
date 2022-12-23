@@ -206,4 +206,7 @@ infile | yes | head -2 | outfile
 - yes를 실행하기 전 부모프로세스에서 3번 FD, 자식 프로세스에서 3번 FD는 1번 파이프의 reader로 본다.
 	- 이 두 FD 모두 닫히지 않는다면 SIGPIPE 신호를 보낼 수 없다.
 	- 자식 프로세스에서 3번 FD를 닫지 않고, execve로 yes를 실행한다면 커널 버퍼에 3번 FD가 여전히 남아 있으므로, SIGPIPE 신호를 보낼 수 없다. (즉, 자식에서 curr_in을 닫고 pipe를 실행해야 한다.)
-	- 부모 프로세스에서 3번 FD를 닫는 순간, 모든 reader가 닫히므로 SIGPIPE로 인해 yes 프로세스는 스스로 종료한다. 
+	- 부모 프로세스에서 3번 FD를 닫는 순간, 모든 reader가 닫히므로 SIGPIPE로 인해 yes 프로세스는 스스로 종료한다.
+
+### homebrew 경로 변경 시 
+LIB_READ_LINE = -L/opt/homebrew/opt/readline/lib -lreadline
