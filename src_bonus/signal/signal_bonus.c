@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   signal_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:47 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 17:47:25 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:16:44 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <readline/readline.h>
+#include "minishell_bonus.h"
 
 void	signal_interrupt(int signum)
 {

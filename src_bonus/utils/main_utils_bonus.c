@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   main_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:49:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/16 16:54:52 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:17:26 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "minishell_bonus.h"
 
 t_list	*init_environment(char **envp)
 {

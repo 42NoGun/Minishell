@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:18:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 17:46:34 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:15:18 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <readline/readline.h>
 #include <fcntl.h>
+#include "minishell_bonus.h"
 
 void	count_subshell_heredoc(
 	char **value, int *heredoc_count, t_list **limiter_list)

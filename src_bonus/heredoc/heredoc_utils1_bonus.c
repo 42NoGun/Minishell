@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils1.c                                   :+:      :+:    :+:   */
+/*   heredoc_utils1_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:57:18 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 10:58:45 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:15:27 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <dirent.h>
+#include "minishell_bonus.h"
 
 bool	is_ordered_heredoc(char **file_path, char *sequence)
 {

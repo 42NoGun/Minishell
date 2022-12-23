@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list_function_1.c                           :+:      :+:    :+:   */
+/*   linked_list_function_1_bonus.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:11:26 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 15:22:05 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:13:41 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "linked_list.h"
+#include "linked_list_bonus.h"
 #include "libft.h"
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 t_list	*init_list(void)
 {

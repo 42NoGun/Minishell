@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   child_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:49:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 14:54:33 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:13:59 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static char	**put_program_name(char **old_command)
 {

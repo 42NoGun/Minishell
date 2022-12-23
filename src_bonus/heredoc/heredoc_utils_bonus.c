@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*   heredoc_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:49:39 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/20 11:51:57 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/23 17:15:33 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <readline/readline.h>
 #include <fcntl.h>
+#include "minishell_bonus.h"
 
 void	skip_quote_content(char **value, char quote)
 {

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_tree_fuinction_1.c                          :+:      :+:    :+:   */
+/*   binary_tree_fuinction_1_bonus.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:09:09 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 15:21:57 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:13:20 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
-#include "minishell.h"
-#include "binary_tree.h"
+#include "minishell_bonus.h"
+#include "binary_tree_bonus.h"
 #include "libft.h"
 
 t_tree	*init_tree(void)

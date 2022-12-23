@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   tokenize_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 17:06:04 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 15:04:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:16:20 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "linked_list.h"
+#include "minishell_bonus.h"
+#include "linked_list_bonus.h"
 
 bool	is_double_operator(char *prev_str, char *line)
 {

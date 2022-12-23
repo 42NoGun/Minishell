@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redirect_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 11:01:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 15:34:54 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 17:14:21 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static bool	open_error(int fd, bool parent)
 {
