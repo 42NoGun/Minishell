@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:49:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/22 16:59:42 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 11:05:35 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,6 @@ static void	find_path(char **command, t_list *env_list)
 	*command = NULL;
 }
 
-static void	set_pipe(t_pipe *p, t_context *c)
-{
-	if (p->prev_pipe_in != -1)
-	{
-		_dup2(p->prev_pipe_in, 0);
-		_close(p->prev_pipe_in);
-	}
-	heredoc(c->redirections, p->std_in, false);
-	if (p->has_pipe)
-	{
-		_dup2(p->fd_pipe[1], 1);
-		_close(p->fd_pipe[1]);
-		_close(p->fd_pipe[0]);
-		redirection(c->redirections, false);
-	}
-	else
-		redirection(c->redirections, false);
-}
-
 static void	set_program_path(t_context *c, t_list *env_list, bool is_subshell)
 {
 	if (is_subshell)
@@ -119,7 +100,7 @@ pid_t	do_child_process(t_context *c, t_list *env_list,
 	signal(SIGQUIT, SIG_DFL);
 	if (*c->command == NULL)
 		exit(0);
-	set_pipe(p, c);
+	set_child_pipe(p, c);
 	if (is_builtin(*c->command) == true)
 	{
 		do_builtin(c->command, env_list, false);

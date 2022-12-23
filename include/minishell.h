@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/22 17:04:45 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 11:26:34 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include "libft.h"
 # include "linked_list.h"
 # include "binary_tree.h"
-
 
 int g_exit_status;
 
@@ -92,6 +91,17 @@ static __inline char	is_subshell(t_node *node)
 	return (get_value(node)[0] == '(');
 }
 
+bool	pipe_connect(t_node *cur_next_node, t_pipe *p);
+bool	do_pipe(t_node **cur_node, char *token);
+void	set_child_pipe(t_pipe *p, t_context *c);
+void	init_execute_utils(t_pipe *pipe_utils, t_pid_utils *process);
+
+bool	is_builtin(char	*command);
+bool	is_logical_or(char *cmd);
+bool	is_logical_and(char *cmd);
+bool	is_pipe(char *cmd);
+void	remove_bracket(char *command);
+
 void	make_heredoc(t_list *cmd_list);
 bool	is_catched_interrupt(t_list *cmd_list);
 int		add_history_line(char *line);
@@ -136,6 +146,7 @@ void	put_token_in_list(char *prev_str, t_list *list);
 bool	is_matchable_asterisk(char *dst_file, char *src_file);
 void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token, t_list *env_list);
+void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
 t_list	*convert_tree_to_exec_list(t_tree *cmd_tree);
 
 bool	*find_to_command_token(t_node *cur_node, int field_len);
@@ -174,7 +185,11 @@ char	*get_limiter(char *value);
 void	push_back_subshell_limiter(char *value, t_list *limiter_list);
 void	remove_bracket(char *command);
 bool	is_builtin(char	*command);
+bool	do_parent_builtin(t_node **cur_node, t_list *env_list,
+	t_context *c, t_pipe *p);
 void	do_builtin(char **command, t_list *env_list, bool parent);
+bool	is_ordered_heredoc(char **file_path, char *sequence);
+char	*get_heredoc_file_path(void);
 
 // execution/heredoc?
 bool	heredoc(char **redirections, int std_in, bool parent);
@@ -185,6 +200,16 @@ bool	redirection(char **redirections, bool parent);
 pid_t	do_child_process(t_context *c, t_list *env_list, \
 		bool is_subshell, t_pipe *p);
 
+// execution/redirect.c
+bool	heredoc(char **redirections, int std_in, bool parent);
+bool	redirection(char **redirections, bool parent);
+
 // utils/utils2.c
 char	**list_to_2d_array(t_list *envp_list);
+
+bool	is_bracket(char c);
+bool	is_quote(char c);
+bool	is_operator(char c);
+bool	is_space(char c);
+
 #endif
