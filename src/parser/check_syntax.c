@@ -33,7 +33,7 @@ static bool	is_redirection(t_token *token)
 	return (false);
 }
 
-static bool	check_redirection_error(t_field *field)
+static bool	is_redirection_error(t_field *field)
 {
 	t_token	*token;
 	t_node	*node;
@@ -47,17 +47,17 @@ static bool	check_redirection_error(t_field *field)
 		if (is_redirection(token))
 		{
 			if (len == 1)
-				return (false);
+				return (true);
 			if (is_redirection(node->next->content))
-				return (false);
+				return (true);
 		}
 		node = node->next;
 		--len;
 	}
-	return (true);
+	return (false);
 }
 
-static bool	check_operator_node_has_child_and_redirection(t_tree_node *cursor)
+static bool	has_syntax_error(t_tree_node *cursor)
 {
 	t_field	*field;
 	t_token	*token;
@@ -67,17 +67,17 @@ static bool	check_operator_node_has_child_and_redirection(t_tree_node *cursor)
 	if (token->priority == 0 || token->priority == 1)
 	{
 		if (cursor->left == NULL || cursor->right == NULL)
-			return (false);
+			return (true);
 	}
-	if (check_redirection_error(field) == false)
-		return (false);
-	return (true);
+	if (is_redirection_error(field) == true)
+		return (true);
+	return (false);
 }
 
-bool	check_syntax_error(t_tree *cmd_tree)
+bool	is_valid_operator_or_redirection(t_tree *cmd_tree)
 {
 	if (inorder_traverse_bool(cmd_tree->root,
-			check_operator_node_has_child_and_redirection) == false)
+			has_syntax_error) == true)
 	{
 		ft_putstr_fd("minishell : syntax error\n", 2);
 		g_exit_status = 2 << 8;

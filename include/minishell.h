@@ -92,14 +92,28 @@ static __inline char	is_subshell(t_node *node)
 	return (get_value(node)[0] == '(');
 }
 
+void	make_heredoc(t_list *cmd_list);
+bool	is_catched_interrupt(t_list *cmd_list);
+int		add_history_line(char *line);
+bool	is_line_null(char *line);
+bool	has_line_content(char *line);
+char	*get_line(void);
+t_list	*init_environment(char **envp);
+
 void	copy_envp(t_list *env_list, char **envp);
 char	*get_quoted_env(char *command);
 void	define_signal(void);
 void	signal_interrupt(int signum);
-void	subshell_logic(int argc, char **argv, t_list *env_list);
-bool	check_bracket_syntax_error(t_list *exec_list);
+int		do_subshell(int argc, char **argv, t_list *env_list);
+t_tree	*make_tree(t_list *cmd_list);
+bool	is_valid_bracket_subshell(t_list *exec_list);
+void	free_rest(t_list *tokenized_list,
+							t_tree *cmd_tree, t_list *cmd_list);
 
-void	tokenize(char *line, t_list *cmd_list);
+bool	can_parse(t_list **tokenized_list, t_tree **cmd_tree,
+							t_list **cmd_list, char *line);
+t_list	*tokenize(char *line);
+bool	is_valid_operator_or_redirection(t_tree *cmd_tree);
 
 char	*read_quote_content(char **line, char quote);
 char	*read_inside_quote_content(char **line, char quote);
@@ -119,8 +133,6 @@ void	ft_setenv(t_list *env_list, char *key, char *command);
 int		get_priority(char *prev_str);
 t_token	*create_token(char *prev_str);
 void	put_token_in_list(char *prev_str, t_list *list);
-bool	parser(t_tree *cmd_tree, t_list *cmd_list);
-bool	check_syntax_error(t_tree *cmd_tree);
 bool	is_matchable_asterisk(char *dst_file, char *src_file);
 void	expand_wildcard(t_token *token);
 void	expand_dollar(t_token *token, t_list *env_list);
