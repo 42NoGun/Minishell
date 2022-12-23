@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:09:04 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/23 17:19:46 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdio.h>
 # include <termios.h>
 # include "libft.h"
-# include "linked_list.h"
-# include "binary_tree.h"
+# include "linked_list_bonus.h"
+# include "binary_tree_bonus.h"
 
 int	g_exit_status;
 
