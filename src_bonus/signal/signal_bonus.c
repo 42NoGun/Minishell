@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
 #include "minishell_bonus.h"
+#include <readline/readline.h>
 
 void	signal_interrupt(int signum)
 {
