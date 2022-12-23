@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 10:56:42 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/23 10:27:58 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,13 @@ int	do_subshell(int argc, char **argv, t_list *env_list)
 	(void)argc;
 	line = ft_strdup(argv[1]);
 	if (is_correct_pair(line) == false)
-		return (1);
+		return (WEXITSTATUS(g_exit_status));
 	cmd_tree = make_tree(tokenize(line));
 	if (!is_valid_operator_or_redirection(cmd_tree))
-		return (2);
+		return (WEXITSTATUS(g_exit_status));
 	cmd_list = convert_tree_to_exec_list(cmd_tree);
 	if (!is_valid_bracket_subshell(cmd_list))
-		return (2);
+		return (WEXITSTATUS(g_exit_status));
 	execute(cmd_list, env_list);
-	return (0);
+	return (WEXITSTATUS(g_exit_status));
 }
