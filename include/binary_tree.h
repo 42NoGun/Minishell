@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_tree.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 14:34:07 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/05 10:55:17 by cheseo           ###   ########.fr       */
+/*   Updated: 2022/12/23 15:10:33 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		inorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *));
 bool		inorder_traverse_bool(t_tree_node *cursor,
 				bool (*f)(t_tree_node *));
 void		postorder_traverse(t_tree_node *cursor, void (*f)(t_tree_node *));
-void		inorder_traverse_make_exec_list(t_tree_node *cursor, t_list *exec_list, void (*f)(t_list *, t_tree_node *));
+void		inorder_traverse_make_exec_list(t_tree_node *cursor,
+				t_list *exec_list, void (*f)(t_list *, t_tree_node *));
 
 #endif

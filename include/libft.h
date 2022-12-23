@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:07:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/22 15:24:36 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:10:43 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		_chdir(char *path);
 int		_fork(void);
 void	*_malloc(size_t size);
 int		_pipe(int fildes[2]);
-// int		_open(const char *path, int oflag, ...);
 int		_close(int fd);
 int		_dup2(int fildes, int fildes2);
 ssize_t	_write(int fildes, const void *buf, size_t nbyte);
