@@ -30,19 +30,20 @@ ARFLAGS = -rcus
 all : $(NAME)
 
 clean :
-		rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean : clean
-		rm -f $(NAME)
+	@rm -f $(NAME)
 
 re :
-	make fclean
-	make all
+	@make fclean
+	@make all
 
 $(NAME) : $(OBJ)
-		$(AR) $(ARFLAGS) $@ $?
+	@$(AR) $(ARFLAGS) $@ $?
 
 %.o : %.c
-		$(CC) $(CFLAGS) -I libft.h -c $< -o $@
+	@printf "\033[Kcompile 🦑 $(notdir $<)🔥\r"
+	@$(CC) $(CFLAGS) -I libft.h -c $< -o $@
 
 .PHONY : all clean fclean re
