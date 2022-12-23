@@ -47,6 +47,8 @@
 23. (grep hello) < infile
 24. (echo hello) <infile | grep "hello" < infile
 
+25. echo 1 && echo 2 | cat > out && echo
+
 ### tokenize test
 1. $ <<ls > pwd || ls 
 2. $ > pwd || ls && ls
