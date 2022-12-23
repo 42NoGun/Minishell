@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:49:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 11:05:35 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:54:33 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ pid_t	do_child_process(t_context *c, t_list *env_list,
 		return (pid);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	set_child_pipe(p, c);
 	if (*c->command == NULL)
 		exit(0);
-	set_child_pipe(p, c);
 	if (is_builtin(*c->command) == true)
 	{
 		do_builtin(c->command, env_list, false);
