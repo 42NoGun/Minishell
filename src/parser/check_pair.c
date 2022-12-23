@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_pair.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanbkim <hanbkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 10:54:33 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/20 10:54:36 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/23 15:16:06 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ bool	is_even_quote(const char *line)
 	double_quote_count = 0;
 	while (*line)
 	{
-		if (*line == SINGLE_QUOTE)
+		if (*line == '\'')
 			++single_quote_count;
-		if (*line == DOUBLE_QUOTE)
+		if (*line == '"')
 			++double_quote_count;
 		++line;
 	}
@@ -61,8 +61,8 @@ bool	is_pair_quote(const char *line)
 	double_quote_count = 0;
 	while (*line)
 	{
-		single_quote_count += check_pair_quote(&line, SINGLE_QUOTE);
-		double_quote_count += check_pair_quote(&line, DOUBLE_QUOTE);
+		single_quote_count += check_pair_quote(&line, '\'');
+		double_quote_count += check_pair_quote(&line, '"');
 		if (!*line)
 			break ;
 		++line;
@@ -79,11 +79,11 @@ bool	is_pair_bracket(const char *line)
 	bracket_count = 0;
 	while (*line)
 	{
-		check_pair_quote(&line, SINGLE_QUOTE);
-		check_pair_quote(&line, DOUBLE_QUOTE);
-		if (*line == OPEN_BRACKET)
+		check_pair_quote(&line, '\'');
+		check_pair_quote(&line, '"');
+		if (*line == '(')
 			++bracket_count;
-		else if (*line == CLOSE_BRACKET)
+		else if (*line == ')')
 		{
 			if (bracket_count == 0)
 				return (false);

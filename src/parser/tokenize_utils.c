@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 15:20:55 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:19:50 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_charjoin(char *str, char c)
 }
 
 // ft_chardup
-// - make str which is started with specific char 
+// - make str which is started with specific char
 char	*ft_chardup(char c)
 {
 	char	*ret;

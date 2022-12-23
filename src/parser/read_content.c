@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 11:11:09 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/23 15:18:54 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ char	*read_group_content(char **line)
 	len = 0;
 	while (**line)
 	{
-		if (**line == OPEN_BRACKET)
+		if (**line == '(')
 			++bracket_count;
-		else if (**line == CLOSE_BRACKET)
+		else if (**line == ')')
 		{
 			--bracket_count;
 			if (bracket_count == 0)

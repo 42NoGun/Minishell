@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 11:26:34 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:32:47 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,7 @@
 # include "linked_list.h"
 # include "binary_tree.h"
 
-int g_exit_status;
-
-enum	e_operator
-{
-	PIPE = '|',
-	IN_REDIR = '<',
-	OUT_REDIR = '>',
-	OUT_REDIR_APPEND = '>' + '>',
-	HEREDOC = '<' + '<',
-	SINGLE_QUOTE = '\'',
-	DOUBLE_QUOTE = '\"',
-	OR = '|' + '|',
-	AND = '&',
-	DOLLAR = '$',
-	WILDCARD = '*',
-	OPEN_BRACKET = '(',
-	CLOSE_BRACKET = ')',
-	Q_MARK = '?',
-	CMD = 'c',
-};
+int	g_exit_status;
 
 typedef struct s_token
 {
@@ -154,8 +135,10 @@ char	*get_field_index_refined_value(t_field *field, int i);
 void	expand_field(t_field *field, t_list *env_list, bool is_subshell);
 void	refine_field(t_field *field, char ***command, char ***redirections);
 
-void	concatenate_not_expanded_content(char **expanded_content, char **content);
-void	concatenate_expanded_content(char **expanded_content, char **content, t_list *env_list);
+void	concatenate_not_expanded_content(char **expanded_content,
+							char **content);
+void	concatenate_expanded_content(char **expanded_content,
+							char **content, t_list *env_list);
 void	execute(t_list *exec_list, t_list *env_list);
 
 int		b_pwd(void);
@@ -185,8 +168,8 @@ char	*get_limiter(char *value);
 void	push_back_subshell_limiter(char *value, t_list *limiter_list);
 void	remove_bracket(char *command);
 bool	is_builtin(char	*command);
-bool	do_parent_builtin(t_node **cur_node, t_list *env_list,
-	t_context *c, t_pipe *p);
+bool	do_parent_builtin(t_node **cur_node,
+							t_list *env_list, t_context *c, t_pipe *p);
 void	do_builtin(char **command, t_list *env_list, bool parent);
 bool	is_ordered_heredoc(char **file_path, char *sequence);
 char	*get_heredoc_file_path(void);
@@ -195,10 +178,9 @@ char	*get_heredoc_file_path(void);
 bool	heredoc(char **redirections, int std_in, bool parent);
 bool	redirection(char **redirections, bool parent);
 
-
 // execution/child.c
-pid_t	do_child_process(t_context *c, t_list *env_list, \
-		bool is_subshell, t_pipe *p);
+pid_t	do_child_process(t_context *c, t_list *env_list,
+							bool is_subshell, t_pipe *p);
 
 // execution/redirect.c
 bool	heredoc(char **redirections, int std_in, bool parent);
@@ -207,9 +189,24 @@ bool	redirection(char **redirections, bool parent);
 // utils/utils2.c
 char	**list_to_2d_array(t_list *envp_list);
 
+// parser/tokenize_is_utils.c
 bool	is_bracket(char c);
 bool	is_quote(char c);
 bool	is_operator(char c);
 bool	is_space(char c);
+
+bool	is_double_operator(char *prev_str, char *line);
+bool	is_single_operator_no_space(char *prev_str, char *line);
+
+void	put_token_double_operator(char **prev_str, char **line,
+							t_list *cmd_list);
+void	put_token_single_operator_no_space(char **prev_str, char **line,
+							t_list *cmd_list);
+void	put_token_single_operator(char **prev_str, char **line,
+							t_list *cmd_list);
+void	put_token_bracket_content(char **prev_str, char **line,
+							t_list *cmd_list);
+void	put_token_before_space(char **prev_str, char **line,
+							t_list *cmd_list);
 
 #endif
