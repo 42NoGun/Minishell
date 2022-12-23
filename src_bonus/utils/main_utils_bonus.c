@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_bonus.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "minishell_bonus.h"
 
 t_list	*init_environment(char **envp)
 {

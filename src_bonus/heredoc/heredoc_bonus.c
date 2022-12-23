@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_bonus.h"
 #include <readline/readline.h>
 #include <fcntl.h>
-#include "minishell_bonus.h"
 
 void	count_subshell_heredoc(
 	char **value, int *heredoc_count, t_list **limiter_list)

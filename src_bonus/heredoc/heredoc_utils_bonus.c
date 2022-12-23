@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_bonus.h"
 #include <readline/readline.h>
 #include <fcntl.h>
-#include "minishell_bonus.h"
 
 void	skip_quote_content(char **value, char quote)
 {
