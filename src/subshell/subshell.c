@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 10:27:58 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:35:07 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ bool	is_valid_bracket_subshell(t_list *exec_list)
 
 int	do_subshell(int argc, char **argv, t_list *env_list)
 {
-	t_list	*tokenized_list;
 	t_tree	*cmd_tree;
 	t_list	*cmd_list;
 	char	*line;
