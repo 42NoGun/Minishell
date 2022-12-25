@@ -3,16 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:49:39 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/23 17:15:33 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 20:51:21 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 #include <readline/readline.h>
 #include <fcntl.h>
+
+static char	*get_limiter(char *value)
+{
+	int	end;
+
+	end = 0;
+	while (value[end])
+	{
+		if (!ft_isalnum(value[end]))
+			break ;
+		++end;
+	}
+	return (ft_substr(value, 0, end));
+}
 
 void	skip_quote_content(char **value, char quote)
 {
@@ -28,20 +42,6 @@ void	push_back_limiter(t_node *node, t_list *limiter_list)
 
 	value = ((t_token *)node->content)->value;
 	push_back(limiter_list, make_node(ft_strdup(value)));
-}
-
-char	*get_limiter(char *value)
-{
-	int	end;
-
-	end = 0;
-	while (value[end])
-	{
-		if (!ft_isalnum(value[end]))
-			break ;
-		++end;
-	}
-	return (ft_substr(value, 0, end));
 }
 
 void	push_back_subshell_limiter(char *value, t_list *limiter_list)

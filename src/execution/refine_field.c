@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/22 15:47:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/25 20:29:02 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_expanded_wildcard(char *value)
+static bool	is_expanded_wildcard(char *value)
 {
 	int		index;
 

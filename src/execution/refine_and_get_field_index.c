@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refine_and_get_field_index.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanbkim <hanbkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/21 15:14:32 by hanbkim          ###   ########.fr       */
+/*   Updated: 2022/12/25 20:32:08 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ static void	refine_command(t_token *token)
 	token->value = refined_command;
 }
 
+static bool	is_redirection_value(char *value)
+{
+	if (ft_strncmp(value, "<", 1) == 0 || ft_strncmp(value, ">", 1) == 0)
+		return (true);
+	return (false);
+}
+
 char	*get_field_index_refined_value(t_field *field, int i)
 {
 	t_node	*cur_node;
@@ -61,13 +68,6 @@ char	*get_field_index_refined_value(t_field *field, int i)
 	}
 	refine_command(cur_node->content);
 	return (((t_token *) cur_node->content)->value);
-}
-
-static bool	is_redirection_value(char *value)
-{
-	if (ft_strncmp(value, "<", 1) == 0 || ft_strncmp(value, ">", 1) == 0)
-		return (true);
-	return (false);
 }
 
 bool	*find_to_command_token(t_node *cur_node, int field_len)

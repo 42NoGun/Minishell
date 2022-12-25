@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:20:21 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:16:02 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 21:03:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-t_field	*make_field(t_node **cur_node)
+static t_field	*make_field(t_node **cur_node)
 {
 	t_token	*token;
 	t_field	*field;
@@ -39,7 +39,7 @@ t_field	*make_field(t_node **cur_node)
 	return (field);
 }
 
-void	hang_from_tree(t_tree *cmd_tree, t_field *field)
+static void	hang_from_tree(t_tree *cmd_tree, t_field *field)
 {
 	int			cur_priority;
 	int			root_priority;

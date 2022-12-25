@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:18:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:15:18 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 20:55:51 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <readline/readline.h>
 #include <fcntl.h>
 
-void	count_subshell_heredoc(
+static void	count_subshell_heredoc(
 	char **value, int *heredoc_count, t_list **limiter_list)
 {
 	while (**value)
@@ -34,7 +34,7 @@ void	count_subshell_heredoc(
 	}
 }
 
-int	count_heredoc(t_field *field, int field_len, t_list *limiter_list)
+static int	count_heredoc(t_field *field, int field_len, t_list *limiter_list)
 {
 	t_node	*cur_node;
 	char	*value;
@@ -61,7 +61,7 @@ int	count_heredoc(t_field *field, int field_len, t_list *limiter_list)
 	return (heredoc_count);
 }
 
-int	check_heredoc(t_list *exec_list, t_list *limiter_list)
+static int	check_heredoc(t_list *exec_list, t_list *limiter_list)
 {
 	t_node		*cur_exec_node;
 	t_field		*field;
@@ -78,7 +78,7 @@ int	check_heredoc(t_list *exec_list, t_list *limiter_list)
 	return (heredoc_count);
 }
 
-void	write_heredoc(char *file_path, t_list *limiter_list)
+static void	write_heredoc(char *file_path, t_list *limiter_list)
 {
 	int		fd;
 	char	*line;

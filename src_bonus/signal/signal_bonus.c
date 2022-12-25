@@ -6,14 +6,14 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:47 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:16:44 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 21:19:27 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 #include <readline/readline.h>
 
-void	signal_interrupt(int signum)
+static void	signal_interrupt(int signum)
 {
 	(void)signum;
 	g_exit_status = 130 << 8;

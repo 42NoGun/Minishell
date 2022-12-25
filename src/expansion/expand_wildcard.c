@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 11:40:20 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 20:46:01 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
 #include "minishell.h"
 
-bool	is_matchable_asterisk(char *dst_file, char *src_file)
+static bool	is_matchable_asterisk(char *dst_file, char *src_file)
 {
 	while (*dst_file || *src_file)
 	{
