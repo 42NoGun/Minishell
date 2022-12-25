@@ -6,20 +6,18 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:57:18 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:15:27 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 21:55:52 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
 #include "minishell_bonus.h"
 
-bool	is_ordered_heredoc(char **file_path, char *sequence)
+static bool	is_ordered_heredoc(char **file_path, char *sequence)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
-	int				i;
 
-	i = 0;
 	dirp = opendir("/tmp/heredoc/");
 	dp = readdir(dirp);
 	dp = readdir(dirp);
