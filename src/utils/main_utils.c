@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:49:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/16 16:54:52 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/25 22:31:07 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ bool	has_line_content(char *line)
 bool	is_line_null(char *line)
 {
 	if (!line)
+	{
+		ft_putstr_fd("exit\n", 1);
 		return (true);
+	}
 	return (false);
 }
 
