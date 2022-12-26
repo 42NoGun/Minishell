@@ -6,26 +6,26 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 17:06:04 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 15:04:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/25 21:17:41 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "linked_list.h"
 
-bool	is_double_operator(char *prev_str, char *line)
+static bool	is_double_operator(char *prev_str, char *line)
 {
 	return (ft_strlen(prev_str) == 1
 		&& is_operator(*prev_str) && is_operator(*line) && !is_quote(*line));
 }
 
-bool	is_single_operator_no_space(char *prev_str, char *line)
+static bool	is_single_operator_no_space(char *prev_str, char *line)
 {
 	return (ft_strlen(prev_str) == 1
 		&& is_operator(*prev_str) && !is_operator(*line) && !is_space(*line));
 }
 
-void	substr_quote(char **prev_str, char **line)
+static void	substr_quote(char **prev_str, char **line)
 {
 	if (**line == '"')
 		*prev_str = ft_strjoin(*prev_str, read_quote_content(line, '"'));

@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:30:18 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/23 11:17:47 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/25 21:57:37 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	wait_child_process(t_list *pid_list, int std_in, int std_out)
 {
 	while (pid_list->len)
 	{
-		waitpid((pid_t) pid_list->head->content, &g_exit_status, 0);
+		waitpid((long long)pid_list->head->content, &g_exit_status, 0);
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
 			if (g_exit_status == 3)

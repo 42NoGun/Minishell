@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:15 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 17:46:03 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/24 13:12:52 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_delete_env(t_list *env_list, char *key)
+static void	ft_delete_env(t_list *env_list, char *key)
 {
 	t_node	*cur_node;
 	t_node	*next_node;

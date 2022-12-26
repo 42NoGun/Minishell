@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 15:35:07 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/25 21:21:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strlen_no_space(char *str)
+static int	ft_strlen_no_space(char *str)
 {
 	int	i;
 	int	len;
@@ -28,7 +28,7 @@ int	ft_strlen_no_space(char *str)
 	return (len);
 }
 
-bool	has_subshell_error(t_field *field, int redirection_len)
+static bool	has_subshell_error(t_field *field, int redirection_len)
 {
 	t_node	*cur_node;
 	char	*value;
@@ -49,7 +49,7 @@ bool	has_subshell_error(t_field *field, int redirection_len)
 	return (false);
 }
 
-int	count_field_len(t_field *field)
+static int	count_field_len(t_field *field)
 {
 	t_node	*cur_node;
 	int		len;

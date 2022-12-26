@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   concat_content.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/20 11:40:20 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 20:35:20 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expand_exit_status(char **expanded_content)
+static void	expand_exit_status(char **expanded_content)
 {
 	char	*converted_env_content;
 
@@ -20,7 +20,7 @@ void	expand_exit_status(char **expanded_content)
 	*expanded_content = ft_strjoin(*expanded_content, converted_env_content);
 }
 
-void	expand_environment_value(char **expanded_content, char *env_content,
+static void	expand_environment_value(char **expanded_content, char *env_content,
 	t_list *env_list)
 {
 	char	*converted_env_content;
@@ -31,7 +31,7 @@ void	expand_environment_value(char **expanded_content, char *env_content,
 				converted_env_content);
 }
 
-bool	is_expand_delimiter(char c)
+static bool	is_expand_delimiter(char c)
 {
 	if (c == ' ' || c == '$')
 		return (true);

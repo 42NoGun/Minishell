@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 10:54:33 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/23 17:15:48 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/25 21:00:25 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-bool	is_even_quote(const char *line)
+static bool	is_even_quote(const char *line)
 {
 	int	single_quote_count;	
 	int	double_quote_count;	
@@ -52,7 +52,7 @@ static int	check_pair_quote(const char **line, char quote)
 	return (quote_count);
 }
 
-bool	is_pair_quote(const char *line)
+static bool	is_pair_quote(const char *line)
 {
 	int	single_quote_count;
 	int	double_quote_count;
@@ -72,7 +72,7 @@ bool	is_pair_quote(const char *line)
 	return (false);
 }
 
-bool	is_pair_bracket(const char *line)
+static bool	is_pair_bracket(const char *line)
 {
 	int	bracket_count;
 
