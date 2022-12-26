@@ -18,11 +18,11 @@
 - [X] execute 쪼개기
 - [X] norm
 	- [X] execute
-	- [X] refien_field
+	- [X] refine_field
 	- [X] tokenize
 	- [X] main
 ### 2022.12.21(수) (Day 31)
-- [X] ls() -> syntax error 볼지 아니면 command not founvd 로 냅둘지 => 저는 냅둬야 한다고 생각합니다!!!!! (cheseo가 한 말임)
+- [X] ls() -> syntax error 볼지 아니면 command not found 로 냅둘지 => 저는 냅둬야 한다고 생각합니다!!!!! (cheseo가 한 말임)
 - [X] subhsell (cat) | (cat) | (cat) -> 인터럽트 했을 때 띄어쓰기 3번되는 문제
 - [X] builtin exit status 처리
 - [X] 시스템 콜 처리 하지 못한거
