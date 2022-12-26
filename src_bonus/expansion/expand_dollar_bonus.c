@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/26 13:46:42 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/26 14:30:06 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static char	*expand_content(char *content, char **command, t_list *env_list)
 		if (!*content)
 			break ;
 		++content;
-		concatenate_expanded_content(&expanded_content, &content, command, env_list);
+		concatenate_expanded_content(&expanded_content, &content,
+			command, env_list);
 	}
 	free(content_init_pos);
 	return (expanded_content);
