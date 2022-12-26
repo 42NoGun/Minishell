@@ -104,7 +104,7 @@ ifeq ($(DEBUG), 2)
 endif
 
 .all_check	:	$(if $(filter bonus, $(MAKECMDGOALS)), $(B_OBJS), $(OBJS))
-	@make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_DIR) re
 	@$(CC) $(CFLAGS) $(INCLUDE) $(LIB_READ_LINE) -L$(LIBFT_DIR) -lft -o $(NAME) $^
 	@mkdir -p /tmp/heredoc
 	@touch $@
