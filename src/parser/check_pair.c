@@ -6,32 +6,11 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 10:54:33 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/25 21:00:19 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/26 10:30:38 by junji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	is_even_quote(const char *line)
-{
-	int	single_quote_count;	
-	int	double_quote_count;	
-
-	single_quote_count = 0;
-	double_quote_count = 0;
-	while (*line)
-	{
-		if (*line == '\'')
-			++single_quote_count;
-		if (*line == '"')
-			++double_quote_count;
-		++line;
-	}
-	if (single_quote_count % 2 == 0 && \
-			double_quote_count % 2 == 0)
-		return (true);
-	return (false);
-}
 
 static int	check_pair_quote(const char **line, char quote)
 {
@@ -98,12 +77,6 @@ static bool	is_pair_bracket(const char *line)
 
 bool	is_correct_pair(const char *line)
 {
-	if (is_even_quote(line) == false)
-	{
-		ft_putstr_fd("minishell : pair error\n", 2);
-		g_exit_status = 2 << 8;
-		return (false);
-	}
 	if (is_pair_quote(line) == false)
 	{
 		ft_putstr_fd("minishell : pair error\n", 2);
