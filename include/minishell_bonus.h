@@ -102,8 +102,8 @@ void	refine_field(t_field *field, char ***command, char ***redirections);
 /*src_bonus/expansion*/
 void	concatenate_not_expanded_content(char **expanded_content,
 							char **content);
-void	concatenate_expanded_content(char **expanded_content,
-							char **content, t_list *env_list);
+void	concatenate_expanded_content(char **expanded_content, char **content,
+							char **command, t_list *env_list);
 char	*read_not_quote_content(char **line);
 void	expand_dollar(t_token *token, t_list *env_list);
 void	expand_wildcard(t_token *token);

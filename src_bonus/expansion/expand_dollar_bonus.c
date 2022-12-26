@@ -6,13 +6,13 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/25 20:43:18 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/26 13:46:42 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-static char	*expand_content(char *content, t_list *env_list)
+static char	*expand_content(char *content, char **command, t_list *env_list)
 {
 	char	*expanded_content;
 	char	*content_init_pos;
@@ -25,7 +25,7 @@ static char	*expand_content(char *content, t_list *env_list)
 		if (!*content)
 			break ;
 		++content;
-		concatenate_expanded_content(&expanded_content, &content, env_list);
+		concatenate_expanded_content(&expanded_content, &content, command, env_list);
 	}
 	free(content_init_pos);
 	return (expanded_content);
@@ -42,13 +42,13 @@ static void	concatenate_string(char **command, char **quote_content,
 	else if (**command == '"')
 	{
 		*quote_content = read_quote_content(command, '\"');
-		*quote_content = expand_content(*quote_content, env_list);
+		*quote_content = expand_content(*quote_content, command, env_list);
 		*expanded_command = ft_strjoin(*expanded_command, *quote_content);
 	}
 	else
 	{
 		*quote_content = read_not_quote_content(command);
-		*quote_content = expand_content(*quote_content, env_list);
+		*quote_content = expand_content(*quote_content, command, env_list);
 		*expanded_command = ft_strjoin(*expanded_command, *quote_content);
 	}
 }

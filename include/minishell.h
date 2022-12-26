@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/25 21:36:57 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/26 13:41:06 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	refine_field(t_field *field, char ***command, char ***redirections);
 void	concatenate_not_expanded_content(char **expanded_content,
 							char **content);
 void	concatenate_expanded_content(char **expanded_content,
-							char **content, t_list *env_list);
+							char **content, char **command, t_list *env_list);
 char	*read_not_quote_content(char **line);
 void	expand_dollar(t_token *token, t_list *env_list);
 void	expand_wildcard(t_token *token);

@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:31:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/25 20:35:28 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/26 13:49:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ static void	expand_environment_value(char **expanded_content, char *env_content,
 
 static bool	is_expand_delimiter(char c)
 {
-	if (c == ' ' || c == '$')
+	if (ft_isalnum(c) || c == '?' || c == '_')
 		return (true);
 	return (false);
 }
 
 void	concatenate_expanded_content(char **expanded_content, char **content,
-	t_list *env_list)
+	char **command, t_list *env_list)
 {
 	int		env_content_len;
 	char	*env_content;
 
 	env_content_len = 0;
-	while (**content && !is_expand_delimiter(**content))
+	while (**content && is_expand_delimiter(**content))
 	{
 		++(*content);
 		++env_content_len;
@@ -53,7 +53,7 @@ void	concatenate_expanded_content(char **expanded_content, char **content,
 			break ;
 	}
 	env_content = ft_substr(*content - env_content_len, 0, env_content_len);
-	if (ft_strlen(env_content) < 1)
+	if (ft_strlen(env_content) < 1 && ft_strlen(*command) == 1)
 		*expanded_content = ft_strjoin_left_free(*expanded_content, "$");
 	else if (ft_strncmp(env_content, "?", 1) == 0)
 		expand_exit_status(expanded_content);
