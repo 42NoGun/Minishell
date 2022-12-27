@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/23 16:54:49 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/27 10:25:58 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,7 @@ endif
 .all_check	:	$(if $(filter bonus, $(MAKECMDGOALS)), $(B_OBJS), $(OBJS))
 	@make -C $(LIBFT_DIR) re
 	@$(CC) $(CFLAGS) $(INCLUDE) $(LIB_READ_LINE) -L$(LIBFT_DIR) -lft -o $(NAME) $^
-	@mkdir -p /tmp/heredoc
+	@mkdir -p ./heredoc
 	@touch $@
 	@make minihell
 

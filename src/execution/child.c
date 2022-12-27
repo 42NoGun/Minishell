@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:49:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 14:54:33 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 12:46:09 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,20 @@ static void	find_path(char **command, t_list *env_list)
 	if (ft_strchr(*command, '/') != NULL)
 	{
 		if (lstat(*command, &buf) != 0)
+		{
 			*command = NULL;
+			return ;
+		}
+		if ((buf.st_mode & S_IXUSR) == 0)
+		{
+			ft_putendl_fd("Permission denied", 2);
+			exit(126);
+		}
+		if (S_ISDIR(buf.st_mode))
+		{
+			ft_putendl_fd("Is a directory", 2);
+			exit(126);
+		}
 		return ;
 	}
 	path_list = ft_split(ft_getenv(env_list, "PATH"), ':');

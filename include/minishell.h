@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/26 13:41:06 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:02:44 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int		add_history_line(char *line);
 bool	is_line_null(char *line);
 bool	has_line_content(char *line);
 void	make_heredoc(t_list *cmd_list);
-bool	is_catched_interrupt(t_list *cmd_list);
+bool	is_catched_interrupt(t_list *tokenized_list,
+							t_tree *cmd_tree, t_list *cmd_list);
 
 #endif

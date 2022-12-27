@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 13:53:25 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/26 15:11:52 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:27:13 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	b_exit(char **command, bool parent)
 
 	if (parent)
 		ft_putendl_fd("exit", 2);
+	if (command[1] == NULL)
+		exit(0);
 	if (ft_strcmp(command[1], "--") == 0)
 		exit(0);
 	i = 0;
@@ -57,7 +59,5 @@ int	b_exit(char **command, bool parent)
 		ft_putendl_fd("numeric argument required", 2);
 		exit(2);
 	}
-	if (command[1] == NULL)
-		exit(0);
 	exit(ft_atoi(command[1]));
 }

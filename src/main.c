@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/22 17:16:07 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/27 11:09:21 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	do_minishell(t_list *env_list)
 		if (!can_parse(&tokenized_list, &cmd_tree, &cmd_list, line))
 			continue ;
 		make_heredoc(cmd_list);
-		if (is_catched_interrupt(cmd_list))
+		if (is_catched_interrupt(tokenized_list, cmd_tree, cmd_list))
 			continue ;
 		execute(cmd_list, env_list);
 		free_rest(tokenized_list, cmd_tree, cmd_list);

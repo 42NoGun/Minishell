@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:52 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/23 17:12:06 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/27 10:35:01 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static char	*get_path(char *command, t_list *env_list)
 
 	if (command == NULL || ft_strcmp(command, "~") == 0)
 	{
-		path = ft_strdup(ft_getenv(env_list, "HOME"));
+		path = ft_getenv(env_list, "HOME");
 		if (path == NULL)
 		{
-			ft_putendl_fd("cd: no such file or directory\n", 2);
+			ft_putendl_fd("cd: HOME not set", 2);
 			return (NULL);
 		}
-		return (path);
+		return (ft_strdup(path));
 	}
 	else if (ft_strncmp(command, "~", 1) == 0)
 	{

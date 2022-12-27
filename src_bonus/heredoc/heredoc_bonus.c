@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:18:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/25 20:55:51 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 10:25:07 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ bool	make_heredoc_file(t_list *exec_list)
 	{
 		current_file_sequence = ft_itoa(i);
 		current_file_path
-			= ft_strjoin_right_free("/tmp/heredoc/", current_file_sequence);
+			= ft_strjoin_right_free("./heredoc/", current_file_sequence);
 		write_heredoc(current_file_path, limiter_list);
 		++i;
 	}

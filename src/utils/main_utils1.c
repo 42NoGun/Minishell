@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:49:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/25 21:39:36 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:09:37 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-bool	is_catched_interrupt(t_list *cmd_list)
+bool	is_catched_interrupt(t_list *tokenized_list,
+		t_tree *cmd_tree, t_list *cmd_list)
 {
 	if (WIFSIGNALED(g_exit_status) == true)
 	{
@@ -23,7 +24,9 @@ bool	is_catched_interrupt(t_list *cmd_list)
 		else if (g_exit_status == 2)
 			_write(2, "\n", 1);
 		g_exit_status = (g_exit_status + 128) << 8;
-		free_list_node_token(cmd_list);
+		free_list_node_token(tokenized_list);
+		free_tree_node_field(cmd_tree);
+		free_list_only_node(cmd_list);
 		return (true);
 	}
 	signal(SIGINT, SIG_IGN);

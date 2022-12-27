@@ -179,6 +179,7 @@ int		add_history_line(char *line);
 bool	is_line_null(char *line);
 bool	has_line_content(char *line);
 void	make_heredoc(t_list *cmd_list);
-bool	is_catched_interrupt(t_list *cmd_list);
+bool	is_catched_interrupt(t_list *tokenized_list,
+							t_tree *cmd_tree, t_list *cmd_list);
 
 #endif

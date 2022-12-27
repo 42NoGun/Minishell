@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 15:03:23 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:16:06 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/27 10:48:36 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	put_token_single_operator_no_space(
 void	put_token_bracket_content(
 	char **prev_str, char **line, t_list *cmd_list)
 {
+	put_token_in_list(*prev_str, cmd_list);
+	*prev_str = ft_strdup("");
 	*prev_str = ft_strjoin(*prev_str, read_group_content(line));
 	put_token_in_list(*prev_str, cmd_list);
 	*prev_str = ft_strdup("");
