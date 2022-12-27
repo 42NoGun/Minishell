@@ -33,20 +33,20 @@ static void	remove_quote(char **command, char **refined_command)
 	}
 }
 
-char	*refine_command(char *command)
+void	refine_command(t_token *token)
 {
+	char	*command;
 	char	*refined_command;
-	char	*init_pos;
 
 	refined_command = ft_strdup("");
-	init_pos = command;
+	command = token->value;
 	while (*command)
 	{
 		remove_quote(&command, &refined_command);
 		++command;
 	}
-	free(init_pos);
-	return (refined_command);
+	free(token->value);
+	token->value = refined_command;
 }
 
 static bool	is_redirection_value(char *value)
@@ -56,7 +56,7 @@ static bool	is_redirection_value(char *value)
 	return (false);
 }
 
-char	*get_field_index_refined_value(t_field *field, int i)
+t_token	*get_field_index(t_field *field, int i)
 {
 	t_node	*cur_node;
 
@@ -66,7 +66,7 @@ char	*get_field_index_refined_value(t_field *field, int i)
 		cur_node = cur_node->next;
 		--i;
 	}
-	return (((t_token *) cur_node->content)->value);
+	return ((t_token *)(cur_node->content));
 }
 
 bool	*find_to_command_token(t_node *cur_node, int field_len)

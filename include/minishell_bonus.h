@@ -96,9 +96,9 @@ void	init_execute_utils(t_pipe *pipe_utils, t_pid_utils *process);
 bool	heredoc(char **redirections, int std_in, bool parent);
 bool	redirection(char **redirections, bool parent);
 bool	*find_to_command_token(t_node *cur_node, int field_len);
-char	*get_field_index_refined_value(t_field *field, int i);
+t_token	*get_field_index(t_field *field, int i);
 void	refine_field(t_field *field, char ***command, char ***redirections);
-char	*refine_command(char *command);
+void	refine_command(t_token *token);
 void	find_path(char **command, t_list *env_list);
 
 /*src_bonus/expansion*/

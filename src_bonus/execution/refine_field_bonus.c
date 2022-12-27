@@ -47,21 +47,22 @@ static char	**list_to_array(t_list *list)
 	return (ret);
 }
 
-static void	push_command(t_list *cmd_list, char *value)
+static void	push_command(t_list *cmd_list, t_token *token)
 {
 	char	**wildcard_split;
 	int		i;
 
-	if (is_expanded_wildcard(value) == false)
+	if (is_expanded_wildcard(token->value) == false)
 	{
-		push_back(cmd_list, make_node(refine_command(ft_strdup(value))));
+		refine_command(token);
+		push_back(cmd_list, make_node(ft_strdup(token->value)));
 		return ;
 	}
-	wildcard_split = ft_split(value, ' ');
+	wildcard_split = ft_split(token->value, ' ');
 	i = 0;
 	while (wildcard_split[i])
 	{
-		push_back(cmd_list, make_node(refine_command(wildcard_split[i])));
+		push_back(cmd_list, make_node(wildcard_split[i]));
 		++i;
 	}
 	free(wildcard_split);
@@ -70,7 +71,7 @@ static void	push_command(t_list *cmd_list, char *value)
 void	refine_field(t_field *field, char ***command, char ***redirections)
 {
 	bool	*is_command;
-	char	*value;
+	t_token	*token;
 	t_list	*cmd_list;
 	t_list	*redir_list;
 	int		i;
@@ -81,11 +82,14 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 	i = 0;
 	while (i < field->len)
 	{
-		value = get_field_index_refined_value(field, i);
+		token = get_field_index(field, i);
 		if (is_command[i] == true)
-			push_command(cmd_list, value);
+			push_command(cmd_list, token);
 		else
-			push_back(redir_list, make_node(ft_strdup(refine_command(value))));
+		{
+			refine_command(token);
+			push_back(redir_list, make_node(ft_strdup(token->value)));
+		}
 		++i;
 	}
 	*command = list_to_array(cmd_list);
