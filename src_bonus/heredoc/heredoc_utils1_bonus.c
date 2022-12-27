@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:57:18 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 10:25:20 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 22:48:33 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static bool	is_ordered_heredoc(char **file_path, char *sequence)
 	DIR				*dirp;
 	struct dirent	*dp;
 
-	dirp = opendir("./heredoc/");
+	dirp = opendir("/tmp/heredoc/");
 	dp = readdir(dirp);
 	dp = readdir(dirp);
 	while (true)
@@ -42,7 +42,7 @@ char	*get_heredoc_file_path(void)
 {
 	char			*file_path;
 	char			*sequence;
-	const char		*prefix = "./heredoc/";
+	const char		*prefix = "/tmp/heredoc/";
 	int				i;
 
 	i = 0;
