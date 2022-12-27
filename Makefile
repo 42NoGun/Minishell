@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/27 10:25:58 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/27 14:32:04 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,6 +119,7 @@ fclean	:
 	@make clean
 	@rm -f .all_check
 	@rm -f $(NAME)
+	@rm -rf ./heredoc
 	@make -C $(LIBFT_DIR) fclean
 
 re :
