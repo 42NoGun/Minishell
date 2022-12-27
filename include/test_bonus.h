@@ -6,12 +6,12 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 14:46:46 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/01 16:42:13 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 14:58:43 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_H
-# define TEST_H
+#ifndef TEST_BONUS_H
+# define TEST_BONUS_H
 # include "minishell.h"
 
 void	test_is_even_quote(void);

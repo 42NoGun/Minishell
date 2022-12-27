@@ -98,6 +98,8 @@ bool	redirection(char **redirections, bool parent);
 bool	*find_to_command_token(t_node *cur_node, int field_len);
 char	*get_field_index_refined_value(t_field *field, int i);
 void	refine_field(t_field *field, char ***command, char ***redirections);
+char	*refine_command(char *command);
+void	find_path(char **command, t_list *env_list);
 
 /*src_bonus/expansion*/
 void	concatenate_not_expanded_content(char **expanded_content,

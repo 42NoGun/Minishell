@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/25 20:32:08 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 14:57:35 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ static void	remove_quote(char **command, char **refined_command)
 	}
 }
 
-static void	refine_command(t_token *token)
+char	*refine_command(char *command)
 {
-	char	*command;
 	char	*refined_command;
+	char	*init_pos;
 
 	refined_command = ft_strdup("");
-	command = token->value;
+	init_pos = command;
 	while (*command)
 	{
 		remove_quote(&command, &refined_command);
 		++command;
 	}
-	free(token->value);
-	token->value = refined_command;
+	free(init_pos);
+	return (refined_command);
 }
 
 static bool	is_redirection_value(char *value)
@@ -66,7 +66,6 @@ char	*get_field_index_refined_value(t_field *field, int i)
 		cur_node = cur_node->next;
 		--i;
 	}
-	refine_command(cur_node->content);
 	return (((t_token *) cur_node->content)->value);
 }
 

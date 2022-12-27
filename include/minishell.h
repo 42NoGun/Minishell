@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 11:02:44 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:02:58 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ bool	redirection(char **redirections, bool parent);
 bool	*find_to_command_token(t_node *cur_node, int field_len);
 char	*get_field_index_refined_value(t_field *field, int i);
 void	refine_field(t_field *field, char ***command, char ***redirections);
+char	*refine_command(char *command);
+void	find_path(char **command, t_list *env_list);
 
 /*src/expansion*/
 void	concatenate_not_expanded_content(char **expanded_content,

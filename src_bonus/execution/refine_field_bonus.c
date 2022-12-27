@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/23 17:14:31 by junji            ###   ########.fr       */
+/*   Updated: 2022/12/27 14:56:12 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ static void	push_command(t_list *cmd_list, char *value)
 
 	if (is_expanded_wildcard(value) == false)
 	{
-		push_back(cmd_list, make_node(ft_strdup(value)));
+		push_back(cmd_list, make_node(refine_command(ft_strdup(value))));
 		return ;
 	}
 	wildcard_split = ft_split(value, ' ');
 	i = 0;
 	while (wildcard_split[i])
 	{
-		push_back(cmd_list, make_node(wildcard_split[i]));
+		push_back(cmd_list, make_node(refine_command(wildcard_split[i])));
 		++i;
 	}
 	free(wildcard_split);
@@ -85,7 +85,7 @@ void	refine_field(t_field *field, char ***command, char ***redirections)
 		if (is_command[i] == true)
 			push_command(cmd_list, value);
 		else
-			push_back(redir_list, make_node(ft_strdup(value)));
+			push_back(redir_list, make_node(ft_strdup(refine_command(value))));
 		++i;
 	}
 	*command = list_to_array(cmd_list);

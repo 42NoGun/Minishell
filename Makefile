@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/27 14:32:04 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/27 15:03:42 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ DATA_STRUCTURE		=	binary_tree_function_1 binary_tree_function_2 \
 DATA_STRUCTURE_M	:=	$(addprefix src/data_structure/, $(addsuffix .c, $(DATA_STRUCTURE)))
 DATA_STRUCTURE_B	:=	$(addprefix src_bonus/data_structure/, $(addsuffix _bonus.c, $(DATA_STRUCTURE)))
 
-EXECUTION			:=	child convert_tree_to_exec_list execute pipe redirect refine_and_get_field_index refine_field
+EXECUTION			:=	child child_utils convert_tree_to_exec_list execute pipe redirect refine_and_get_field_index refine_field
 EXECUTION_M			:=	$(addprefix src/execution/, $(addsuffix .c, $(EXECUTION)))
 EXECUTION_B			:=	$(addprefix src_bonus/execution/, $(addsuffix _bonus.c, $(EXECUTION)))
 

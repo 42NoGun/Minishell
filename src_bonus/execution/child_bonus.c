@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:49:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 11:30:51 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:05:53 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,44 +37,6 @@ static char	**put_program_name(char **old_command)
 	}
 	free(old_command);
 	return (new_command);
-}
-
-static bool	put_correct_path(char *path, char **command, struct stat *buf)
-{
-	char	*command_with_path;
-
-	command_with_path = ft_strjoin_left_free(path, "/");
-	command_with_path = ft_strjoin_left_free(command_with_path, *command);
-	if (lstat(command_with_path, buf) == 0)
-	{
-		free(*command);
-		*command = command_with_path;
-		return (true);
-	}
-	return (false);
-}
-
-static void	find_path(char **command, t_list *env_list)
-{
-	char		**path_list;
-	int			i;
-	struct stat	buf;
-
-	if (ft_strchr(*command, '/') != NULL)
-	{
-		if (lstat(*command, &buf) != 0)
-			*command = NULL;
-		return ;
-	}
-	path_list = ft_split(ft_getenv(env_list, "PATH"), ':');
-	i = 0;
-	while (path_list[i])
-	{
-		if (put_correct_path(path_list[i], command, &buf))
-			return ;
-		++i;
-	}
-	*command = NULL;
 }
 
 static void	set_program_path(t_context *c, t_list *env_list, bool is_subshell)
