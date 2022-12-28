@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/27 15:03:42 by jiyunpar         ###   ########.fr        #
+#    Updated: 2022/12/27 22:52:56 by jiyunpar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,9 +65,11 @@ OBJS				:=	$(SRCS:.c=.o)
 B_OBJS				:=	$(SRCS_B:.c=.o)
 
 LIB_READ_LINE		=	-L${HOME}/.brew/opt/readline/lib -lreadline
+# LIB_READ_LINE		=	-L/opt/homebrew/opt/readline/lib -lreadline
 LIBFT_DIR			=	./libft
 LIBFT				=	$(LIBFT_DIR)/libft.a
 INCLUDE				=	-I${HOME}/.brew/opt/readline/include -I./include
+# INCLUDE				=	-I/opt/homebrew/opt/readline/include -I./include
 CFLAGS				=	-Wall -Wextra -Werror -Winline -UseLargePages
 
 %.o : %.c
@@ -106,7 +108,7 @@ endif
 .all_check	:	$(if $(filter bonus, $(MAKECMDGOALS)), $(B_OBJS), $(OBJS))
 	@make -C $(LIBFT_DIR) re
 	@$(CC) $(CFLAGS) $(INCLUDE) $(LIB_READ_LINE) -L$(LIBFT_DIR) -lft -o $(NAME) $^
-	@mkdir -p ./heredoc
+	@mkdir -p /tmp/heredoc
 	@touch $@
 	@make minihell
 
@@ -119,7 +121,7 @@ fclean	:
 	@make clean
 	@rm -f .all_check
 	@rm -f $(NAME)
-	@rm -rf ./heredoc
+	@rm -rf /tmp/heredoc
 	@make -C $(LIBFT_DIR) fclean
 
 re :

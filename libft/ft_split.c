@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:28:30 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 15:15:32 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/27 22:34:25 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static unsigned int	count_word(char const *s, char c)
 
 	i = 0;
 	cnt = 0;
+	if (s == NULL)
+		return (0);
 	while (s[i] != 0)
 	{
 		while (s[i] != 0 && s[i] == c)
