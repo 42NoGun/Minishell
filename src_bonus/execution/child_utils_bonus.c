@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 15:01:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 15:05:15 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/28 12:04:45 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ static void	check_file_permission(struct stat *buf)
 	}
 }
 
+static void	check_have_path(char *path)
+{
+	if (path == NULL)
+	{
+		ft_putendl_fd("No such file or directory", 2);
+		exit(127);
+	}
+}
+
 void	find_path(char **command, t_list *env_list)
 {
 	char		**path_list;
@@ -59,6 +68,7 @@ void	find_path(char **command, t_list *env_list)
 		return ;
 	}
 	path_list = ft_split(ft_getenv(env_list, "PATH"), ':');
+	check_have_path(path_list[0]);
 	i = 0;
 	while (path_list[i])
 	{
