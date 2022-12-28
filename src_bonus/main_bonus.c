@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:43:12 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 11:09:11 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2022/12/28 10:50:56 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	do_minishell(t_list *env_list)
 		line = get_line();
 		if (is_line_null(line))
 			break ;
-		if (!has_line_content(line)
-			|| (add_history_line(line) && !is_correct_pair(line)))
+		if ((add_history_line(line) && !has_line_content(line))
+			|| (!is_correct_pair(line)))
 		{
 			free(line);
 			continue ;
