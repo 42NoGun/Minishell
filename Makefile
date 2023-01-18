@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2023/01/18 13:34:18 by cheseo           ###   ########.fr        #
+#    Updated: 2023/01/18 16:09:43 by cheseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ LIBFT_DIR			=	./libft
 LIBFT				=	$(LIBFT_DIR)/libft.a
 INCLUDE				=	-I$(shell brew --prefix readline)/include -I./include
 # INCLUDE				=	-I/opt/homebrew/opt/readline/include -I./include
-CFLAGS				=	-Wall -Wextra -Werror -Winline -UseLargePages -g3 -fsanitize=address
+CFLAGS				=	-Wall -Wextra -Werror -Winline -UseLargePages
 
 %.o : %.c
 	@printf "\033[Kcompile 🦑 $(notdir $<)🔥\r"
