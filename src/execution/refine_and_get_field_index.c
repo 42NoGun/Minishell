@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/27 14:57:35 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 12:58:49 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	refine_command(t_token *token)
 	while (*command)
 	{
 		remove_quote(&command, &refined_command);
+		if (command == NULL)
+			break ;
 		++command;
 	}
 	free(token->value);

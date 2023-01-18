@@ -35,6 +35,8 @@ char	*read_inside_quote_content(char **line, char quote)
 	size_t	len;
 
 	len = ft_strchr((*line + 1), quote) - *line;
+	if (ft_strchr((*line + 1), quote) == NULL)
+		return (ft_strdup(*line));
 	quote_content = ft_substr(*line + 1, 0, len - 1);
 	*line += len;
 	return (quote_content);
