@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:55 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 11:23:16 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 15:52:21 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	check_option(char *str)
+{
+	if (ft_strncmp(str, "-n", 2) == 0)
+	{
+		str += 2;
+		while (*str)
+		{
+			if (*str != 'n')
+				return (false);
+			++str;
+		}
+		return (true);
+	}
+	return (false);
+}
 
 int	b_echo(char **command)
 {
@@ -19,7 +35,7 @@ int	b_echo(char **command)
 
 	print_newline = true;
 	i = 1;
-	while (command[i] && ft_strcmp(command[i], "-n") == 0)
+	while (command[i] && check_option(command[i]))
 	{
 		print_newline = false;
 		++i;
