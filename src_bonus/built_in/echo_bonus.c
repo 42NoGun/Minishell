@@ -6,13 +6,13 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:49:55 by cheseo            #+#    #+#             */
-/*   Updated: 2023/01/18 15:54:55 by cheseo           ###   ########.fr       */
+/*   Updated: 2023/01/18 16:00:39 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_bonus.h"
 
-bool	check_option(char *str)
+bool	is_option(char *str)
 {
 	if (ft_strncmp(str, "-n", 2) == 0)
 	{
@@ -35,7 +35,7 @@ int	b_echo(char **command)
 
 	print_newline = true;
 	i = 1;
-	while (command[i] && check_option(command[i]))
+	while (command[i] && is_option(command[i]))
 	{
 		print_newline = false;
 		++i;
