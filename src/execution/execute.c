@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:30:18 by hanbkim           #+#    #+#             */
-/*   Updated: 2022/12/25 21:57:37 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:44:39 by jiyunpar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,18 @@ static void	wait_child_process(t_list *pid_list, int std_in, int std_out)
 		if (WIFSIGNALED(g_exit_status) == true)
 		{
 			if (g_exit_status == 3)
+			{
 				_write(2, "Quit: 3\n", 9);
+				g_exit_status = (g_exit_status + 128) << 8;
+				break ;
+			}
 			else if (g_exit_status == 2)
 			{
 				_write(2, "\n", 1);
-				g_exit_status = (g_exit_status + 128) << 8 ;
+				g_exit_status = (g_exit_status + 128) << 8;
 				break ;
 			}
-			g_exit_status = (g_exit_status + 128) << 8 ;
+			g_exit_status = (g_exit_status + 128) << 8;
 		}
 		pop_front(pid_list);
 	}
