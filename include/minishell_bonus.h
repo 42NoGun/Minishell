@@ -84,6 +84,10 @@ void	print_export(t_list *env_list);
 void	do_builtin(char **command, t_list *env_list, bool parent);
 bool	do_parent_builtin(t_node **cur_node,
 							t_list *env_list, t_context *c, t_pipe *p);
+
+/*src/built_in/export_utils.c*/
+bool	is_valid_key(char *key);
+
 /*src_bonus/execution*/
 pid_t	do_child_process(t_context *c, t_list *env_list,
 							bool is_subshell, t_pipe *p);

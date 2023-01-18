@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 20:06:02 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 16:15:41 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:55:02 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_valid_key(char *key)
+{
+	if (!ft_isalpha(key[0]) && key[0] != '_')
+		return (false);
+	++key;
+	while (*key)
+	{
+		if (!ft_isalnum(*key) && *key != '_')
+			return (false);
+		++key;
+	}
+	return (true);
+}
 
 static void	ft_swap(char **a, char **b)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:50:09 by cheseo            #+#    #+#             */
-/*   Updated: 2022/12/21 15:32:34 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:54:55 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ static void	export_with_arguments(char **command, t_list *env_list, int *ret)
 	i = 1;
 	while (command[i])
 	{
-		if (!ft_isalpha(command[i][0]))
+		value = get_value_export(command[i]);
+		key = get_key(command[i], value);
+		if (!is_valid_key(key))
 		{
 			ft_putendl_fd("export: not an identifier", 2);
 			*ret = 1;
 			++i;
 			continue ;
 		}
-		value = get_value_export(command[i]);
-		key = get_key(command[i], value);
 		if (ft_getenv(env_list, key))
 			update_env(command[i], key, value, env_list);
 		else

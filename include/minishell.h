@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:03:43 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 15:02:58 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:23:30 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ void	print_export(t_list *env_list);
 void	do_builtin(char **command, t_list *env_list, bool parent);
 bool	do_parent_builtin(t_node **cur_node,
 							t_list *env_list, t_context *c, t_pipe *p);
+
+/*src/built_in/export_utils.c*/
+bool	is_valid_key(char *key);
+
 /*src/execution*/
 pid_t	do_child_process(t_context *c, t_list *env_list,
 							bool is_subshell, t_pipe *p);
