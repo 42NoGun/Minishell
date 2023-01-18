@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:10:23 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:17:41 by junji            ###   ########.fr       */
+/*   Updated: 2023/01/18 15:41:52 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*ft_getenv(t_list *env_list, char *env)
 {
 	t_node	*cur_node;
 	int		env_len;
+	char	*tmp;
 
 	cur_node = env_list->head;
 	env_len = ft_strlen(env);
@@ -24,7 +25,10 @@ char	*ft_getenv(t_list *env_list, char *env)
 		if (env_len != 0 && ft_strncmp((char *)(cur_node->content),
 			env, env_len) == 0)
 		{
-			return (ft_strchr((char *)cur_node->content, '=') + 1);
+			tmp = ft_strchr((char *)cur_node->content, '=');
+			if (tmp == NULL)
+				return (NULL);
+			return (tmp + 1);
 		}
 		cur_node = cur_node->next;
 	}
