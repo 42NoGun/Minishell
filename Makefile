@@ -6,7 +6,7 @@
 #    By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 09:21:03 by jiyunpar          #+#    #+#              #
-#    Updated: 2022/12/27 22:52:56 by jiyunpar         ###   ########.fr        #
+#    Updated: 2023/01/18 13:34:18 by cheseo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,13 +64,13 @@ SRCS_B				:=	$(BUILT_IN_B) $(DATA_STRUCTURE_B) $(EXECUTION_B) $(EXPANSION_B) \
 OBJS				:=	$(SRCS:.c=.o)
 B_OBJS				:=	$(SRCS_B:.c=.o)
 
-LIB_READ_LINE		=	-L${HOME}/.brew/opt/readline/lib -lreadline
+LIB_READ_LINE		=	-L$(shell brew --prefix readline)/lib -lreadline
 # LIB_READ_LINE		=	-L/opt/homebrew/opt/readline/lib -lreadline
 LIBFT_DIR			=	./libft
 LIBFT				=	$(LIBFT_DIR)/libft.a
-INCLUDE				=	-I${HOME}/.brew/opt/readline/include -I./include
+INCLUDE				=	-I$(shell brew --prefix readline)/include -I./include
 # INCLUDE				=	-I/opt/homebrew/opt/readline/include -I./include
-CFLAGS				=	-Wall -Wextra -Werror -Winline -UseLargePages
+CFLAGS				=	-Wall -Wextra -Werror -Winline -UseLargePages -g3 -fsanitize=address
 
 %.o : %.c
 	@printf "\033[Kcompile 🦑 $(notdir $<)🔥\r"
