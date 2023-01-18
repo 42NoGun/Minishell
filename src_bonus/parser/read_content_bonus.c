@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:42:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:16:11 by junji            ###   ########.fr       */
+/*   Updated: 2023/01/18 14:21:07 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*read_inside_quote_content(char **line, char quote)
 	size_t	len;
 
 	len = ft_strchr((*line + 1), quote) - *line;
+	if (ft_strchr((*line + 1), quote) == NULL)
+		return (ft_strdup(*line));
 	quote_content = ft_substr(*line + 1, 0, len - 1);
 	*line += len;
 	return (quote_content);

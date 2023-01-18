@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:15:57 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/25 21:21:43 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:22:20 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	do_subshell(int argc, char **argv, t_list *env_list)
 	char	*line;
 
 	(void)argc;
-	line = ft_strdup(argv[1]);
+	if (ft_strlen(argv[1]) == 0)
+		line = ft_strdup("\"\"");
+	else
+		line = ft_strdup(argv[1]);
 	if (is_correct_pair(line) == false)
 		return (WEXITSTATUS(g_exit_status));
 	cmd_tree = make_tree(tokenize(line));
