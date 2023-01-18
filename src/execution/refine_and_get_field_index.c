@@ -6,7 +6,7 @@
 /*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 11:42:53 by hanbkim           #+#    #+#             */
-/*   Updated: 2023/01/18 14:15:23 by hanbkim          ###   ########.fr       */
+/*   Updated: 2023/01/18 14:20:02 by hanbkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ void	refine_command(t_token *token)
 		++command;
 	}
 	free(token->value);
-	token->value = refined_command; }
+	token->value = refined_command;
+}
+
 static bool	is_redirection_value(char *value)
 {
 	if (ft_strncmp(value, "<", 1) == 0 || ft_strncmp(value, ">", 1) == 0)
