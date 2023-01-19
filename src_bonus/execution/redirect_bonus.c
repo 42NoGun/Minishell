@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 11:01:48 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/23 17:14:21 by junji            ###   ########.fr       */
+/*   Updated: 2023/01/19 21:25:08 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ bool	heredoc(char **redirections, int std_in, bool parent)
 
 	i = 0;
 	while (redirections[i])
-	{	
+	{
 		if (ft_strcmp(redirections[i], "<<") == 0)
 		{
 			_dup2(std_in, 0);
 			file_path = get_heredoc_file_path();
-			if (redirect_file_stream(file_path, O_RDONLY, parent, 0) == true)
+			if (redirect_file_stream(file_path, O_RDONLY, 0, parent) == true)
 				return (false);
 			unlink(file_path);
 			free(file_path);
