@@ -6,7 +6,7 @@
 /*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:10:23 by jiyunpar          #+#    #+#             */
-/*   Updated: 2023/01/18 15:41:52 by cheseo           ###   ########.fr       */
+/*   Updated: 2023/01/18 21:08:18 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_getenv(t_list *env_list, char *env)
 		{
 			tmp = ft_strchr((char *)cur_node->content, '=');
 			if (tmp == NULL)
-				return (NULL);
+				return ("");
 			return (tmp + 1);
 		}
 		cur_node = cur_node->next;
