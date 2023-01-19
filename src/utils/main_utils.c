@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:49:58 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 14:30:06 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:25:33 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_line(void)
 	char	*line;
 
 	define_signal();
-	line = readline("minishell > ");
+	line = readline("minishell$ ");
 	signal(SIGINT, SIG_IGN);
 	return (line);
 }
