@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 16:49:29 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/27 15:05:53 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/21 15:41:28 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ pid_t	do_child_process(t_context *c, t_list *env_list,
 	if (is_builtin(*c->command) == true)
 	{
 		do_builtin(c->command, env_list, false);
-		exit(0);
+		exit(g_exit_status >> 8);
 	}
 	set_program_path(c, env_list, is_subshell);
 	if (execve(*c->command, c->command, list_to_2d_array(env_list)) == -1)
