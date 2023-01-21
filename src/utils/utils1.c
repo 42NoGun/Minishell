@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyunpar <jiyunpar@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: cheseo <cheseo@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:11:44 by jiyunpar          #+#    #+#             */
-/*   Updated: 2022/12/21 17:47:25 by jiyunpar         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:05:01 by cheseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*get_key(char *command, char *value)
 	char	*key;
 
 	key = ft_substr(command, 0, value - command);
-	if (!key)
-		ft_terminate("get_key, ft_substr");
 	return (key);
 }
 
