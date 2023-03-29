@@ -65,11 +65,9 @@ OBJS				:=	$(SRCS:.c=.o)
 B_OBJS				:=	$(SRCS_B:.c=.o)
 
 LIB_READ_LINE		=	-L$(shell brew --prefix readline)/lib -lreadline
-# LIB_READ_LINE		=	-L/opt/homebrew/opt/readline/lib -lreadline
 LIBFT_DIR			=	./libft
 LIBFT				=	$(LIBFT_DIR)/libft.a
 INCLUDE				=	-I$(shell brew --prefix readline)/include -I./include
-# INCLUDE				=	-I/opt/homebrew/opt/readline/include -I./include
 CFLAGS				=	-Wall -Wextra -Werror -Winline -UseLargePages
 
 %.o : %.c
