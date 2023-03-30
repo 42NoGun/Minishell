@@ -63,9 +63,9 @@ GNU readline 8.2.1
 
 [서채원 cheseo](https://github.com/veggie-garden)
 
-총 4명의 구성원이 문제를 해결하기 위해 함께 고민하고 같은 장소에 모여 프로젝트를 진행했습니다.
+총 4명의 구성원이 문제를 해결하기 위해 함께 고민하고 같은 장소에 모여 프로젝트를 진행했습니다.  
 또, Pair Programming 기법을 사용하여 코드를 작성했습니다.
-다음은 프로젝트를 진행하며 정리해둔 문서입니다.
+다음은 프로젝트를 진행하며 기록해둔 문서입니다.
 1. [Minishell 구조 및 실행 로직](execution_structure_logic.md)
 2. [구현 todolist](todolist.md)
 3. [참고한 Bash 문서 정리](bash_man_summary.md)
