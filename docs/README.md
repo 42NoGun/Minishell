@@ -18,6 +18,11 @@ Minishell은 다음과 같은 기능을 제공합니다.
 - enviroment variable ($)
 - builtin (echo, cd, pwd, export, unset, env, exit)
 
+연산자 우선순위는 다음과 같습니다.
+1. || , &&
+2. | , < , > , >>,
+3. command, ( )
+
 이 프로그램은 다음과 같은 제약 속에서 작성되었습니다.
 - [norminette](https://github.com/42School/norminette/blob/master/pdf/en.norm.pdf)[(번역본)](https://github.com/42School/norminette/blob/master/pdf/ko.norm.pdf) 규칙 준수.
 - 하나의 전역변수만 사용.

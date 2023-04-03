@@ -66,6 +66,14 @@ display line
 display *line
 display prev_st
 
+### 트리 왜 썼나?
+```bash
+$ echo a && echo b > a              // b
+$ (echo a && echo b) > a            // a\nb
+```
+- 결국 괄호 깊이에 대한 우선순위를 처리하려면 그 깊이를 처리할 수 있는 `트리 로직`이나 `서브쉘 로직`이 필요한데, 우리는 서브쉘 로직이 있기 때문에 자연스럽게 깊이 처리가 가능하다. 우리 같은 경우에는 트리로 별도의 로직을 만들 필요는 없었다.
+- 트리 사용하는 이유는 보통 부모가 subshell을 만들 때 처리 흐름이 있으니 부모에서 처리하기 쉽게 트리를 사용함 => lalr
+
 ### syntax error로 볼껀지 command error
 - $HOME/foo -> 실행되게 처리
 - echo {$PATH}  -> print {$PATH} : 중괄호는 문자로 보고 $PATH확장 닫는 중괄호 문자로 봄.
