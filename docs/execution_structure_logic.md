@@ -1,12 +1,12 @@
 # 구조, 로직
 
-1. read input
-2. Analysis input
-   a. parentheses & quote check
-   b. tokenize
-   c. syntax check
-   d. parse
-3. execute
+1. read input  
+2. Analysis input  
+   a. parentheses & quote check  
+   b. tokenize  
+   c. syntax check  
+   d. parse  
+3. execute  
 
 
 ### 명령어 토큰화 규칙
